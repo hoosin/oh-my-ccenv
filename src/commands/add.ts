@@ -3,7 +3,7 @@ import { select, input, confirm } from '@inquirer/prompts';
 import { presets } from '../config/presets.js';
 import { saveProfile } from '../config/saveProfile.js';
 import { profilePath, modelsCachePath } from '../config/paths.js';
-import { success, error, info } from '../utils/log.js';
+import { success, info } from '../utils/log.js';
 
 const MODELS_URL =
   'https://raw.githubusercontent.com/hoosin/ccenv/main/data/models.json';
@@ -38,6 +38,8 @@ async function fetchModels(providerId: string): Promise<string[]> {
 }
 
 export async function addCommand(name: string): Promise<void> {
+  info('Tip: Press Ctrl+C to cancel at any time.\n');
+
   // check if profile already exists
   if (existsSync(profilePath(name))) {
     const overwrite = await confirm({
