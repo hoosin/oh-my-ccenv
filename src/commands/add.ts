@@ -84,7 +84,7 @@ export async function addCommand(name: string): Promise<void> {
         message: 'Model:',
         choices: [
           ...models.map((m) => ({ name: m, value: m })),
-          { name: 'Custom', value: '__manual__' },
+          { name: '(enter manually)', value: '__manual__' },
         ],
       });
       if (defaultModel === '__manual__') {
