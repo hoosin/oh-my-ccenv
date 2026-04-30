@@ -1,0 +1,66 @@
+name: Update models
+
+on:
+  schedule:
+    - cron: '23 8 * * 1'  # 每周一 08:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Crawl Volcengine Coding Plan models
+        run: |
+          HTML=$(curl -sL 'https://www.volcengine.com/docs/82379/1928261?lang=zh')
+          MODELS=$(echo "$HTML" \
+            | grep -oE '(doubao|deepseek|glm|kimi|minimax|ark)-[a-zA-Z0-9._-]+' \
+            | sort -u \
+            | jq -R . \
+            | jq -s .)
+          echo "volcengine_models=$MODELS" >> "$GITHUB_ENV"
+
+      - name: Crawl Bailian Coding Plan models
+        run: |
+          HTML=$(curl -sL 'https://help.aliyun.com/zh/model-studio/coding-plan')
+          MODELS=$(echo "$HTML" \
+            | grep -oE '(qwen|claude|deepseek|glm|kimi|minimax|doubao)-[a-zA-Z0-9._-]+' \
+            | sort -u \
+            | jq -R . \
+            | jq -s .)
+          echo "bailian_models=$MODELS" >> "$GITHUB_ENV"
+
+      # MiMo 页面是 JS 渲染，curl 拿不到模型列表，暂不自动爬取
+      # 模型变更需手动更新 data/models.json
+
+      - name: Update data/models.json
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          EXISTING=$(cat data/models.json)
+
+          UPDATED=$(echo "$EXISTING" | jq \
+            --arg today "$TODAY" \
+            --argjson volc "$volcengine_models" \
+            --argjson bail "$bailian_models" \
+            '.updated_at = $today |
+             .providers.volcengine.models = $volc |
+             .providers.bailian.models = $bail')
+
+          echo "$UPDATED" > data/models.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet data/models.json; then
+            echo "No changes to commit"
+          else
+            git add data/models.json
+            git commit -m "chore: update model list [skip ci]"
+            git push
+          fi

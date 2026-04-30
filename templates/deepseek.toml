@@ -1,0 +1,6 @@
+description = "DeepSeek"
+
+[env]
+ANTHROPIC_BASE_URL = "https://api.deepseek.com"
+ANTHROPIC_AUTH_TOKEN = "${DEEPSEEK_API_KEY}"
+ANTHROPIC_MODEL = "deepseek-chat"

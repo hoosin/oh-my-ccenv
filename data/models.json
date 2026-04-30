@@ -1,0 +1,58 @@
+{
+  "updated_at": "2026-04-30",
+  "providers": {
+    "volcengine": {
+      "type": "coding-plan",
+      "doc_url": "https://www.volcengine.com/docs/82379/1928261",
+      "models": [
+        "doubao-seed-2.0-code",
+        "doubao-seed-2.0-pro",
+        "doubao-seed-2.0-lite",
+        "doubao-seed-code",
+        "deepseek-v3.2",
+        "glm-5.1",
+        "glm-4.7",
+        "kimi-k2.6",
+        "kimi-k2.5",
+        "minimax-latest",
+        "ark-code-latest"
+      ]
+    },
+    "bailian": {
+      "type": "coding-plan",
+      "doc_url": "https://help.aliyun.com/zh/model-studio/coding-plan",
+      "models": [
+        "qwen-code-coding-plan",
+        "claude-code-coding-plan",
+        "glm-5",
+        "glm-4.7",
+        "kimi-k2.5"
+      ]
+    },
+    "deepseek": {
+      "type": "standard",
+      "doc_url": "https://api-docs.deepseek.com/",
+      "models": []
+    },
+    "bailing": {
+      "type": "standard",
+      "doc_url": "https://openrouter.ai/inclusionai/ling-2.6-1t:free",
+      "models": ["inclusionai/ling-2.6-1t:free"]
+    },
+    "mimo": {
+      "type": "standard",
+      "doc_url": "https://platform.xiaomimimo.com/docs/zh-CN/tokenplan/subscription",
+      "base_url": "https://token-plan-cn.xiaomimimo.com/anthropic",
+      "models": [
+        "mimo-v2.5-pro",
+        "mimo-v2.5",
+        "mimo-v2.5-tts-voiceclone",
+        "mimo-v2.5-tts-voicedesign",
+        "mimo-v2.5-tts",
+        "mimo-v2-pro",
+        "mimo-v2-omni",
+        "mimo-v2-tts"
+      ]
+    }
+  }
+}

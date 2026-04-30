@@ -1,0 +1,73 @@
+# ccenv
+
+## 技术栈
+- Node.js >= 20 + TypeScript strict
+- pnpm（禁止 npm，会污染 lockfile）
+- tsup 打包（esbuild 内核）
+- commander 路由 CLI
+- @inquirer/prompts 交互
+- smol-toml 读写 TOML
+- zod 校验 profile schema
+- picocolors 终端颜色
+- vitest 测试
+
+## 命令
+- `pnpm dev` — 开发（tsup watch）
+- `pnpm build` — 构建到 dist/
+- `pnpm test` — 跑全部单测
+
+## 配置结构
+- 配置目录：`~/.config/ccenv/`（XDG，fallback `~/.config/ccenv/`）
+- 每个 profile 一个文件：`profiles/<name>.toml`
+- profile 名 = 文件名，文件内不写 name 字段
+- current 文件：纯文本，一行 profile 名，读时 trim()
+- 所有文件权限 0600
+- `auth_token` 支持 `${ENV_VAR}` 占位，启动时从 process.env 解析
+
+## TOML 格式
+```toml
+description = "可选，一行"
+
+[env]
+ANTHROPIC_BASE_URL = "..."
+ANTHROPIC_AUTH_TOKEN = "${SOME_KEY}"
+ANTHROPIC_MODEL = "..."
+```
+只写 `ANTHROPIC_BASE_URL`、`ANTHROPIC_AUTH_TOKEN`、`ANTHROPIC_MODEL` 三个字段。不要加 `ANTHROPIC_SMALL_FAST_MODEL` 或 `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`。
+
+## 启动时注入
+- `ANTHROPIC_API_KEY=""`（防 shell export 覆盖，先于 profile env）
+- `CCENV_PROFILE=<name>`（stats fallback 关联用）
+- profile 的 [env] 后注入，覆盖上面的默认值
+
+## 模板
+- 内置在 `templates/` 目录，postinstall 复制到 `~/.config/ccenv/profiles/`
+- 已有文件不覆盖
+- 5 个 provider：volcengine / bailian / deepseek / bailing / mimo
+- 火山引擎和阿里云百炼是 Coding Plan 类型
+
+## 模型列表
+- `data/models.json` 存各 provider 可用模型
+- CI 自动爬取火山引擎和百炼文档页更新
+- MiMo 模型写死（JS 渲染页面爬不动）
+- 客户端从 GitHub raw URL 拉取，本地缓存 7 天
+
+## 约定
+- 文件名和变量名用英文，文档和注释用中文
+- `ccenv add <name>` 交互式：先选 provider → 再选 model → 最后填 token
+- profile 名只允许 `[a-zA-Z0-9_-]+`，拒绝路径穿越
+- stats 解析 `~/.claude/projects/**/*.jsonl`，只看 assistant turn
+- pricing.json 按 model 前缀最长匹配，匹配不到显示 `?`
+
+## 禁区
+- 不要引入 ORM 或数据库
+- 不要加加密层（v0.1 明文存储，README 已说明）
+- 不要加 init wizard / doctor / 插件系统
+- 不要在 TOML 文件里重复 profile 名
+- 不要把真实 token 写进 templates/ 或 data/
+
+## 踩过的坑
+- 火山引擎 Coding Plan 的 base_url 是 `/api/coding`，不是 `/api/v3`
+- 阿里云百炼 Coding Plan 的 base_url 是 `coding.dashscope.aliyuncs.com/apps/anthropic`，不是 `dashscope.aliyuncs.com/compatible-mode/v1`
+- MiMo 文档页是 JS 渲染，curl 拿不到内容
+- Anthropic 是默认 provider，不需要 profile，清空 env 就走官方

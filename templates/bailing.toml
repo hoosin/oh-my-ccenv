@@ -1,0 +1,6 @@
+description = "蚂蚁百灵"
+
+[env]
+ANTHROPIC_BASE_URL = "https://openrouter.ai/api"
+ANTHROPIC_AUTH_TOKEN = "${OPENROUTER_API_KEY}"
+ANTHROPIC_MODEL = "inclusionai/ling-2.6-1t:free"
