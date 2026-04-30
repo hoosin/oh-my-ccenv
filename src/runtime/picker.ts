@@ -11,7 +11,7 @@ export async function pickProfile(): Promise<string> {
     message: 'Select a profile:',
     choices: profiles.map((p) => ({ name: p, value: p })),
     instructions: {
-      navigation: 'Press Ctrl+C to cancel',
+      navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
       pager: 'Press ↑↓ to scroll',
     },
   });
