@@ -3,7 +3,7 @@ import { select, input, confirm } from '@inquirer/prompts';
 import { presets, loadPresetDescription } from '../config/presets.js';
 import { saveProfile } from '../config/saveProfile.js';
 import { profilePath, modelsCachePath } from '../config/paths.js';
-import { success, info } from '../utils/log.js';
+import { success, info, spinner } from '../utils/log.js';
 
 const MODELS_URL =
   'https://raw.githubusercontent.com/hoosin/ccenv/main/data/models.json';
@@ -79,7 +79,9 @@ export async function addCommand(name: string): Promise<void> {
     base_url = preset.base_url;
 
     // fetch models for this provider
+    const stop = spinner('Fetching models...');
     const models = await fetchModels(providerId);
+    stop();
     if (models.length > 0) {
       defaultModel = await select({
         message: 'Model:',

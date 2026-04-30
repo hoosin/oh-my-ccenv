@@ -15,3 +15,23 @@ export function warn(msg: string) {
 export function error(msg: string) {
   console.error(pc.red('✖'), msg);
 }
+
+const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+
+export function spinner(msg: string): () => void {
+  let i = 0;
+  let running = true;
+  const render = () => {
+    process.stdout.write(`\r${pc.cyan(frames[i % frames.length])} ${msg}`);
+    i++;
+  };
+  render();
+  const timer = setInterval(() => {
+    if (running) render();
+  }, 80);
+  return () => {
+    running = false;
+    clearInterval(timer);
+    process.stdout.write('\r\x1b[K');
+  };
+}
