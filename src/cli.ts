@@ -47,9 +47,9 @@ export function run() {
     });
 
   program
-    .command('rm <name>')
+    .command('rm [name]')
     .description('Delete a profile')
-    .action(async (name: string) => {
+    .action(async (name?: string) => {
       const { rmCommand } = await import('./commands/rm.js');
       await rmCommand(name);
     });
