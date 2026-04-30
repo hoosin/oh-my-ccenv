@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { select, input, confirm } from '@inquirer/prompts';
-import { presets } from '../config/presets.js';
+import { presets, loadPresetDescription } from '../config/presets.js';
 import { saveProfile } from '../config/saveProfile.js';
 import { profilePath, modelsCachePath } from '../config/paths.js';
 import { success, info } from '../utils/log.js';
@@ -52,7 +52,7 @@ export async function addCommand(name: string): Promise<void> {
     message: 'Select a provider:',
     choices: [
       ...presets.map((p) => ({
-        name: `${p.name}${p.type === 'coding-plan' ? ' (Coding Plan)' : ''}`,
+        name: loadPresetDescription(p.id),
         value: p.id,
       })),
       { name: 'Custom', value: '__custom__' },
