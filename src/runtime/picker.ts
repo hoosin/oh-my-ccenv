@@ -1,10 +1,12 @@
 import { select } from '@inquirer/prompts';
 import { listProfiles } from '../config/listProfiles.js';
+import { info } from '../utils/log.js';
 
 export async function pickProfile(): Promise<string | null> {
   const profiles = listProfiles();
   if (profiles.length === 0) {
-    throw new Error('No profiles found. Run `ccenv add <name>` to create one.');
+    info('No profiles found. Run `ccenv add <name>` to create one.');
+    return null;
   }
 
   const picked = await select({
