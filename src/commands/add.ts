@@ -55,7 +55,7 @@ export async function addCommand(name: string): Promise<void> {
         name: loadPresetDescription(p.id),
         value: p.id,
       })),
-      { name: 'Custom', value: '__custom__' },
+      { name: '(enter manually)', value: '__custom__' },
     ],
     theme: {
       style: {
