@@ -56,15 +56,12 @@ export async function addCommand(name: string): Promise<void> {
         value: p.id,
       })),
       { name: 'Custom', value: '__custom__' },
-      { name: 'Exit', value: '__exit__' },
     ],
     instructions: {
       navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
       pager: 'Press ↑↓ to scroll',
     },
   });
-
-  if (providerId === '__exit__') return;
 
   let base_url: string;
   let defaultModel: string | undefined;
@@ -87,11 +84,9 @@ export async function addCommand(name: string): Promise<void> {
         message: 'Model:',
         choices: [
           ...models.map((m) => ({ name: m, value: m })),
-          { name: '(enter manually)', value: '__manual__' },
-          { name: 'Exit', value: '__exit__' },
+          { name: 'Custom', value: '__manual__' },
         ],
       });
-      if (defaultModel === '__exit__') return;
       if (defaultModel === '__manual__') {
         defaultModel = await input({
           message: 'Model name:',

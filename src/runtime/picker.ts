@@ -9,17 +9,12 @@ export async function pickProfile(): Promise<string | null> {
     return null;
   }
 
-  const picked = await select({
+  return select({
     message: 'Select a profile:',
-    choices: [
-      ...profiles.map((p) => ({ name: p, value: p })),
-      { name: 'Exit', value: '__exit__' },
-    ],
+    choices: profiles.map((p) => ({ name: p, value: p })),
     instructions: {
       navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
       pager: 'Press ↑↓ to scroll',
     },
   });
-
-  return picked === '__exit__' ? null : picked;
 }
