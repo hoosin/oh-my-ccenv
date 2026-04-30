@@ -12,14 +12,19 @@ export async function rmCommand(name?: string): Promise<void> {
       info('No profiles to delete.');
       return;
     }
-    name = await select({
+    const picked = await select({
       message: 'Select a profile to delete:',
-      choices: profiles.map((p) => ({ name: p, value: p })),
+      choices: [
+        ...profiles.map((p) => ({ name: p, value: p })),
+        { name: 'Exit', value: '__exit__' },
+      ],
       instructions: {
         navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
         pager: 'Press ↑↓ to scroll',
       },
     });
+    if (picked === '__exit__') return;
+    name = picked;
   }
 
   const p = profilePath(name);

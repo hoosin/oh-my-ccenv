@@ -19,7 +19,9 @@ export async function launchCommand(name?: string): Promise<void> {
     profileName = name;
   } else {
     // ccenv (no args): always open interactive picker
-    profileName = await pickProfile();
+    const picked = await pickProfile();
+    if (!picked) return;
+    profileName = picked;
     writeCurrent(profileName);
   }
 
