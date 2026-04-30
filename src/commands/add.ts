@@ -86,6 +86,10 @@ export async function addCommand(name: string): Promise<void> {
           ...models.map((m) => ({ name: m, value: m })),
           { name: '(enter manually)', value: '__manual__' },
         ],
+        instructions: {
+          navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
+          pager: 'Press ↑↓ to scroll',
+        },
       });
       if (defaultModel === '__manual__') {
         defaultModel = await input({
