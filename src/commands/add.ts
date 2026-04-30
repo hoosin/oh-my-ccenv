@@ -38,8 +38,6 @@ async function fetchModels(providerId: string): Promise<string[]> {
 }
 
 export async function addCommand(name: string): Promise<void> {
-  info('Tip: Press Ctrl+C to cancel at any time.\n');
-
   // check if profile already exists
   if (existsSync(profilePath(name))) {
     const overwrite = await confirm({
@@ -59,6 +57,10 @@ export async function addCommand(name: string): Promise<void> {
       })),
       { name: 'Custom', value: '__custom__' },
     ],
+    instructions: {
+      navigation: '↑↓ navigate • ⏎ select • Ctrl+C cancel',
+      pager: '↑↓ scroll',
+    },
   });
 
   let base_url: string;
