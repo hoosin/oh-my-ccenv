@@ -1,4 +1,4 @@
-description = "DeepSeek"
+description = "DeepSeek (深度求索)"
 
 [env]
 ANTHROPIC_BASE_URL = "https://api.deepseek.com"

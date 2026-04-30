@@ -1,4 +1,4 @@
-description = "火山引擎 Coding Plan"
+description = "Volcengine (火山引擎) [Coding Plan]"
 
 [env]
 ANTHROPIC_BASE_URL = "https://ark.cn-beijing.volces.com/api/coding"

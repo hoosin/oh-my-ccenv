@@ -1,4 +1,4 @@
-description = "蚂蚁百灵"
+description = "Ant Bailing (蚂蚁百灵)"
 
 [env]
 ANTHROPIC_BASE_URL = "https://openrouter.ai/api"

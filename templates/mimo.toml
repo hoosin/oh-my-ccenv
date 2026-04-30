@@ -1,4 +1,4 @@
-description = "MiMo"
+description = "MiMo (小米)"
 
 [env]
 ANTHROPIC_BASE_URL = "https://token-plan-cn.xiaomimimo.com/anthropic"

@@ -1,4 +1,4 @@
-description = "阿里云百炼 Coding Plan"
+description = "Alibaba Bailian (阿里云百炼) [Coding Plan]"
 
 [env]
 ANTHROPIC_BASE_URL = "https://coding.dashscope.aliyuncs.com/apps/anthropic"
