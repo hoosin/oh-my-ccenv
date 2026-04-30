@@ -7,8 +7,7 @@
     "ccenv": "dist/bin.js"
   },
   "files": [
-    "dist",
-    "templates"
+    "dist"
   ],
   "scripts": {
     "dev": "tsup --watch",

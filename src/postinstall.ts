@@ -1,9 +1,5 @@
-import { existsSync, mkdirSync, readdirSync, copyFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const templatesDir = join(__dirname, '..', 'templates');
+import { existsSync, mkdirSync } from 'node:fs';
+import { join } from 'node:path';
 
 function configDir(): string {
   const xdg = process.env.XDG_CONFIG_HOME;
@@ -11,22 +7,10 @@ function configDir(): string {
   return join(base, 'ccenv');
 }
 
-function profilesDir(): string {
-  return join(configDir(), 'profiles');
-}
-
 try {
-  const pDir = profilesDir();
-
-  if (!existsSync(pDir)) {
-    mkdirSync(pDir, { recursive: true, mode: 0o700 });
-
-    if (existsSync(templatesDir)) {
-      const files = readdirSync(templatesDir).filter((f) => f.endsWith('.toml'));
-      for (const file of files) {
-        copyFileSync(join(templatesDir, file), join(pDir, file));
-      }
-    }
+  const dir = configDir();
+  if (!existsSync(dir)) {
+    mkdirSync(join(dir, 'profiles'), { recursive: true, mode: 0o700 });
   }
 } catch {
   // postinstall failure should not block installation
