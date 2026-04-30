@@ -10,5 +10,9 @@ export async function pickProfile(): Promise<string> {
   return select({
     message: 'Select a profile:',
     choices: profiles.map((p) => ({ name: p, value: p })),
+    instructions: {
+      navigation: 'Press Ctrl+C to cancel',
+      pager: 'Press ↑↓ to scroll',
+    },
   });
 }

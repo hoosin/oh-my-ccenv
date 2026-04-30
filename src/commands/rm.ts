@@ -15,6 +15,10 @@ export async function rmCommand(name?: string): Promise<void> {
     name = await select({
       message: 'Select a profile to delete:',
       choices: profiles.map((p) => ({ name: p, value: p })),
+      instructions: {
+        navigation: 'Press Ctrl+C to cancel',
+        pager: 'Press ↑↓ to scroll',
+      },
     });
   }
 

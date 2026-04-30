@@ -58,7 +58,7 @@ export async function addCommand(name: string): Promise<void> {
       { name: 'Custom', value: '__custom__' },
     ],
     instructions: {
-      navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
+      navigation: 'Press Ctrl+C to cancel',
       pager: 'Press ↑↓ to scroll',
     },
   });
