@@ -12,6 +12,11 @@ export async function pickProfile(): Promise<string | null> {
   return select({
     message: 'Select a profile:',
     choices: profiles.map((p) => ({ name: p, value: p })),
+    theme: {
+      style: {
+        help: (text: string) => text,
+      },
+    },
     instructions: {
       navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
       pager: 'Press ↑↓ to scroll',

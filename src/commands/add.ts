@@ -57,6 +57,11 @@ export async function addCommand(name: string): Promise<void> {
       })),
       { name: 'Custom', value: '__custom__' },
     ],
+    theme: {
+      style: {
+        help: (text: string) => text,
+      },
+    },
     instructions: {
       navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
       pager: 'Press ↑↓ to scroll',
@@ -86,6 +91,11 @@ export async function addCommand(name: string): Promise<void> {
           ...models.map((m) => ({ name: m, value: m })),
           { name: '(enter manually)', value: '__manual__' },
         ],
+        theme: {
+          style: {
+            help: (text: string) => text,
+          },
+        },
         instructions: {
           navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
           pager: 'Press ↑↓ to scroll',
