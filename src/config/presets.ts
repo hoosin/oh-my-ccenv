@@ -8,13 +8,13 @@ export interface ProviderPreset {
 export const presets: ProviderPreset[] = [
   {
     id: 'volcengine',
-    name: '火山引擎 Coding Plan',
+    name: 'Volcengine Coding Plan',
     base_url: 'https://ark.cn-beijing.volces.com/api/coding',
     type: 'coding-plan',
   },
   {
     id: 'bailian',
-    name: '阿里云百炼 Coding Plan',
+    name: 'Alibaba Bailian Coding Plan',
     base_url: 'https://coding.dashscope.aliyuncs.com/apps/anthropic',
     type: 'coding-plan',
   },
@@ -26,7 +26,7 @@ export const presets: ProviderPreset[] = [
   },
   {
     id: 'bailing',
-    name: '蚂蚁百灵',
+    name: 'Ant Bailing',
     base_url: 'https://openrouter.ai/api',
     type: 'standard',
   },

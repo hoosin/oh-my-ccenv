@@ -55,7 +55,7 @@ export async function addCommand(name: string): Promise<void> {
         name: `${p.name}${p.type === 'coding-plan' ? ' (Coding Plan)' : ''}`,
         value: p.id,
       })),
-      { name: 'Custom (手动填写)', value: '__custom__' },
+      { name: 'Custom', value: '__custom__' },
     ],
   });
 
@@ -78,7 +78,7 @@ export async function addCommand(name: string): Promise<void> {
         message: 'Model:',
         choices: [
           ...models.map((m) => ({ name: m, value: m })),
-          { name: '(手动输入)', value: '__manual__' },
+          { name: '(enter manually)', value: '__manual__' },
         ],
       });
       if (defaultModel === '__manual__') {
