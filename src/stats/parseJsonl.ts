@@ -12,11 +12,11 @@ export interface Turn {
   sessionId: string;
 }
 
-export async function parseJsonl(filePath: string): Promise<Turn[]> {
+export async function parseJsonl(filePath: string, offset = 0): Promise<Turn[]> {
   const turns: Turn[] = [];
 
   return new Promise((resolve, reject) => {
-    const stream = createReadStream(filePath, { encoding: 'utf-8' });
+    const stream = createReadStream(filePath, { encoding: 'utf-8', start: offset });
     const rl = createInterface({ input: stream, crlfDelay: Infinity });
 
     rl.on('line', (line) => {
@@ -37,7 +37,7 @@ export async function parseJsonl(filePath: string): Promise<Turn[]> {
           cwd: msg.cwd ?? '',
           sessionId: msg.sessionId ?? '',
         });
-      } catch {
+      } catch (err) {
         // skip malformed lines
       }
     });

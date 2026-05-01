@@ -51,9 +51,11 @@ export function loadPresetDescription(id: string): string {
   for (const p of candidates) {
     if (existsSync(p)) {
       try {
-        const toml = parse(readFileSync(p, 'utf-8'));
-        if (typeof toml.description === 'string' && toml.description) return toml.description;
-      } catch {}
+        const toml = parse(readFileSync(p, 'utf-8')) as { description?: string };
+        if (toml.description) return toml.description;
+      } catch (err) {
+        // ignore parse error and try next or fallback
+      }
     }
   }
   return id;

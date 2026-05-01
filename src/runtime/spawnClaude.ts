@@ -1,6 +1,5 @@
 import { spawn } from 'node:child_process';
 import { interpolateEnv } from '../config/interpolate.js';
-import { appendSessionLog } from './sessionLog.js';
 import { findClaude } from './findClaude.js';
 
 export async function spawnClaude(
@@ -19,17 +18,14 @@ export async function spawnClaude(
 
   const env: NodeJS.ProcessEnv = {
     ...process.env,
-    ANTHROPIC_API_KEY: '', // safety net: prevent shell export from overriding
-    ...interpolated,
     CCENV_PROFILE: profileName,
+    ...interpolated,
   };
 
-  appendSessionLog({
-    ts: Date.now(),
-    profile: profileName,
-    cwd: process.cwd(),
-    pid: process.pid,
-  });
+  // If the profile defines ANTHROPIC_AUTH_TOKEN, ensure it's not shadowed by an existing ANTHROPIC_API_KEY in the shell
+  if (interpolated.ANTHROPIC_AUTH_TOKEN && !interpolated.ANTHROPIC_API_KEY) {
+    env.ANTHROPIC_API_KEY = '';
+  }
 
   return new Promise((resolve, reject) => {
     const child = spawn(claudeBin, args, { env, stdio: 'inherit' });

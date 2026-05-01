@@ -38,7 +38,7 @@ describe('config layer', () => {
     mkdirSync(pDir, { recursive: true });
     writeFileSync(join(pDir, 'alpha.toml'), '');
     writeFileSync(join(pDir, 'beta.toml'), '');
-    expect(listProfiles()).toEqual(['alpha', 'beta']);
+    expect(listProfiles()).toEqual(['alpha', 'beta', 'claude']);
   });
 
   it('saveProfile + loadProfile round-trip', async () => {
@@ -61,6 +61,13 @@ describe('config layer', () => {
   it('loadProfile: throws on missing profile', async () => {
     const { loadProfile } = await import('../src/config/loadProfile.js');
     expect(() => loadProfile('nonexistent')).toThrow('not found');
+  });
+
+  it('loadProfile: provides defaults for virtual claude profile', async () => {
+    const { loadProfile } = await import('../src/config/loadProfile.js');
+    const profile = loadProfile('claude');
+    expect(profile.description).toBe('Official Anthropic Claude');
+    expect(profile.env).toEqual({});
   });
 
   it('presets: has 5 providers', async () => {

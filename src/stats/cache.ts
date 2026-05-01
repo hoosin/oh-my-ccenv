@@ -23,7 +23,7 @@ export function loadCache(): CacheData {
     const data = JSON.parse(readFileSync(p, 'utf-8')) as CacheData;
     if (data.schema_version !== SCHEMA_VERSION) return { schema_version: SCHEMA_VERSION, files: {} };
     return data;
-  } catch {
+  } catch (err) {
     return { schema_version: SCHEMA_VERSION, files: {} };
   }
 }
@@ -62,14 +62,13 @@ export function updateFileCache(filePath: string, turns: Turn[], cache: CacheDat
 export function listJsonlFiles(projectsDir: string): string[] {
   if (!existsSync(projectsDir)) return [];
   const files: string[] = [];
-  for (const dir of readdirSync(projectsDir, { withFileTypes: true })) {
-    if (!dir.isDirectory()) continue;
-    const dirPath = join(projectsDir, dir.name);
-    for (const file of readdirSync(dirPath)) {
-      if (file.endsWith('.jsonl')) {
-        files.push(join(dirPath, file));
-      }
+  function walk(dir: string): void {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, entry.name);
+      if (entry.isDirectory()) walk(p);
+      else if (entry.isFile() && entry.name.endsWith('.jsonl')) files.push(p);
     }
   }
+  walk(projectsDir);
   return files;
 }

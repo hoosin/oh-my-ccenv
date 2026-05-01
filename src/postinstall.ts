@@ -1,5 +1,8 @@
-import { existsSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, mkdirSync, readdirSync, copyFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function configDir(): string {
   const xdg = process.env.XDG_CONFIG_HOME;
@@ -9,9 +12,20 @@ function configDir(): string {
 
 try {
   const dir = configDir();
-  if (!existsSync(dir)) {
-    mkdirSync(join(dir, 'profiles'), { recursive: true, mode: 0o700 });
+  const profDir = join(dir, 'profiles');
+  if (!existsSync(profDir)) {
+    mkdirSync(profDir, { recursive: true, mode: 0o700 });
+
+    // Initial install: copy templates to profiles
+    const templatesDir = join(__dirname, '..', 'templates');
+    if (existsSync(templatesDir)) {
+      for (const file of readdirSync(templatesDir)) {
+        if (file.endsWith('.toml')) {
+          copyFileSync(join(templatesDir, file), join(profDir, file));
+        }
+      }
+    }
   }
-} catch {
+} catch (err) {
   // postinstall failure should not block installation
 }

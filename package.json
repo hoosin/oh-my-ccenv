@@ -3,15 +3,25 @@
   "version": "0.1.0",
   "description": "Profile manager and usage analytics for Claude Code",
   "type": "module",
+  "author": "hoosin <hoosin.git@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoosin/ccenv.git"
+  },
+  "homepage": "https://github.com/hoosin/ccenv#readme",
+  "bugs": "https://github.com/hoosin/ccenv/issues",
   "bin": {
     "ccenv": "dist/bin.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "templates",
+    "man"
   ],
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
+    "prepublishOnly": "pnpm build",
     "test": "vitest run",
     "postinstall": "node dist/postinstall.js"
   },

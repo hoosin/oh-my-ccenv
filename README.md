@@ -1,204 +1,128 @@
-# @hoosin/ccenv
+# ccenv
 
-A profile manager and usage analytics tool for Claude Code.
+[![npm](https://img.shields.io/npm/v/@hoosin/ccenv.svg)](https://www.npmjs.com/package/@hoosin/ccenv)
+[![License](https://img.shields.io/npm/l/@hoosin/ccenv.svg)](./LICENSE)
+[![Node](https://img.shields.io/node/v/@hoosin/ccenv.svg)](https://nodejs.org)
+[![View Code](https://img.shields.io/badge/view-code-green.svg)](https://github.com/hoosin/ccenv)
 
-[简体中文](./README.zh-CN.md) · English
+[简体中文](./README.zh-CN.md) · **English**
 
+ccenv is a profile manager and usage-analytics CLI for [Claude Code](https://github.com/anthropics/claude-code). It manages your Claude providers like **pyenv** manages Python versions—allowing you to switch between Anthropic official, OpenRouter, Volcengine, Bailian, DeepSeek, and custom gateways with a single command.
+
+## 🚀 Why ccenv?
+
+*   **🎭 Pyenv-like management:** Manage multiple Claude environments and providers seamlessly.
+*   **🎯 Zero-secret profiles:** Use `${ENV_VAR}` placeholders to keep your API keys in your shell, not in config files.
+*   **📊 Real usage analytics:** Automatically aggregates token usage from Claude Code's local session logs across all profiles.
+*   **🛠️ Interactive CLI:** Built-in interactive prompts for adding, switching, and managing profiles.
+*   **🇨🇳 First-class Chinese provider support:** Comes with presets for Volcengine, Bailian, DeepSeek, Ant Bailing, and MiMo.
+*   **💻 Terminal-first:** Designed for developers who live in the command line.
+
+## 📦 Installation
+
+Requires Node.js >= 20 and a `claude` binary on your `PATH`.
+
+### Quick Install
+
+**Install globally with npm**
 ```bash
-npm i -g @hoosin/ccenv
-
-ccenv add ling          # interactively create a profile
-ccenv use ling          # switch active profile
-ccenv                   # launch claude with that profile
-ccenv stats --since 7d  # see token usage & cost per profile
+npm install -g @hoosin/ccenv
 ```
 
----
-
-> **Naming conflict** — The bare `ccenv` name on npm belongs to [william-zxs/ccenv](https://github.com/william-zxs/ccenv), which stores all profiles in a single JSON file. This project uses a different architecture: **one TOML file per profile** under `~/.config/ccenv/profiles/`. The two cannot be installed globally at the same time.
->
-> v0.2 will provide `ccenv import ~/.ccenv/settings.json` to migrate existing ccenv users.
-
----
-
-## Why
-
-Claude Code lets you point at any Anthropic-compatible API by setting environment variables. People hand-roll shell functions like:
-
+**Install globally with pnpm**
 ```bash
-claude-ling() {
-  ANTHROPIC_BASE_URL="https://openrouter.ai/api" \
-  ANTHROPIC_AUTH_TOKEN="$OPENROUTER_API_KEY" \
-  ANTHROPIC_MODEL="inclusionai/ling-2.6-1t:free" \
-  ...
-  claude "$@"
-}
-```
-
-This works for one or two providers. With three or more it gets messy: keys scattered across dotfiles, no list view, no usage tracking. `ccenv` does it cleanly.
-
-## Features
-
-- **One file per profile** — each profile is an independent TOML file you can share, git-track, or edit directly.
-- **Built-in provider presets** — Volcengine Coding Plan, Bailian Coding Plan, DeepSeek, BailLing, MiMo. Pick one during `ccenv add` and the URL/model auto-fill.
-- **`${ENV_VAR}` interpolation** — keep secrets in your shell `export`s, keep profile files checked into git.
-- **Usage analytics** — `ccenv stats` parses Claude Code's local jsonl logs and shows tokens / cost grouped by profile, model, or project. Works for any session, even ones launched without `ccenv`.
-- **Tiny surface** — 9 commands. No init wizard, no doctor, no plugin system.
-
-## Install
-
-Requires Node.js >= 20.
-
-```bash
-npm i -g @hoosin/ccenv
-# or
 pnpm add -g @hoosin/ccenv
 ```
 
-This creates `~/.config/ccenv/profiles/` with pre-built profiles for Volcengine (Coding Plan), Bailian (Coding Plan), DeepSeek, BailLing, and MiMo. All tokens use `${ENV_VAR}` placeholders — no secrets in the files. Anthropic is the default provider (no profile needed — just clear the env vars).
+## 📋 Key Features
 
-`ccenv` will look for a `claude` binary on your `PATH`. If you don't have it:
+### Provider Switching & Management
+*   **Switch and launch:** `ccenv <name>` switches the active profile and launches `claude` in one step.
+*   **Interactive Fallback:** Run `ccenv` without arguments to pick a profile from an interactive list.
+*   **Environment Isolation:** Automatically handles common gotchas like neutralizing `ANTHROPIC_API_KEY` when using 3rd-party providers.
 
+### Usage Analytics
+*   **Deep Integration:** Reads `~/.claude/projects/**/*.jsonl` to provide accurate token counts.
+*   **Flexible Grouping:** Group stats by profile, model, or project.
+*   **Time Windows:** Filter usage by the last 7 days, 30 days, or specific dates.
+
+### Security & Portability
+*   **TOML-based Profiles:** Easy to read, edit, and track via Git.
+*   **Safe Defaults:** Profile files are created with `0600` permissions.
+*   **Dynamic Interpolation:** Resolve secrets from your environment at runtime.
+
+## 🚀 Getting Started
+
+### Basic Usage
+
+**Start with an interactive picker**
 ```bash
-npm i -g @anthropic-ai/claude-code
+ccenv
 ```
 
-## Quick start
-
-After install, profiles are already in `~/.config/ccenv/profiles/`. Just set your token and go:
-
+**Switch to a specific profile and launch Claude**
 ```bash
-# 1. Set your token (pick one provider)
-export DEEPSEEK_API_KEY="sk-..."
-# or
-export MIMO_API_KEY="tp-..."
-# or
-export VOLCENGINE_API_KEY="..."
-# or
-export DASHSCOPE_API_KEY="..."
+ccenv deepseek
+```
 
-# 2. See what's available
-ccenv ls
+**Create a new profile interactively**
+```bash
+ccenv add work
+```
 
-# 3. Switch and launch
-ccenv deepseek       # or: ccenv mimo, ccenv volcengine, ccenv bailian
+### Usage Examples
 
-# 4. See what you've spent
+**Analyze your token usage from the last 7 days**
+```bash
 ccenv stats --since 7d
 ```
 
-Need a custom provider? `ccenv add <name>` walks you through it interactively.
-
-## Commands
-
-| Command | What it does |
-|---|---|
-| `ccenv` | Launch `claude` with the current profile (or pick one interactively) |
-| `ccenv <name>` | Switch to `<name>` and launch `claude` (main daily entry point) |
-| `ccenv add <name>` | Create a new profile (interactive prompts) |
-| `ccenv use <name>` | Switch the current profile without launching |
-| `ccenv ls` | List profiles (current is highlighted with `*`) |
-| `ccenv current` | Show the current profile name and effective env |
-| `ccenv rm <name>` | Delete a profile |
-| `ccenv edit [name]` | Open a profile file in `$EDITOR` (defaults to current) |
-| `ccenv stats [opts]` | Show token usage and cost (see below) |
-
-### `ccenv stats` options
-
-```
---by profile|model|project    Group rows by this dimension (default: profile)
---since 7d|30d|YYYY-MM-DD     Time window
---profile <name>              Filter to a single profile
---json                        Machine-readable output
+**Check stats grouped by model**
+```bash
+ccenv stats --by model
 ```
 
-Example:
+## 📚 Commands Reference
 
-```
-$ ccenv stats --since 7d
-PROFILE     CALLS    INPUT       OUTPUT      CACHED      COST
-─────────────────────────────────────────────────────────────
-ling        142      1.2M        340K        980K        $0.00
-deepseek    87       650K        180K        420K        $1.83
-anthropic   23       180K        62K         110K        $4.21
-─────────────────────────────────────────────────────────────
-TOTAL       252      2.0M        582K        1.5M        $6.04
-```
+| Command | Description |
+| --- | --- |
+| `ccenv [name]` | Switch profile and launch Claude (no arg = interactive picker) |
+| `add [name]` | Create a new profile interactively |
+| `use [name]` | Switch current profile without launching |
+| `list` | List all profiles |
+| `current` | Show current profile name and effective env |
+| `remove [name]` | Delete a profile |
+| `edit [name]` | Open a profile file in `$EDITOR` |
+| `stats [options]` | Show token usage analytics |
+| `man` | Open the man page |
 
-## Config files
+## 📖 Documentation
 
-Stored under `~/.config/ccenv/` (XDG standard):
+*   [Architecture & Design](./docs/design.md) - Deep dive into how ccenv works.
+*   [Stats Internals](./docs/stats.md) - How we parse Claude Code logs.
 
-```
-~/.config/ccenv/
-├── current                       # plain text: active profile name
-└── profiles/
-    ├── volcengine.toml           # 火山引擎 Coding Plan
-    ├── bailian.toml              # 阿里云百炼 Coding Plan
-    ├── deepseek.toml             # DeepSeek
-    ├── bailing.toml              # 蚂蚁百灵
-    └── mimo.toml                 # MiMo
-```
+## 🤝 Contributing
 
-### Profile file example
+We welcome contributions! ccenv is open source (MIT), and we encourage the community to:
+*   Report bugs and suggest features.
+*   Submit new provider presets.
+*   Improve documentation.
 
-`~/.config/ccenv/profiles/ling.toml`:
+See [github.com/hoosin/ccenv](https://github.com/hoosin/ccenv) for the source code.
 
-```toml
-description = "蚂蚁百灵 via OpenRouter"
+## 📄 Legal
 
-[env]
-ANTHROPIC_BASE_URL = "https://openrouter.ai/api"
-ANTHROPIC_AUTH_TOKEN = "${OPENROUTER_API_KEY}"
-ANTHROPIC_MODEL = "inclusionai/ling-2.6-1t:free"
-```
+*   **License:** MIT © hoosin
+*   **Resources:** [NPM Package](https://www.npmjs.com/package/@hoosin/ccenv) \| [Changelog](https://github.com/hoosin/ccenv/releases)
 
-- **Profile name = filename** — `ling.toml` becomes profile `ling`. No `name` field inside the file.
-- `description` — optional, shown in `ccenv ls`.
-- `[env]` — flat env-var mapping. Supports `${ENV_VAR}` placeholders that are resolved at launch time.
-- The `[env]` section is free-form — you can add any env var Claude Code supports.
+Built with ❤️ for the Claude Code community.
 
-### `current` file
-
-Plain text, one line:
-
-```
-ling
-```
-
-If missing or empty, `ccenv` opens an interactive picker on launch.
-
-`ccenv` also injects `ANTHROPIC_API_KEY=""` on every launch — without this, an exported `ANTHROPIC_API_KEY` in your shell would override the third-party token. This is the most common new-user gotcha.
-
-## Security
-
-- Tokens are stored **in plaintext** under `~/.config/ccenv/profiles/`. Files are created with mode `0600`. There is no encryption layer.
-- For tokens you want to keep out of the file, write them to your shell as `export OPENROUTER_API_KEY=...` and reference them via `${OPENROUTER_API_KEY}` in the profile.
-- macOS Keychain / libsecret integration is on the roadmap, not in v0.1.
-
-## How `stats` works
-
-`ccenv stats` reads `~/.claude/projects/<project-slug>/*.jsonl` — Claude Code's own session logs. Each assistant turn carries `model` and `usage` (input / output / cache tokens), which is everything we need.
-
-Profile attribution:
-1. Match by `model` name against each profile's `ANTHROPIC_MODEL`.
-2. Fall back to `~/.config/ccenv/sessions.jsonl` (written every time `ccenv` launches a session) and match by cwd + timestamp window.
-3. Otherwise the row is grouped under `unknown`.
-
-Pricing comes from a built-in `pricing.json`. If a model is missing, the row shows tokens but no cost — please open a PR.
-
-## Roadmap
-
-- v0.1 — `add` / `use` / `ls` / `current` / `rm` / `edit` / `stats`, multi-file TOML profiles
-- v0.2 — `ccenv import` (migrate from william-zxs/ccenv single-file JSON), better diagnostics, README GIFs
-- v0.3 — macOS Keychain integration, Windows verified
-- v1.0 — frozen config schema, auto-synced pricing, CHANGELOG
-
-## License
-
-MIT (c) hoosin
-
-## Acknowledgements
-
-- [`william-zxs/ccenv`](https://github.com/william-zxs/ccenv) — the original `ccenv`. This project shares the binary name and core idea; we use per-profile TOML files and add usage analytics.
-- [`@anthropic-ai/claude-code`](https://www.npmjs.com/package/@anthropic-ai/claude-code) — the upstream tool we wrap.
+<p align="left">
+ <a href="https://www.star-history.com/hoosin/ccenv">
+  <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=hoosin/ccenv&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=hoosin/ccenv" />
+   <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=hoosin/ccenv" />
+  </picture>
+ </a>
+</p>

@@ -15,27 +15,27 @@ export function run() {
     .version(pkg.version);
 
   program
-    .command('add <name>')
+    .command('add [name]')
     .description('Create a new profile interactively')
-    .action(async (name: string) => {
+    .action(async (name?: string) => {
       const { addCommand } = await import('./commands/add.js');
       await addCommand(name);
     });
 
   program
-    .command('use <name>')
+    .command('use [name]')
     .description('Switch the current profile')
-    .action(async (name: string) => {
+    .action(async (name?: string) => {
       const { useCommand } = await import('./commands/use.js');
       await useCommand(name);
     });
 
   program
-    .command('ls')
+    .command('list')
     .description('List all profiles')
     .action(async () => {
-      const { lsCommand } = await import('./commands/ls.js');
-      await lsCommand();
+      const { listCommand } = await import('./commands/list.js');
+      await listCommand();
     });
 
   program
@@ -47,11 +47,11 @@ export function run() {
     });
 
   program
-    .command('rm [name]')
+    .command('remove [name]')
     .description('Delete a profile')
     .action(async (name?: string) => {
-      const { rmCommand } = await import('./commands/rm.js');
-      await rmCommand(name);
+      const { removeCommand } = await import('./commands/remove.js');
+      await removeCommand(name);
     });
 
   program
@@ -64,12 +64,11 @@ export function run() {
 
   program
     .command('stats')
-    .description('Show token usage and cost')
-    .option('--by <dimension>', 'Group by: profile|model|project', 'profile')
+    .description('Show token usage')
     .option('--since <window>', 'Time window: 7d|30d|YYYY-MM-DD', '7d')
-    .option('--profile <name>', 'Filter to a single profile')
+    .option('--project', 'Group by project instead of model')
     .option('--json', 'Machine-readable output')
-    .action(async (opts: { by: string; since: string; profile?: string; json?: boolean }) => {
+    .action(async (opts: { since: string; project?: boolean; json?: boolean }) => {
       const { statsCommand } = await import('./commands/stats.js');
       await statsCommand(opts);
     });

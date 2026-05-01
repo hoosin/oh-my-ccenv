@@ -4,7 +4,7 @@ import { readCurrent } from '../config/current.js';
 import { loadProfile } from '../config/loadProfile.js';
 import { error } from '../utils/log.js';
 
-export async function lsCommand(): Promise<void> {
+export async function listCommand(): Promise<void> {
   const profiles = listProfiles();
   if (profiles.length === 0) {
     error('No profiles found. Run `ccenv add <name>` to create one.');
@@ -18,10 +18,11 @@ export async function lsCommand(): Promise<void> {
     try {
       const profile = loadProfile(name);
       const desc = profile.description ? pc.dim(` — ${profile.description}`) : '';
-      const model = pc.dim(` (${profile.env.ANTHROPIC_MODEL})`);
+      const model = profile.env.ANTHROPIC_MODEL ? pc.dim(` (${profile.env.ANTHROPIC_MODEL})`) : '';
       console.log(`${marker}${pc.bold(name)}${desc}${model}`);
-    } catch {
-      console.log(`${marker}${pc.bold(name)}${pc.red(' (invalid)')}`);
+    } catch (err) {
+      const msg = err instanceof Error ? `: ${err.message}` : '';
+      console.log(`${marker}${pc.bold(name)}${pc.red(` (invalid${msg})`)}`);
     }
   }
 }

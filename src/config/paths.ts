@@ -12,15 +12,14 @@ export function profilesDir(): string {
 }
 
 export function profilePath(name: string): string {
+  if (!/^[a-zA-Z0-9_-]+$/.test(name)) {
+    throw new Error(`Invalid profile name: "${name}". Only alphanumeric, underscores, and hyphens are allowed.`);
+  }
   return join(profilesDir(), `${name}.toml`);
 }
 
 export function currentPath(): string {
   return join(configDir(), 'current');
-}
-
-export function sessionsPath(): string {
-  return join(configDir(), 'sessions.jsonl');
 }
 
 export function statsCachePath(): string {

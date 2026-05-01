@@ -1,52 +1,30 @@
 import { join } from 'node:path';
-import pc from 'picocolors';
 import { parseJsonl } from '../stats/parseJsonl.js';
 import { aggregate } from '../stats/aggregate.js';
-import { calcCost } from '../stats/pricing.js';
-import { loadCache, saveCache, getCachedTurns, updateFileCache, listJsonlFiles } from '../stats/cache.js';
-import { listProfiles } from '../config/listProfiles.js';
-import { loadProfile } from '../config/loadProfile.js';
+import {
+  loadCache,
+  saveCache,
+  getCachedTurns,
+  updateFileCache,
+  listJsonlFiles,
+} from '../stats/cache.js';
 import type { Turn } from '../stats/parseJsonl.js';
-
-function formatTokens(n: number): string {
-  if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`;
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
-  return String(n);
-}
-
-function pad(s: string, len: number): string {
-  return s.padEnd(len);
-}
-
-function padLeft(s: string, len: number): string {
-  return s.padStart(len);
-}
-
-function buildProfileMap(): Map<string, string> {
-  const map = new Map<string, string>();
-  for (const name of listProfiles()) {
-    try {
-      const profile = loadProfile(name);
-      const model = profile.env.ANTHROPIC_MODEL;
-      if (model) map.set(model, name);
-    } catch {}
-  }
-  return map;
-}
+import { formatTokens, pad, padLeft } from '../utils/formatter.js';
+import { error as logError } from '../utils/log.js';
 
 function parseSince(since: string): number {
   const now = Date.now();
   const match = since.match(/^(\d+)d$/);
   if (match) return now - parseInt(match[1]) * 86400000;
+  const hMatch = since.match(/^(\d+)h$/);
+  if (hMatch) return now - parseInt(hMatch[1]) * 3600000;
   // YYYY-MM-DD
   return new Date(since + 'T00:00:00').getTime();
 }
 
 export async function statsCommand(opts: {
-  by: string;
   since: string;
-  profile?: string;
+  project?: boolean;
   json?: boolean;
 }): Promise<void> {
   const projectsDir = join(process.env.HOME || '~', '.claude', 'projects');
@@ -58,16 +36,22 @@ export async function statsCommand(opts: {
   }
 
   const sinceMs = parseSince(opts.since);
-  const profileMap = buildProfileMap();
+  if (isNaN(sinceMs)) {
+    logError(
+      `Invalid time window: "${opts.since}". Use "24h", "7d", "30d", or "YYYY-MM-DD".`
+    );
+    process.exit(1);
+  }
+
   const cache = loadCache();
 
   // collect all turns
   const allTurns: Turn[] = [];
   for (const file of files) {
-    const { cached, needsParse } = getCachedTurns(file, cache);
+    const { cached, needsParse, offset } = getCachedTurns(file, cache);
     if (needsParse) {
-      const parsed = await parseJsonl(file);
-      const merged = [...cached.filter((t) => !cached.some((c) => c.ts === t.ts)), ...parsed];
+      const parsed = await parseJsonl(file, offset);
+      const merged = [...cached, ...parsed];
       updateFileCache(file, merged, cache);
       allTurns.push(...merged);
     } else {
@@ -85,52 +69,63 @@ export async function statsCommand(opts: {
     return;
   }
 
-  const by = (opts.by as 'profile' | 'model' | 'project') || 'profile';
-  const result = aggregate(filtered, by, profileMap, calcCost, opts.profile);
+  const by = opts.project ? 'project' : 'model';
+  const result = aggregate(filtered, by);
 
   if (opts.json) {
-    console.log(JSON.stringify({
-      since: new Date(sinceMs).toISOString(),
-      until: new Date().toISOString(),
-      by,
-      rows: result.rows,
-      total: result.total,
-      warnings: result.warnings,
-    }, null, 2));
+    console.log(
+      JSON.stringify(
+        {
+          since: new Date(sinceMs).toISOString(),
+          until: new Date().toISOString(),
+          by,
+          rows: result.rows,
+          total: result.total,
+        },
+        null,
+        2
+      )
+    );
     return;
   }
 
-  // table output
-  const colW = { key: 12, calls: 8, input: 10, output: 10, cached: 10, cost: 10 };
+  const colW = { key: 24, calls: 8, input: 10, output: 10, percent: 8 };
+  const totalW = colW.key + colW.calls + colW.input + colW.output + colW.percent;
+
   console.log(
-    pad('PROFILE', colW.key) +
-    padLeft('CALLS', colW.calls) +
-    padLeft('INPUT', colW.input) +
-    padLeft('OUTPUT', colW.output) +
-    padLeft('CACHED', colW.cached) +
-    padLeft('COST', colW.cost)
+    pad(by.toUpperCase(), colW.key) +
+      padLeft('CALLS', colW.calls) +
+      padLeft('INPUT', colW.input) +
+      padLeft('OUTPUT', colW.output) +
+      padLeft('%', colW.percent)
   );
-  console.log('─'.repeat(colW.key + colW.calls + colW.input + colW.output + colW.cached + colW.cost));
+  console.log('─'.repeat(totalW));
 
   for (const row of result.rows) {
-    const line =
+    if (
+      row.input + row.output + row.cache_read + row.cache_write === 0 &&
+      result.rows.length > 1
+    )
+      continue;
+    const percentStr =
+      row.percent !== undefined ? `${row.percent.toFixed(1)}%` : '';
+    console.log(
       pad(row.key, colW.key) +
-      padLeft(String(row.calls), colW.calls) +
-      padLeft(formatTokens(row.input), colW.input) +
-      padLeft(formatTokens(row.output), colW.output) +
-      padLeft(formatTokens(row.cache_read + row.cache_write), colW.cached) +
-      padLeft(row.cost !== null ? `$${row.cost.toFixed(2)}` : '?', colW.cost);
-    console.log(line);
+        padLeft(formatTokens(row.calls), colW.calls) +
+        padLeft(formatTokens(row.input), colW.input) +
+        padLeft(formatTokens(row.output), colW.output) +
+        padLeft(percentStr, colW.percent)
+    );
   }
 
-  console.log('─'.repeat(colW.key + colW.calls + colW.input + colW.output + colW.cached + colW.cost));
+  console.log('─'.repeat(totalW));
+
   const t = result.total;
   console.log(
-    pc.bold(pad('TOTAL', colW.key)) +
-    padLeft(String(t.calls), colW.calls) +
-    padLeft(formatTokens(t.input), colW.input) +
-    padLeft(formatTokens(t.output), colW.output) +
-    padLeft(formatTokens(t.cache_read + t.cache_write), colW.cached) +
-    padLeft(`$${(t.cost ?? 0).toFixed(2)}`, colW.cost)
+    pad('TOTAL', colW.key) +
+      padLeft(formatTokens(t.calls), colW.calls) +
+      padLeft(formatTokens(t.input), colW.input) +
+      padLeft(formatTokens(t.output), colW.output) +
+      padLeft('', colW.percent)
   );
 }

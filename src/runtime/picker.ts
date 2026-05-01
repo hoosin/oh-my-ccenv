@@ -1,25 +1,20 @@
 import { select } from '@inquirer/prompts';
 import { listProfiles } from '../config/listProfiles.js';
 import { info } from '../utils/log.js';
+import { selectTheme, selectInstructions } from '../utils/theme.js';
 
 export async function pickProfile(): Promise<string | null> {
   const profiles = listProfiles();
   if (profiles.length === 0) {
-    info('No profiles found. Run `ccenv add <name>` to create one.');
+    // This should technically never happen now because 'claude' is always there
+    info('No profiles found.');
     return null;
   }
 
   return select({
     message: 'Select a profile:',
     choices: profiles.map((p) => ({ name: p, value: p })),
-    theme: {
-      style: {
-        help: (text: string) => text,
-      },
-    },
-    instructions: {
-      navigation: 'Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel',
-      pager: 'Press ↑↓ to scroll',
-    },
+    theme: selectTheme,
+    instructions: selectInstructions,
   });
 }

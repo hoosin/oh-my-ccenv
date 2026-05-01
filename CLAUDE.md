@@ -36,9 +36,9 @@ ANTHROPIC_MODEL = "..."
 只写 `ANTHROPIC_BASE_URL`、`ANTHROPIC_AUTH_TOKEN`、`ANTHROPIC_MODEL` 三个字段。不要加 `ANTHROPIC_SMALL_FAST_MODEL` 或 `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`。
 
 ## 启动时注入
-- `ANTHROPIC_API_KEY=""`（防 shell export 覆盖，先于 profile env）
-- `CCENV_PROFILE=<name>`（stats fallback 关联用）
-- profile 的 [env] 后注入，覆盖上面的默认值
+- `CCENV_PROFILE=<name>`（标记当前 profile，子进程可读）
+- profile 的 [env] 注入
+- 仅当 profile 含 `ANTHROPIC_AUTH_TOKEN` 且 shell 未导出 `ANTHROPIC_API_KEY` 时，再补一个 `ANTHROPIC_API_KEY=""`，防 shell export 盖掉第三方 token
 
 ## 模板
 - 内置在 `templates/` 目录，postinstall 复制到 `~/.config/ccenv/profiles/`
@@ -47,17 +47,15 @@ ANTHROPIC_MODEL = "..."
 - 火山引擎和阿里云百炼是 Coding Plan 类型
 
 ## 模型列表
-- `data/models.json` 存各 provider 可用模型
-- CI 自动爬取火山引擎和百炼文档页更新
-- MiMo 模型写死（JS 渲染页面爬不动）
-- 客户端从 GitHub raw URL 拉取，本地缓存 7 天
+- `data/models.json` 存各 provider 可用模型，**手动维护**（CI 爬取是路线图项，未实现）
+- 客户端 `add` 时从 GitHub raw URL 拉取，本地缓存到 `~/.config/ccenv/models.cache.json`
 
 ## 约定
 - 文件名和变量名用英文，文档和注释用中文
 - `ccenv add <name>` 交互式：先选 provider → 再选 model → 最后填 token
 - profile 名只允许 `[a-zA-Z0-9_-]+`，拒绝路径穿越
 - stats 解析 `~/.claude/projects/**/*.jsonl`，只看 assistant turn
-- pricing.json 按 model 前缀最长匹配，匹配不到显示 `?`
+- stats 不算钱，只统计 token 用量（calls / input / output / 占比）
 
 ## 禁区
 - 不要引入 ORM 或数据库

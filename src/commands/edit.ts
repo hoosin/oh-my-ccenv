@@ -1,8 +1,8 @@
-import { execSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { profilePath } from '../config/paths.js';
 import { readCurrent } from '../config/current.js';
-import { error } from '../utils/log.js';
+import { error, info } from '../utils/log.js';
 
 export async function editCommand(name?: string): Promise<void> {
   const target = name || readCurrent();
@@ -13,10 +13,15 @@ export async function editCommand(name?: string): Promise<void> {
 
   const p = profilePath(target);
   if (!existsSync(p)) {
+    if (target === 'claude') {
+      info('The "claude" profile is currently using built-in official settings.');
+      info('To customize it, run `ccenv add claude`.');
+      return;
+    }
     error(`Profile "${target}" not found.`);
     process.exit(1);
   }
 
   const editor = process.env.EDITOR || process.env.VISUAL || 'vi';
-  execSync(`${editor} "${p}"`, { stdio: 'inherit' });
+  spawnSync(editor, [p], { stdio: 'inherit' });
 }
