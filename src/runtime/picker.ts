@@ -1,5 +1,6 @@
 import { select } from '@inquirer/prompts';
 import { listProfiles } from '../config/listProfiles.js';
+import { formatProfileChoice } from '../utils/formatProfile.js';
 import { info } from '../utils/log.js';
 import { selectTheme, selectInstructions } from '../utils/theme.js';
 
@@ -13,7 +14,7 @@ export async function pickProfile(): Promise<string | null> {
 
   return select({
     message: 'Select a profile:',
-    choices: profiles.map((p) => ({ name: p, value: p })),
+    choices: profiles.map((name) => formatProfileChoice(name)),
     theme: selectTheme,
     instructions: selectInstructions,
   });

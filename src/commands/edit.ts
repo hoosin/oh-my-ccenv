@@ -2,42 +2,59 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { select } from '@inquirer/prompts';
 import { profilePath } from '../config/paths.js';
-import { readCurrent } from '../config/current.js';
+import { listProfiles } from '../config/listProfiles.js';
+import { formatProfileChoice } from '../utils/formatProfile.js';
+import { selectTheme, selectInstructions } from '../utils/theme.js';
 import { error, info } from '../utils/log.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export async function editCommand(name?: string, reset?: boolean): Promise<void> {
-  const target = name || readCurrent();
-  if (!target) {
-    error(
-      'No current profile set. Run `ccenv edit <name>` or set a current profile first.'
-    );
-    process.exit(1);
-  }
-
-  const p = profilePath(target);
-  const templatePath = join(__dirname, '..', 'templates', `${target}.toml`);
-  const hasTemplate = existsSync(templatePath);
-
-  if (reset) {
-    if (!hasTemplate) {
-      error(`No template found for "${target}".`);
-      process.exit(1);
+  try {
+    let target = name;
+    if (!target) {
+      const profiles = listProfiles();
+      if (profiles.length === 0) {
+        error('No profiles found. Run `ccenv add <name>` to create one.');
+        process.exit(1);
+      }
+      target = await select({
+        message: 'Select a profile to edit:',
+        choices: profiles.map((p) => formatProfileChoice(p)),
+        theme: selectTheme,
+        instructions: selectInstructions,
+      });
     }
-    info(`Regenerating "${target}" from template...`);
-    writeFileSync(p, readFileSync(templatePath, 'utf-8'));
-  } else if (!existsSync(p)) {
-    if (hasTemplate) {
-      info(`Initializing "${target}" profile from template...`);
+
+    const p = profilePath(target);
+    const templatePath = join(__dirname, '..', 'templates', `${target}.toml`);
+    const hasTemplate = existsSync(templatePath);
+
+    if (reset) {
+      if (!hasTemplate) {
+        error(`No template found for "${target}".`);
+        process.exit(1);
+      }
+      info(`Regenerating "${target}" from template...`);
       writeFileSync(p, readFileSync(templatePath, 'utf-8'));
-    } else {
-      error(`Profile "${target}" not found.`);
-      process.exit(1);
+    } else if (!existsSync(p)) {
+      if (hasTemplate) {
+        info(`Initializing "${target}" profile from template...`);
+        writeFileSync(p, readFileSync(templatePath, 'utf-8'));
+      } else {
+        error(`Profile "${target}" not found.`);
+        process.exit(1);
+      }
     }
-  }
 
-  const editor = process.env.EDITOR || process.env.VISUAL || 'vi';
-  spawnSync(editor, [p], { stdio: 'inherit' });
+    const editor = process.env.EDITOR || process.env.VISUAL || 'vi';
+    spawnSync(editor, [p], { stdio: 'inherit' });
+  } catch (err: any) {
+    if (err.name === 'ExitPromptError') {
+      process.exit(0);
+    }
+    throw err;
+  }
 }

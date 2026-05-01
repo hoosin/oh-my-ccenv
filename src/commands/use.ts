@@ -3,6 +3,7 @@ import { select } from '@inquirer/prompts';
 import { profilePath } from '../config/paths.js';
 import { listProfiles } from '../config/listProfiles.js';
 import { writeCurrent } from '../config/current.js';
+import { formatProfileChoice } from '../utils/formatProfile.js';
 import { success, error } from '../utils/log.js';
 import { selectTheme, selectInstructions } from '../utils/theme.js';
 
@@ -16,7 +17,7 @@ export async function useCommand(name?: string): Promise<void> {
       }
       name = await select({
         message: 'Select a profile to use:',
-        choices: profiles.map((p) => ({ name: p, value: p })),
+        choices: profiles.map((name) => formatProfileChoice(name)),
         theme: selectTheme,
         instructions: selectInstructions,
       });

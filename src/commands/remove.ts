@@ -3,6 +3,7 @@ import { confirm, select } from '@inquirer/prompts';
 import { profilePath } from '../config/paths.js';
 import { listProfiles } from '../config/listProfiles.js';
 import { readCurrent, writeCurrent } from '../config/current.js';
+import { formatProfileChoice } from '../utils/formatProfile.js';
 import { success, error, info } from '../utils/log.js';
 import { selectTheme, selectInstructions } from '../utils/theme.js';
 
@@ -16,7 +17,7 @@ export async function removeCommand(name?: string): Promise<void> {
       }
       name = await select({
         message: 'Select a profile to delete:',
-        choices: profiles.map((p) => ({ name: p, value: p })),
+        choices: profiles.map((name) => formatProfileChoice(name)),
         theme: selectTheme,
         instructions: selectInstructions,
       });
