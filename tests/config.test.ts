@@ -70,11 +70,11 @@ describe('config layer', () => {
     expect(profile.env).toEqual({});
   });
 
-  it('presets: has 5 providers', async () => {
+  it('presets: has 6 providers', async () => {
     const { presets } = await import('../src/config/presets.js');
-    expect(presets).toHaveLength(5);
+    expect(presets).toHaveLength(6);
     expect(presets.map((p) => p.id)).toEqual([
-      'volcengine', 'bailian', 'deepseek', 'bailing', 'mimo',
+      'volcengine', 'bailian', 'deepseek', 'bailing', 'mimo', 'anthropic',
     ]);
   });
 });

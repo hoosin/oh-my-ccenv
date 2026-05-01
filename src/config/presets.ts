@@ -37,6 +37,11 @@ export const presets: ProviderPreset[] = [
     base_url: 'https://token-plan-cn.xiaomimimo.com/anthropic',
     type: 'standard',
   },
+  {
+    id: 'anthropic',
+    base_url: 'https://api.anthropic.com',
+    type: 'standard',
+  },
 ];
 
 export function getPreset(id: string): ProviderPreset | undefined {

@@ -1,0 +1,6 @@
+description = "Anthropic Official"
+
+[env]
+#http_proxy= ""
+#https_proxy=""
+#NO_PROXY="localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8"

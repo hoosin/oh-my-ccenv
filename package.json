@@ -13,6 +13,7 @@
   "bin": {
     "ccenv": "dist/bin.js"
   },
+  "man": "./man/ccenv.1",
   "files": [
     "dist",
     "templates",

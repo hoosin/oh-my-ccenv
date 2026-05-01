@@ -1,4 +1,4 @@
-.TH CCENV 1 "2026-04-30" "ccenv 0.1.0" "User Commands"
+.TH CCENV 1 "2026-05-01" "ccenv 0.1.0" "User Commands"
 .SH NAME
 ccenv \- profile manager and usage analytics for Claude Code
 .SH SYNOPSIS
@@ -8,7 +8,7 @@ ccenv \- profile manager and usage analytics for Claude Code
 .RI [ name ]
 .SH DESCRIPTION
 .B ccenv
-manages multiple Claude Code provider profiles and tracks token usage and cost across sessions.
+manages multiple Claude Code provider profiles and tracks token usage across sessions.
 .PP
 Each profile is a TOML file under
 .I ~/.config/ccenv/profiles/
@@ -16,28 +16,28 @@ containing the environment variables needed to point Claude Code at an Anthropic
 .SH COMMANDS
 .TP
 .B ccenv
-Launch claude with an interactive profile picker (arrow keys to select, Enter to confirm).
+Launch claude with an interactive profile picker.
 .TP
-.BI "ccenv " name
+.BI "ccenv [" name ]
 Switch to
 .I name
 and launch claude.
 .TP
-.BI "ccenv add " name
-Create a new profile interactively. Prompts for provider, model, auth token, and optional description.
+.BI "ccenv add [" name ]
+Create a new profile interactively. Prompts for name, provider, model, auth token, and description.
 .TP
-.BI "ccenv use " name
-Switch the current profile without launching claude.
+.BI "ccenv use [" name ]
+Switch the current profile without launching claude. Opens a picker if no name is provided.
 .TP
-.B ccenv ls
+.B ccenv list
 List all profiles. Current profile is marked with
 .BR * .
 .TP
 .B ccenv current
 Show the current profile name and effective environment variables.
 .TP
-.BI "ccenv rm " name
-Delete a profile.
+.BI "ccenv remove [" name ]
+Delete a profile. Opens a picker if no name is provided.
 .TP
 .BI "ccenv edit [" name ]
 Open a profile file in
@@ -45,22 +45,18 @@ Open a profile file in
 Defaults to the current profile.
 .TP
 .B ccenv stats
-Show token usage and cost from Claude Code session logs.
+Show token usage from Claude Code session logs. Defaults to model-based grouping.
 .TP
 .B ccenv man
 Open this man page.
 .SH STATS OPTIONS
 .TP
-.BI "--by " dimension
-Group by
-.BR profile " (default), " model ", or " project .
-.TP
 .BI "--since " window
 Time window:
-.BR 7d ", " 30d ", " 90d ", " 365d ", or " YYYY-MM-DD .
+.BR 7d " (default), " 30d ", " 90d ", " 365d ", or " YYYY-MM-DD .
 .TP
-.BI "--profile " name
-Filter to a single profile.
+.B --project
+Group by project instead of model.
 .TP
 .B --json
 Machine-readable JSON output.
@@ -85,7 +81,7 @@ ANTHROPIC_MODEL = "model-name"
 .PP
 .B ${ENV_VAR}
 placeholders in
-.B auth_token
+.B ANTHROPIC_AUTH_TOKEN
 are resolved from the shell environment at launch time.
 .SH BUILT-IN PROVIDERS
 .TS
@@ -106,9 +102,6 @@ Profile files.
 .I ~/.config/ccenv/current
 Current profile name (plain text).
 .TP
-.I ~/.config/ccenv/sessions.jsonl
-Session log for stats fallback.
-.TP
 .I ~/.config/ccenv/stats.cache.json
 Incremental stats cache.
 .SH EXAMPLES
@@ -125,7 +118,7 @@ ccenv
 ccenv stats --since 7d
 
 # Create a custom profile
-ccenv add my-provider
+ccenv add work
 .fi
 .SH SEE ALSO
 .BR claude (1)
