@@ -20,7 +20,7 @@ ccenv is a profile manager and usage-analytics CLI for [Claude Code](https://git
 
 ## 📦 Installation
 
-Requires Node.js >= 20 and a `claude` binary on your `PATH`.
+Requires Node.js >= 18.17.0 and a `claude` binary on your `PATH`.
 
 ### Quick Install
 
