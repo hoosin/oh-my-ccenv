@@ -57,9 +57,10 @@ export function run() {
   program
     .command('edit [name]')
     .description('Open a profile file in $EDITOR')
-    .action(async (name?: string) => {
+    .option('--reset', 'Regenerate from template before opening')
+    .action(async (name?: string, opts?: { reset?: boolean }) => {
       const { editCommand } = await import('./commands/edit.js');
-      await editCommand(name);
+      await editCommand(name, opts?.reset);
     });
 
   program

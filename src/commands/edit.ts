@@ -8,7 +8,7 @@ import { error, info } from '../utils/log.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export async function editCommand(name?: string): Promise<void> {
+export async function editCommand(name?: string, reset?: boolean): Promise<void> {
   const target = name || readCurrent();
   if (!target) {
     error(
@@ -18,19 +18,20 @@ export async function editCommand(name?: string): Promise<void> {
   }
 
   const p = profilePath(target);
-  if (!existsSync(p)) {
-    if (target === 'claude') {
-      info('Initializing "claude" profile with official settings...');
-      const templatePath = join(__dirname, '..', 'templates', 'anthropic.toml');
-      if (existsSync(templatePath)) {
-        writeFileSync(p, readFileSync(templatePath, 'utf-8'));
-      } else {
-        // Fallback if template missing
-        writeFileSync(
-          p,
-          'description = "Anthropic Official"\n\n[env]\nANTHROPIC_BASE_URL = "https://api.anthropic.com"\nANTHROPIC_AUTH_TOKEN = "${ANTHROPIC_API_KEY}"\nANTHROPIC_MODEL = "claude-3-5-sonnet-20241022"\n'
-        );
-      }
+  const templatePath = join(__dirname, '..', 'templates', `${target}.toml`);
+  const hasTemplate = existsSync(templatePath);
+
+  if (reset) {
+    if (!hasTemplate) {
+      error(`No template found for "${target}".`);
+      process.exit(1);
+    }
+    info(`Regenerating "${target}" from template...`);
+    writeFileSync(p, readFileSync(templatePath, 'utf-8'));
+  } else if (!existsSync(p)) {
+    if (hasTemplate) {
+      info(`Initializing "${target}" profile from template...`);
+      writeFileSync(p, readFileSync(templatePath, 'utf-8'));
     } else {
       error(`Profile "${target}" not found.`);
       process.exit(1);

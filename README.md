@@ -92,7 +92,7 @@ ccenv stats --by model
 | `list` | List all profiles |
 | `current` | Show current profile name and effective env |
 | `remove [name]` | Delete a profile |
-| `edit [name]` | Open a profile file in `$EDITOR` |
+| `edit [name]` | Open a profile file in `$EDITOR` (`--reset` to regenerate from template) |
 | `stats [options]` | Show token usage analytics |
 | `man` | Open the man page |
 

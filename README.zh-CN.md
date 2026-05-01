@@ -91,7 +91,7 @@ ccenv stats --by model
 | `list` | 列出所有已保存的配置 |
 | `current` | 显示当前生效的配置及环境变量 |
 | `remove [name]` | 删除指定的配置 |
-| `edit [name]` | 调用 `$EDITOR` 快速编辑配置 |
+| `edit [name]` | 调用 `$EDITOR` 快速编辑配置（`--reset` 从模板重新生成） |
 | `stats [options]` | 显示 Token 用量统计报表 |
 | `man` | 打开详细帮助手册 |
 
