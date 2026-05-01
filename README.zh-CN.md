@@ -20,7 +20,7 @@ ccenv 是为 [Claude Code](https://github.com/anthropics/claude-code) 量身定�
 
 ## 📦 安装
 
-需 Node.js >= 20，且系统中已安装 `claude`。
+需 Node.js >= 18.17.0，且系统中已安装 `claude`。
 
 ### 快速安装
 

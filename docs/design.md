@@ -34,7 +34,7 @@
 
 | 项 | 选择 |
 |---|---|
-| 语言 | Node.js + TypeScript (>=20) |
+| 语言 | Node.js + TypeScript (>=18.17.0) |
 | CLI 框架 | `commander` |
 | 交互提示 | `@inquirer/prompts` (支持 Ctrl+C 优雅退出与操作指引) |
 | 配置格式 | **TOML** (`smol-toml`) |
