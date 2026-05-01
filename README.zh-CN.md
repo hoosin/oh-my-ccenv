@@ -6,8 +6,7 @@
 [![View Code](https://img.shields.io/badge/view-code-green.svg)](https://github.com/hoosin/ccenv)
 
 **简体中文** · [English](./README.md)
-
-ccenv 是为 [Claude Code](https://github.com/anthropics/claude-code) 量身定制的配置管理与用量分析工具。它借鉴了 **pyenv** 管理 Python 版本的思路，让你能够一键在 Anthropic 官方、OpenRouter、火山引擎、阿里云百炼、DeepSeek 以及自定义网关之间无缝切换。
+像 pyenv 一样管理 Python 版本，ccenv 是为 [Claude Code](https://github.com/anthropics/claude-code) 量身定制的配置管理与用量分析工具。借鉴了 **pyenv** 管理 Python 版本的思路，让你能够一键在 Anthropic 官方、OpenRouter、火山引擎、阿里云百炼、DeepSeek 以及自定义网关之间无缝切换。
 
 ## 🚀 为什么选择 ccenv？
 
