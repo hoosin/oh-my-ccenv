@@ -66,9 +66,10 @@ ANTHROPIC_AUTH_TOKEN = "${MY_API_KEY}"
 3. **安全隔离**：如果定义了 `ANTHROPIC_AUTH_TOKEN`，会自动将 `ANTHROPIC_API_KEY` 置空，防止 Shell 缓存干扰。
 4. 唤起 `claude`：透传所有命令行参数及退出码。
 
-### 4.2 交互式引导 (Interactive UX)
+### 4.2 交互式引导与用户体验 (Interactive UX)
 - **统一提示**：所有列表选择均带有 `(Press ↑↓ to navigate, ⏎ to select, Ctrl+C to cancel)`。
-- **优雅退出**：支持 `Ctrl+C` 直接退出，不输出错误堆栈。
+- **全局错误拦截**：底层抛出的错误会被全局拦截，并以友好的红色文本直接输出 `error.message`，避免暴露长篇的原生 Node.js 错误堆栈，同时确保 `process.exit(1)`。
+- **优雅退出**：支持 `Ctrl+C` 直接退出，不输出错误堆栈。对于传递给子进程 `claude` 的任务，如果 `claude` 非零退出，也会静默返回相同退出码。
 - **默认回退**：`add`, `use`, `remove`, `edit` 若不带参数，均会自动进入交互模式。
 
 ---

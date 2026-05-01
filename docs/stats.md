@@ -6,7 +6,8 @@
 
 ## 1. 数据源：Claude Code 原生日志
 
-`stats` 命令直接读取 Claude Code 产生的原始会话日志（`~/.claude/projects/**/*.jsonl`）。
+`stats` 命令直接读取 Claude Code 产生的原始会话日志（默认路径为 `~/.claude/projects/**/*.jsonl`）。
+如果你的日志存储在非标准位置，可以通过设置环境变量 `CCENV_LOG_DIR` 来覆盖默认路径。
 
 **核心原则**：直接读取 CC CLI 的原始数据，与本地 Profile 配置无关。这保证了统计数据的真实性和客观性。
 

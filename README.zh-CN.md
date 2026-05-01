@@ -76,9 +76,9 @@ ccenv add work
 ccenv stats --since 7d
 ```
 
-**按模型维度查看统计数据**
+**默认按模型维度查看统计数据**
 ```bash
-ccenv stats --by model
+ccenv stats
 ```
 
 ## 📚 命令手册

@@ -77,9 +77,9 @@ ccenv add work
 ccenv stats --since 7d
 ```
 
-**Check stats grouped by model**
+**Check stats (grouped by model by default)**
 ```bash
-ccenv stats --by model
+ccenv stats
 ```
 
 ## 📚 Commands Reference
