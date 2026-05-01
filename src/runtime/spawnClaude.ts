@@ -30,8 +30,11 @@ export async function spawnClaude(
   return new Promise((resolve, reject) => {
     const child = spawn(claudeBin, args, { env, stdio: 'inherit' });
     child.on('exit', (code) => {
-      if (code === 0) resolve();
-      else reject(new Error(`claude exited with code ${code}`));
+      if (code === 0) {
+        resolve();
+      } else {
+        process.exit(code ?? 1);
+      }
     });
     child.on('error', reject);
   });

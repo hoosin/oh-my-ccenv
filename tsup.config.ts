@@ -7,6 +7,7 @@ export default defineConfig([
     outDir: 'dist',
     banner: { js: '#!/usr/bin/env node' },
     clean: true,
+    splitting: true,
   },
   {
     entry: ['src/postinstall.ts'],

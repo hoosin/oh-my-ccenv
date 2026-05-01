@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { homedir } from 'node:os';
 import { parseJsonl } from '../stats/parseJsonl.js';
 import { aggregate } from '../stats/aggregate.js';
 import {
@@ -27,7 +28,7 @@ export async function statsCommand(opts: {
   project?: boolean;
   json?: boolean;
 }): Promise<void> {
-  const projectsDir = join(process.env.HOME || '~', '.claude', 'projects');
+  const projectsDir = process.env.CCENV_LOG_DIR || join(homedir(), '.claude', 'projects');
   const files = listJsonlFiles(projectsDir);
 
   if (files.length === 0) {
