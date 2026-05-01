@@ -7,7 +7,7 @@ import { error } from '../utils/log.js';
 export async function currentCommand(): Promise<void> {
   const name = readCurrent();
   if (!name) {
-    error('No current profile set. Run `ccenv use <name>` or `ccenv <name>`.');
+    error('No current profile set. Run `ccenv use [name]` or `ccenv [name]`.');
     return;
   }
 
