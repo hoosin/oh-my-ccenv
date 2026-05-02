@@ -18,7 +18,7 @@
 
 | 命令 | 说明 |
 | --- | --- |
-| `ccenv [name]` | 切换 Profile 并启动 Claude（不带参数即进入交互选择） |
+| `ccenv [name]` | 启动 Claude（不带参数 = 当前 Profile；带 name = 切换并启动） |
 | `add [name]` | 交互式创建新 Profile（未提供名称时提示输入） |
 | `use [name]` | 仅切换当前 Profile，不启动 Claude |
 | `list` | 列出所有已保存的 Profile |

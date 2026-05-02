@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { select } from '@inquirer/prompts';
 import { profilePath } from '../config/paths.js';
 import { listProfiles } from '../config/listProfiles.js';
+import { readCurrent } from '../config/current.js';
 import { formatProfileChoice } from '../utils/formatProfile.js';
 import { selectTheme, selectInstructions } from '../utils/theme.js';
 import { error, info } from '../utils/log.js';
@@ -20,9 +21,11 @@ export async function editCommand(name?: string, reset?: boolean): Promise<void>
         error('No profiles found. Run `ccenv add <name>` to create one.');
         process.exit(1);
       }
+      const current = readCurrent();
       target = await select({
         message: 'Select a profile to edit:',
         choices: profiles.map((p) => formatProfileChoice(p)),
+        default: current || undefined,
         theme: selectTheme,
         instructions: selectInstructions,
       });

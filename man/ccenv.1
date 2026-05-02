@@ -16,7 +16,9 @@ containing the environment variables needed to point Claude Code at an Anthropic
 .SH COMMANDS
 .TP
 .B ccenv
-Launch claude with an interactive profile picker.
+Launch claude with the current profile. Errors out if no current profile is set; run
+.B ccenv use
+to pick one.
 .TP
 .BI "ccenv [" name ]
 Switch to
@@ -114,8 +116,11 @@ Incremental stats cache.
 export DEEPSEEK_API_KEY="sk-..."
 ccenv deepseek
 
-# Interactive picker
+# Launch with the current profile
 ccenv
+
+# Pick a profile interactively (without launching)
+ccenv use
 
 # See token usage
 ccenv stats --since 7d

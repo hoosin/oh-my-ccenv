@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { select } from '@inquirer/prompts';
 import { profilePath } from '../config/paths.js';
 import { listProfiles } from '../config/listProfiles.js';
-import { writeCurrent } from '../config/current.js';
+import { writeCurrent, readCurrent } from '../config/current.js';
 import { formatProfileChoice } from '../utils/formatProfile.js';
 import { success, error } from '../utils/log.js';
 import { selectTheme, selectInstructions } from '../utils/theme.js';
@@ -15,9 +15,11 @@ export async function useCommand(name?: string): Promise<void> {
         error('No profiles found. Run `ccenv add <name>` to create one.');
         process.exit(1);
       }
+      const current = readCurrent();
       name = await select({
         message: 'Select a profile to use:',
         choices: profiles.map((name) => formatProfileChoice(name)),
+        default: current || undefined,
         theme: selectTheme,
         instructions: selectInstructions,
       });

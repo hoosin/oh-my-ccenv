@@ -15,9 +15,11 @@ export async function removeCommand(name?: string): Promise<void> {
         info('No profiles to delete.');
         return;
       }
+      const current = readCurrent();
       name = await select({
         message: 'Select a profile to delete:',
         choices: profiles.map((name) => formatProfileChoice(name)),
+        default: current || undefined,
         theme: selectTheme,
         instructions: selectInstructions,
       });

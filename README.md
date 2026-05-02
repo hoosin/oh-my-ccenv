@@ -7,15 +7,15 @@
 
 [简体中文](./README.zh-CN.md) · **English**
 
-ccenv is a profile manager and usage-analytics CLI for [Claude Code](https://github.com/anthropics/claude-code). It manages your Claude providers like **pyenv** manages Python versions—allowing you to switch between Anthropic official, OpenRouter, Volcengine, Bailian, DeepSeek, and custom gateways with a single command.
+ccenv is a profile manager and usage-analytics CLI for [Claude Code](https://github.com/anthropics/claude-code). It manages your Claude providers like **pyenv** manages Python versions—allowing you to switch between Anthropic official, OpenRouter, Volcengine (ByteDance), Bailian (Alibaba Cloud), DeepSeek, and custom gateways with a single command.
 
 ## 🚀 Why ccenv?
 
-*   **🎭 Pyenv-like management:** Manage multiple Claude environments and providers seamlessly.
+*   **🎭 pyenv-like management:** Manage multiple Claude environments and providers seamlessly.
 *   **🎯 Zero-secret profiles:** Use `${ENV_VAR}` placeholders to keep your API keys in your shell, not in config files.
 *   **📊 Real usage analytics:** Automatically aggregates token usage from Claude Code's local session logs across all profiles.
 *   **🛠️ Interactive CLI:** Built-in interactive prompts for adding, switching, and managing profiles.
-*   **🇨🇳 First-class Chinese provider support:** Comes with presets for Volcengine, Bailian, DeepSeek, Ant Bailing, and MiMo.
+*   **📦 Built-in provider presets:** Volcengine (ByteDance), Bailian (Alibaba Cloud), DeepSeek, Bailing (Ant Group), and MiMo (Xiaomi)—plus any custom Anthropic-compatible endpoint.
 *   **💻 Terminal-first:** Designed for developers who live in the command line.
 
 ## 📦 Installation
@@ -37,25 +37,24 @@ pnpm add -g @hoosin/ccenv
 ## 📋 Key Features
 
 ### Provider Switching & Management
+*   **Quick launch:** Run `ccenv` without arguments to launch `claude` with the current profile.
 *   **Switch and launch:** `ccenv <name>` switches the active profile and launches `claude` in one step.
-*   **Interactive Fallback:** Run `ccenv` without arguments to pick a profile from an interactive list.
-*   **Environment Isolation:** Automatically handles common gotchas like neutralizing `ANTHROPIC_API_KEY` when using 3rd-party providers.
+*   **Interactive switching:** Run `ccenv use` without arguments to pick a profile from an interactive list.
+*   **Environment isolation:** Automatically handles common gotchas like neutralizing `ANTHROPIC_API_KEY` when using third-party providers.
 
 ### Usage Analytics
-*   **Deep Integration:** Reads `~/.claude/projects/**/*.jsonl` to provide accurate token counts.
-*   **Flexible Grouping:** Group stats by profile, model, or project.
-*   **Time Windows:** Filter usage by the last 7 days, 30 days, or specific dates.
+*   **Deep integration:** Reads `~/.claude/projects/**/*.jsonl` to provide accurate token counts.
+*   **Flexible grouping:** Group stats by profile, model, or project.
+*   **Time windows:** Filter usage by the last 7 days, 30 days, or specific dates.
 
 ### Security & Portability
-*   **TOML-based Profiles:** Easy to read, edit, and track via Git.
-*   **Safe Defaults:** Profile files are created with `0600` permissions.
-*   **Dynamic Interpolation:** Resolve secrets from your environment at runtime.
+*   **TOML-based profiles:** Easy to read, edit, and track via Git.
+*   **Safe defaults:** Profile files are created with `0600` permissions.
+*   **Dynamic interpolation:** Resolve secrets from your environment at runtime.
 
 ## 🚀 Getting Started
 
-### Basic Usage
-
-**Start with an interactive picker**
+**Launch Claude with the current profile**
 ```bash
 ccenv
 ```
@@ -65,12 +64,15 @@ ccenv
 ccenv deepseek
 ```
 
+**Pick a profile interactively (without launching)**
+```bash
+ccenv use
+```
+
 **Create a new profile interactively**
 ```bash
 ccenv add work
 ```
-
-### Usage Examples
 
 **Analyze your token usage from the last 7 days**
 ```bash
@@ -86,7 +88,7 @@ ccenv stats
 
 | Command | Description |
 | --- | --- |
-| `ccenv [name]` | Switch profile and launch Claude (no arg = interactive picker) |
+| `ccenv [name]` | Launch Claude (no arg = current profile; with name = switch + launch) |
 | `add [name]` | Create a new profile interactively |
 | `use [name]` | Switch current profile without launching |
 | `list` | List all profiles |
