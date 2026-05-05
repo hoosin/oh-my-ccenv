@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" shape-rendering="crispEdges" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+  <defs>
+    <linearGradient id="rainbow" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%"   stop-color="#ff5252"/>
+      <stop offset="20%"  stop-color="#ff9d52"/>
+      <stop offset="40%"  stop-color="#ffe14e"/>
+      <stop offset="60%"  stop-color="#52e388"/>
+      <stop offset="80%"  stop-color="#52c4ff"/>
+      <stop offset="100%" stop-color="#a85cff"/>
+    </linearGradient>
+    <linearGradient id="bezel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0c1117"/>
+      <stop offset="100%" stop-color="#0a0e14"/>
+    </linearGradient>
+  </defs>
+
+  <!-- monitor stand -->
+  <rect x="240" y="296" width="120" height="14" fill="#1a1a1a"/>
+  <rect x="200" y="306" width="200" height="10" fill="#1a1a1a"/>
+
+  <!-- bezel -->
+  <rect x="20" y="20" width="560" height="280" rx="14" ry="14" fill="url(#bezel)" stroke="#2a2a2a" stroke-width="2"/>
+
+  <!-- top status row -->
+  <circle cx="540" cy="40" r="4" fill="#ff5f56"/>
+  <circle cx="554" cy="40" r="4" fill="#ffbd2e"/>
+  <circle cx="568" cy="40" r="4" fill="#27c93f"/>
+
+  <!-- screen -->
+  <rect x="44" y="56" width="512" height="224" rx="4" ry="4" fill="url(#screen)"/>
+
+  <!-- scanlines -->
+  <g opacity="0.06" fill="#ffffff">
+    <rect x="44" y="60"  width="512" height="1"/>
+    <rect x="44" y="80"  width="512" height="1"/>
+    <rect x="44" y="100" width="512" height="1"/>
+    <rect x="44" y="120" width="512" height="1"/>
+    <rect x="44" y="140" width="512" height="1"/>
+    <rect x="44" y="160" width="512" height="1"/>
+    <rect x="44" y="180" width="512" height="1"/>
+    <rect x="44" y="200" width="512" height="1"/>
+    <rect x="44" y="220" width="512" height="1"/>
+    <rect x="44" y="240" width="512" height="1"/>
+    <rect x="44" y="260" width="512" height="1"/>
+  </g>
+
+  <!-- code-rain ambience -->
+  <g font-size="10" opacity="0.35">
+    <text x="60"  y="78"  fill="#3a8c4f">$ ccenv use</text>
+    <text x="170" y="78"  fill="#52c4ff">claude</text>
+    <text x="220" y="78"  fill="#3a8c4f">→ launching...</text>
+    <text x="430" y="78"  fill="#a85cff">v0.1.0</text>
+    <text x="60"  y="262" fill="#3a8c4f">$ ccenv stats --since 7d</text>
+    <text x="240" y="262" fill="#52c4ff">42 calls</text>
+    <text x="320" y="262" fill="#ffe14e">125.4K in</text>
+    <text x="400" y="262" fill="#52e388">18.2K out</text>
+  </g>
+
+  <!-- prompt arrow -->
+  <text x="62" y="180" font-size="44" font-weight="700" fill="#52c4ff">~</text>
+
+  <!-- main title -->
+  <g font-size="52" font-weight="900" letter-spacing="2">
+    <text x="100" y="180" fill="#52c4ff">oh my</text>
+    <text x="270" y="180" fill="url(#rainbow)">ccenv</text>
+  </g>
+
+  <!-- caret -->
+  <rect x="468" y="148" width="16" height="36" fill="#52c4ff" opacity="0.85">
+    <animate attributeName="opacity" values="0.85;0;0.85" dur="1.1s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- subtitle -->
+  <text x="100" y="220" font-size="14" fill="#6b8a76" letter-spacing="1">// the lightweight profile manager for claude code</text>
+</svg>
