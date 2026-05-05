@@ -7,7 +7,7 @@ import { success, info, spinner } from '../utils/log.js';
 import { selectTheme, selectInstructions, withHelp } from '../utils/theme.js';
 
 const MODELS_URL =
-  'https://raw.githubusercontent.com/hoosin/ccenv/main/data/models.json';
+  'https://raw.githubusercontent.com/hoosin/cc.env/main/data/models.json';
 
 async function fetchModels(providerId: string): Promise<string[]> {
   // try remote first

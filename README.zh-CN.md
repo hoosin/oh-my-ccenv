@@ -1,129 +1,134 @@
-# ccenv
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hoosin/cc.env/main/docs/assets/logo.png" alt="ccenv logo" width="120" />
+</p>
 
-[![npm](https://img.shields.io/npm/v/@hoosin/ccenv.svg)](https://www.npmjs.com/package/@hoosin/ccenv)
-[![License](https://img.shields.io/npm/l/@hoosin/ccenv.svg)](./LICENSE)
-[![Node](https://img.shields.io/node/v/@hoosin/ccenv.svg)](https://nodejs.org)
-[![View Code](https://img.shields.io/badge/view-code-green.svg)](https://github.com/hoosin/ccenv)
+# 🌊 ccenv
 
-**简体中文** · [English](./README.md)
-像 pyenv 一样管理 Claude 环境，ccenv 是为 [Claude Code](https://github.com/anthropics/claude-code) 量身定制的配置管理与用量分析工具。借鉴了 **pyenv** 管理 Python 版本的思路，让你能够一键在 Anthropic 官方、OpenRouter、火山引擎、阿里云百炼、DeepSeek 以及自定义网关之间无缝切换。
+<p align="center">
+  <strong>专为 Claude Code 打造的轻量级环境管理器。</strong>
+</p>
 
-## 🚀 为什么选择 ccenv？
+<p align="center">
+  <a href="https://www.npmjs.com/package/cc.env"><img src="https://img.shields.io/npm/v/cc.env.svg" alt="npm" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/npm/l/cc.env.svg" alt="License" /></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/cc.env.svg" alt="Node" /></a>
+  <a href="https://github.com/hoosin/cc.env"><img src="https://img.shields.io/badge/view-code-green.svg" alt="View Code" /></a>
+</p>
 
-*   **🎭 类 pyenv 的管理体验：** 轻松切换多个 Claude 环境和 Provider。
-*   **🎯 配置文件零密钥：** 支持 `${ENV_VAR}` 占位符，密钥留在 Shell 环境中，安全不泄露。
-*   **📊 原生用量统计：** 直接解析 Claude Code 本地会话日志，跨 Profile 汇总 Token 消耗。
-*   **🛠️ 全程交互式操作：** 从配置创建到环境切换，都提供交互式引导。
-*   **🇨🇳 国内主流模型全覆盖：** 内置火山引擎、阿里云百炼、DeepSeek、蚂蚁百灵及小米 MiMo 预设。
-*   **💻 开发者至上：** 纯粹的终端体验，专为命令行用户设计。
+<p align="center">
+  <strong>简体中文</strong> · <a href="./README.md">English</a>
+</p>
 
-## 📦 安装
+---
 
-需 Node.js >= 18.17.0，且系统中已安装 `claude`。
+`ccenv` 是一个零开销的 CLI 工具，让你在多个 [Claude Code](https://github.com/anthropics/claude-code) 模型供应商（Provider）配置之间瞬间切换。灵感来自 `pyenv`，它能帮你轻松管理 Anthropic、火山引擎、阿里云百炼、DeepSeek 等不同环境的环境变量，无需 shell hooks 或后台进程。
 
-### 快速安装
+## 🌟 为什么选择 ccenv？
 
-**使用 npm 全局安装**
-```bash
-npm install -g @hoosin/ccenv
+- 🔄 **配置一键切换：** 只需一条命令，即可更改当前激活的 Claude 运行环境。
+- 📊 **本地用量统计：** 跨项目、跨配置追踪 Token 用量，数据完全留在本地。
+- 🔒 **安全设计：** API Key 始终留在你的 Shell 中 (`${ENV_VAR}`)，不会以明文形式持久化在文件中。
+- 🚀 **UNIX 哲学：** 只做一件事并将其做好。运行即销毁，不占用额外系统资源。
+
+## 📺 功能展示
+
+### 轻松追踪 Token 用量：
+```console
+$ ccenv stats
+
+MODEL                      CALLS     INPUT    OUTPUT       %
+────────────────────────────────────────────────────────────
+claude-3-5-sonnet-latest      42    125.4K     18.2K   75.0%
+deepseek-coder                 8     22.1K      4.1K   15.5%
+custom-gateway                 5     12.0K      2.0K    9.5%
+────────────────────────────────────────────────────────────
+TOTAL                         55    159.5K     24.3K
 ```
 
-**使用 pnpm 全局安装**
-```bash
-pnpm add -g @hoosin/ccenv
+### 切换并启动，一步到位：
+```console
+$ ccenv deepseek
+# 已切换至 [deepseek] 并启动 Claude Code...
 ```
-
-## 📋 核心功能
-
-### Provider 切换与管理
-*   **快速启动：** 不带参数运行 `ccenv` 即以当前 Profile 启动 `claude`。
-*   **一键切换：** `ccenv <name>` 自动切换 Profile 并直接唤起 `claude`。
-*   **交互式切换：** 运行 `ccenv use` 不带参数即唤起交互式选择列表，支持快捷搜索。
-*   **环境自动隔离：** 使用第三方 Provider 时自动处理 `ANTHROPIC_API_KEY` 等冲突，避免干扰。
-
-### 用量统计
-*   **深度集成：** 自动读取 `~/.claude/projects/**/*.jsonl`，确保数据来源准确可靠。
-*   **多维汇总：** 支持按 Profile、模型、项目进行分组展示。
-*   **时间筛选：** 灵活查看过去 7 天、30 天或自定义日期的用量走势。
-
-### 安全与便携性
-*   **TOML 格式配置：** 结构清晰，易于阅读，方便用 Git 跟踪。
-*   **文件权限：** 配置文件默认以 `0600` 权限创建，仅当前用户可读。
-*   **动态环境解析：** 启动时从 Shell 环境读取占位符变量，密钥不落盘。
 
 ## 🚀 快速上手
 
-**以当前 Profile 启动 Claude**
+### 安装
+
 ```bash
-ccenv
+npm install -g cc.env
+# 或者
+pnpm add -g cc.env
 ```
 
-**切换至特定 Profile 并启动 Claude**
-```bash
-ccenv deepseek
-```
+*需要 Node.js >= 18.17.0，且系统 `PATH` 中已安装 `claude`。*
 
-**交互式选择 Profile（仅切换，不启动）**
-```bash
-ccenv use
-```
+### 基础用法
 
-**创建新 Profile**
-```bash
-ccenv add work
-```
+1.  **添加配置：**
+    ```bash
+    ccenv add work
+    ```
+    按照交互式提示选择 Provider（Anthropic, 火山引擎, DeepSeek 等）并输入 API Token。
 
-**查看最近 7 天的 Token 消耗**
-```bash
-ccenv stats --since 7d
-```
+2.  **切换配置：**
+    ```bash
+    ccenv use work
+    ```
 
-**默认按模型维度查看统计数据**
-```bash
-ccenv stats
-```
+3.  **启动 Claude：**
+    ```bash
+    ccenv          # 使用当前配置启动
+    ccenv work     # 切换到 'work' 并启动
+    ```
 
-## 📚 命令手册
+## 🛠️ 命令详解
 
-| 命令 | 说明 |
-| --- | --- |
-| `ccenv [name]` | 启动 Claude（不带参数 = 当前 Profile；带 name = 切换并启动） |
-| `add [name]` | 交互式创建新配置 |
-| `use [name]` | 仅切换当前配置，不启动 Claude |
-| `list` | 列出所有已保存的配置 |
-| `current` | 显示当前生效的配置及环境变量 |
-| `remove [name]` | 删除指定的配置 |
-| `edit [name]` | 调用 `$EDITOR` 快速编辑配置（`--reset` 从模板重新生成） |
-| `stats [options]` | 显示 Token 用量统计报表 |
-| `man` | 打开详细帮助手册 |
+| 命令 | 描述 |
+| :--- | :--- |
+| `ccenv add [name]` | 交互式创建新配置 |
+| `ccenv use [name]` | 切换当前激活的配置 |
+| `ccenv stats` | 查看本地 Token 用量（支持 7d, 30d 等时间范围） |
+| `ccenv list` | 列出所有已创建的配置 |
+| `ccenv current` | 显示当前配置名称及环境变量状态 |
+| `ccenv edit <name>` | 在编辑器（`$EDITOR`）中打开配置文件 |
+| `ccenv remove <name>` | 删除指定配置 |
 
-## 📖 文档
+## ⚙️ 工作原理
 
-*   [架构与设计](./docs/design.md) - 深入了解 ccenv 的运行机制。
-*   [统计原理](./docs/stats.md) - 我们是如何解析 Claude Code 日志的。
+`ccenv` 遵循“无魔法”原则：
+1. 从 `~/.config/ccenv/profiles/` 读取简单的 TOML 配置。
+2. 将 `${ENV_VAR}` 占位符解析为当前 Shell 环境中的实际值。
+3. 使用注入的环境变量 `exec` 启动 `claude` 二进制文件。
+
+没有 shim，没有 shell alias，也没有持久化的后台进程。
+
+## 🛡️ 隐私与安全
+
+- **数据不出域：** 用量统计是从 Claude Code 的本地日志（`~/.claude/projects/`）中解析的，没有任何数据会离开你的机器。
+- **严格权限：** 所有配置文件均以 `0600` 权限创建。
+- **密钥安全：** 推荐在配置中使用环境变量引用（例如：`ANTHROPIC_AUTH_TOKEN = "${MY_SECRET}"`），这样你的 TOML 文件就可以放心地纳入版本管理或分享。
 
 ## 🤝 参与贡献
 
-我们非常欢迎社区贡献！ccenv 采用 MIT 开源协议，你可以通过以下方式参与：
-*   提交 Bug 报告或功能建议。
-*   贡献新的 Provider 预设模板。
-*   改进文档或撰写教程。
+欢迎任何形式的贡献！无论是添加新的 Provider 模板，还是改进文档。
 
-源码地址：[github.com/hoosin/ccenv](https://github.com/hoosin/ccenv)。
+1. `pnpm install`
+2. `pnpm dev` (监听模式)
+3. `pnpm test`
 
-## 📄 法律信息
+---
 
-*   **License:** MIT © hoosin
-*   **资源:** [NPM Package](https://www.npmjs.com/package/@hoosin/ccenv) \| [更新日志](https://github.com/hoosin/ccenv/releases)
+### 开源协议
 
-为 Claude Code 社区精心打造 ❤️
+MIT © [hoosin](https://github.com/hoosin)
 
 <p align="left">
- <a href="https://www.star-history.com/hoosin/ccenv">
+ <a href="https://www.star-history.com/hoosin/cc.env">
   <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=hoosin/ccenv&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=hoosin/ccenv" />
-   <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=hoosin/ccenv" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=hoosin/cc.env&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=hoosin/cc.env" />
+   <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=hoosin/cc.env" />
   </picture>
  </a>
 </p>
