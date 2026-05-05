@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace">
+  <defs>
+    <clipPath id="t1">
+      <rect width="0" height="40">
+        <animate attributeName="width" values="0;138" keyTimes="0;0.071" calcMode="linear" dur="14s" repeatCount="indefinite"/>
+      </rect>
+    </clipPath>
+    <clipPath id="t2">
+      <rect width="0" height="40">
+        <animate attributeName="width" values="0;0;232" keyTimes="0;0.286;0.371" calcMode="linear" dur="14s" repeatCount="indefinite"/>
+      </rect>
+    </clipPath>
+    <clipPath id="t3">
+      <rect width="0" height="40">
+        <animate attributeName="width" values="0;0;258" keyTimes="0;0.571;0.679" calcMode="linear" dur="14s" repeatCount="indefinite"/>
+      </rect>
+    </clipPath>
+  </defs>
+
+  <!-- bezel -->
+  <rect x="10" y="10" width="700" height="420" rx="10" ry="10" fill="#0a0e14" stroke="#23272d" stroke-width="1"/>
+
+  <!-- title bar -->
+  <rect x="10" y="10" width="700" height="32" rx="10" ry="10" fill="#1d2128"/>
+  <rect x="10" y="34" width="700" height="8" fill="#1d2128"/>
+  <line x1="10" y1="42" x2="710" y2="42" stroke="#23272d" stroke-width="1"/>
+  <circle cx="32" cy="26" r="5.5" fill="#ff5f56"/>
+  <circle cx="50" cy="26" r="5.5" fill="#ffbd2e"/>
+  <circle cx="68" cy="26" r="5.5" fill="#27c93f"/>
+  <text x="360" y="30" font-size="12" fill="#9aa3ad" text-anchor="middle">oh my ccenv — claude</text>
+
+  <!-- ============== SCENE 1: ccenv list ============== -->
+  <text x="38" y="78" font-size="14" fill="#7fff7f">~</text>
+  <text x="56" y="78" font-size="14" fill="#5fd9ff">$</text>
+  <g clip-path="url(#t1)">
+    <text x="72" y="78" font-size="14" fill="#e6e6e6">ccenv list</text>
+  </g>
+
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.115" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="100" font-size="13" fill="#ff9d52">*</text>
+    <text x="60" y="100" font-size="13" fill="#ff9d52">claude</text>
+    <text x="106" y="100" font-size="13" fill="#6b8a76">— Anthropic</text>
+  </g>
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.129" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="60" y="118" font-size="13" fill="#b8c5d4">volcengine</text>
+    <text x="138" y="118" font-size="13" fill="#6b8a76">— Volcengine</text>
+    <text x="232" y="118" font-size="13" fill="#ffe14e">[Coding Plan]</text>
+    <text x="332" y="118" font-size="13" fill="#6b8a76">(glm-5.1)</text>
+  </g>
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.143" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="60" y="136" font-size="13" fill="#b8c5d4">deepseek</text>
+    <text x="124" y="136" font-size="13" fill="#6b8a76">— DeepSeek</text>
+  </g>
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.157" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="60" y="154" font-size="13" fill="#b8c5d4">mimo</text>
+    <text x="98" y="154" font-size="13" fill="#6b8a76">— MiMo</text>
+    <text x="152" y="154" font-size="13" fill="#ffe14e">[Coding Plan]</text>
+    <text x="252" y="154" font-size="13" fill="#6b8a76">(mimo-v2.5-pro)</text>
+  </g>
+
+  <!-- ============== SCENE 2: ccenv use volcengine ============== -->
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.286" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="38" y="190" font-size="14" fill="#7fff7f">~</text>
+    <text x="56" y="190" font-size="14" fill="#5fd9ff">$</text>
+    <g clip-path="url(#t2)">
+      <text x="72" y="190" font-size="14" fill="#e6e6e6">ccenv use volcengine</text>
+    </g>
+  </g>
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.400" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="212" font-size="13" fill="#52e388">✓</text>
+    <text x="60" y="212" font-size="13" fill="#b0b8c0">Switched to</text>
+    <text x="148" y="212" font-size="13" fill="#5fd9ff">volcengine</text>
+  </g>
+
+  <!-- ============== SCENE 3: ccenv stats ============== -->
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.571" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="38" y="252" font-size="14" fill="#7fff7f">~</text>
+    <text x="56" y="252" font-size="14" fill="#5fd9ff">$</text>
+    <g clip-path="url(#t3)">
+      <text x="72" y="252" font-size="14" fill="#e6e6e6">ccenv stats --since 7d</text>
+    </g>
+  </g>
+
+  <g font-size="12" fill="#6b8a76">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.700" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="280">MODEL</text>
+    <text x="305" y="280" text-anchor="end">CALLS</text>
+    <text x="385" y="280" text-anchor="end">INPUT</text>
+    <text x="465" y="280" text-anchor="end">OUTPUT</text>
+    <text x="535" y="280" text-anchor="end">%</text>
+    <line x1="40" y1="290" x2="535" y2="290" stroke="#2d3138" stroke-width="1"/>
+  </g>
+
+  <g font-size="12" fill="#b8c5d4">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.714" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="312">claude-sonnet-4-6</text>
+    <text x="305" y="312" text-anchor="end" fill="#e6e6e6">42</text>
+    <text x="385" y="312" text-anchor="end" fill="#5fd9ff">125.4K</text>
+    <text x="465" y="312" text-anchor="end" fill="#52e388">18.2K</text>
+    <text x="535" y="312" text-anchor="end" fill="#ff9d52">75.0%</text>
+  </g>
+  <g font-size="12" fill="#b8c5d4">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.729" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="330">glm-5.1</text>
+    <text x="305" y="330" text-anchor="end" fill="#e6e6e6">8</text>
+    <text x="385" y="330" text-anchor="end" fill="#5fd9ff">22.1K</text>
+    <text x="465" y="330" text-anchor="end" fill="#52e388">4.1K</text>
+    <text x="535" y="330" text-anchor="end" fill="#ff9d52">15.5%</text>
+  </g>
+  <g font-size="12" fill="#b8c5d4">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.743" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="348">deepseek-reasoner</text>
+    <text x="305" y="348" text-anchor="end" fill="#e6e6e6">5</text>
+    <text x="385" y="348" text-anchor="end" fill="#5fd9ff">12.0K</text>
+    <text x="465" y="348" text-anchor="end" fill="#52e388">2.0K</text>
+    <text x="535" y="348" text-anchor="end" fill="#ff9d52">9.5%</text>
+  </g>
+
+  <g font-size="12">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.764" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <line x1="40" y1="358" x2="535" y2="358" stroke="#2d3138" stroke-width="1"/>
+    <text x="40" y="378" fill="#5fd9ff" font-weight="700">TOTAL</text>
+    <text x="305" y="378" text-anchor="end" fill="#e6e6e6">55</text>
+    <text x="385" y="378" text-anchor="end" fill="#5fd9ff">159.5K</text>
+    <text x="465" y="378" text-anchor="end" fill="#52e388">24.3K</text>
+  </g>
+</svg>

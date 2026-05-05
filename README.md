@@ -30,26 +30,11 @@
 - 🔒 **Secure by Design:** Your API keys stay in your shell (`${ENV_VAR}`), not in plaintext files.
 - 🚀 **UNIX Philosophy:** A single-purpose tool that does one thing well and exits.
 
-## 📺 Showcase
+## 📺 Demo
 
-### Track your token usage effortlessly:
-```console
-$ ccenv stats
-
-MODEL                      CALLS     INPUT    OUTPUT       %
-────────────────────────────────────────────────────────────
-claude-3-5-sonnet-latest      42    125.4K     18.2K   75.0%
-deepseek-coder                 8     22.1K      4.1K   15.5%
-custom-gateway                 5     12.0K      2.0K    9.5%
-────────────────────────────────────────────────────────────
-TOTAL                         55    159.5K     24.3K
-```
-
-### Switch and launch in one go:
-```console
-$ ccenv deepseek
-# Switched to [deepseek] and launching Claude Code...
-```
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/main/docs/assets/demo.svg" alt="ccenv demo" width="720" />
+</p>
 
 ## 🚀 Quick Start
 
