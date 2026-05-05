@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hoosin/cc.env/main/docs/assets/logo.png" alt="ccenv logo" width="120" />
+  <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/main/docs/assets/logo.png" alt="ccenv logo" width="120" />
 </p>
 
 # 🌊 ccenv
@@ -9,10 +9,10 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/cc.env"><img src="https://img.shields.io/npm/v/cc.env.svg" alt="npm" /></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/npm/l/cc.env.svg" alt="License" /></a>
-  <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/cc.env.svg" alt="Node" /></a>
-  <a href="https://github.com/hoosin/cc.env"><img src="https://img.shields.io/badge/view-code-green.svg" alt="View Code" /></a>
+  <a href="https://www.npmjs.com/package/oh-my-ccenv"><img src="https://img.shields.io/npm/v/oh-my-ccenv.svg" alt="npm" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/npm/l/oh-my-ccenv.svg" alt="License" /></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/oh-my-ccenv.svg" alt="Node" /></a>
+  <a href="https://github.com/hoosin/oh-my-ccenv"><img src="https://img.shields.io/badge/view-code-green.svg" alt="View Code" /></a>
 </p>
 
 <p align="center">
@@ -56,9 +56,9 @@ $ ccenv deepseek
 ### Installation
 
 ```bash
-npm install -g cc.env
+npm install -g oh-my-ccenv
 # or
-pnpm add -g cc.env
+pnpm add -g oh-my-ccenv
 ```
 
 *Requires Node.js >= 18.17.0 and `claude` binary on your `PATH`.*
@@ -124,11 +124,11 @@ Contributions are welcome! Whether it's adding a new provider template or improv
 MIT © [hoosin](https://github.com/hoosin)
 
 <p align="left">
- <a href="https://www.star-history.com/hoosin/cc.env">
+ <a href="https://www.star-history.com/hoosin/oh-my-ccenv">
   <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=hoosin/cc.env&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=hoosin/cc.env" />
-   <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=hoosin/cc.env" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=hoosin/oh-my-ccenv&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=hoosin/oh-my-ccenv" />
+   <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=hoosin/oh-my-ccenv" />
   </picture>
  </a>
 </p>

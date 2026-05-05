@@ -1,15 +1,15 @@
 {
-  "name": "cc.env",
+  "name": "oh-my-ccenv",
   "version": "0.1.0",
   "description": "Profile manager and usage analytics for Claude Code",
   "type": "module",
   "author": "hoosin <hoosin.git@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hoosin/cc.env.git"
+    "url": "git+https://github.com/hoosin/oh-my-ccenv.git"
   },
-  "homepage": "https://github.com/hoosin/cc.env#readme",
-  "bugs": "https://github.com/hoosin/cc.env/issues",
+  "homepage": "https://github.com/hoosin/oh-my-ccenv#readme",
+  "bugs": "https://github.com/hoosin/oh-my-ccenv/issues",
   "bin": {
     "ccenv": "dist/bin.js"
   },
