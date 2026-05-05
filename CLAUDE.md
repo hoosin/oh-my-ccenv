@@ -1,7 +1,7 @@
 # ccenv
 
 ## 技术栈
-- Node.js >= 20 + TypeScript strict
+- Node.js >= 18.17.0 + TypeScript strict
 - pnpm（禁止 npm，会污染 lockfile）
 - tsup 打包（esbuild 内核）
 - commander 路由 CLI
