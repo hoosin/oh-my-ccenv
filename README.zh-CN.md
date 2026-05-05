@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/main/docs/assets/logo.png" alt="ccenv logo" width="120" />
+  <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/main/docs/assets/logo.svg" alt="ccenv logo" width="360" />
 </p>
 
 # 🌊 ccenv
