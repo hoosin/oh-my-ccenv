@@ -31,7 +31,7 @@
 
   <!-- ============== SCENE 1: ccenv list ============== -->
   <text x="38" y="78" font-size="14" fill="#7fff7f">~</text>
-  <text x="56" y="78" font-size="14" fill="#5fd9ff">$</text>
+  <text x="56" y="78" font-size="14" fill="#5fd9ff">ccenv</text>
   <g clip-path="url(#t1)">
     <text x="72" y="78" font-size="14" fill="#e6e6e6">ccenv list</text>
   </g>
@@ -66,7 +66,7 @@
   <g>
     <animate attributeName="opacity" values="0;1" keyTimes="0;0.286" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
     <text x="38" y="190" font-size="14" fill="#7fff7f">~</text>
-    <text x="56" y="190" font-size="14" fill="#5fd9ff">$</text>
+    <text x="56" y="190" font-size="14" fill="#5fd9ff">ccenv</text>
     <g clip-path="url(#t2)">
       <text x="72" y="190" font-size="14" fill="#e6e6e6">ccenv use volcengine</text>
     </g>
@@ -82,7 +82,7 @@
   <g>
     <animate attributeName="opacity" values="0;1" keyTimes="0;0.571" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
     <text x="38" y="252" font-size="14" fill="#7fff7f">~</text>
-    <text x="56" y="252" font-size="14" fill="#5fd9ff">$</text>
+    <text x="56" y="252" font-size="14" fill="#5fd9ff">ccenv</text>
     <g clip-path="url(#t3)">
       <text x="72" y="252" font-size="14" fill="#e6e6e6">ccenv stats --since 7d</text>
     </g>
