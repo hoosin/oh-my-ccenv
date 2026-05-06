@@ -24,7 +24,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # token: ${{ secrets.GH_PAT }} # 如果你的分支受保护或需要触发其他 Action，请取消注释并配置 PAT
+          token: ${{ secrets.GH_PAT }}
+          pull: true
 
       - uses: pnpm/action-setup@v4
         with:
