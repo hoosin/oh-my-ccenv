@@ -1,18 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace">
   <defs>
     <clipPath id="t1">
-      <rect width="0" height="40">
-        <animate attributeName="width" values="0;138" keyTimes="0;0.05" calcMode="linear" dur="14s" repeatCount="indefinite"/>
+      <rect width="0" height="440">
+        <animate attributeName="width" values="0;145;145" keyTimes="0;0.07;1" calcMode="linear" dur="14s" repeatCount="indefinite"/>
       </rect>
     </clipPath>
     <clipPath id="t2">
-      <rect width="0" height="40">
-        <animate attributeName="width" values="0;0;110" keyTimes="0;0.25;0.30" calcMode="linear" dur="14s" repeatCount="indefinite"/>
+      <rect width="0" height="440">
+        <animate attributeName="width" values="0;0;135;135" keyTimes="0;0.25;0.32;1" calcMode="linear" dur="14s" repeatCount="indefinite"/>
       </rect>
     </clipPath>
     <clipPath id="t3">
-      <rect width="0" height="40">
-        <animate attributeName="width" values="0;0;270" keyTimes="0;0.55;0.62" calcMode="linear" dur="14s" repeatCount="indefinite"/>
+      <rect width="0" height="440">
+        <animate attributeName="width" values="0;0;255;255" keyTimes="0;0.55;0.65;1" calcMode="linear" dur="14s" repeatCount="indefinite"/>
       </rect>
     </clipPath>
   </defs>
@@ -31,9 +31,9 @@
 
   <!-- ============== SCENE 1: ccenv list ============== -->
   <text x="38" y="78" font-size="14" fill="#7fff7f">~</text>
-  <text x="56" y="78" font-size="14" fill="#5fd9ff">ccenv list</text>
   <g clip-path="url(#t1)">
-    <text x="72" y="78" font-size="14" fill="#e6e6e6">ccenv list</text>
+    <text x="56" y="78" font-size="14" fill="#5fd9ff">ccenv</text>
+    <text x="106" y="78" font-size="14" fill="#e6e6e6">list</text>
   </g>
 
   <g>
@@ -54,9 +54,9 @@
   <g>
     <animate attributeName="opacity" values="0;1" keyTimes="0;0.25" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
     <text x="38" y="148" font-size="14" fill="#7fff7f">~</text>
-    <text x="56" y="148" font-size="14" fill="#5fd9ff">ccenv use</text>
     <g clip-path="url(#t2)">
-      <text x="72" y="148" font-size="14" fill="#e6e6e6">ccenv use</text>
+      <text x="56" y="148" font-size="14" fill="#5fd9ff">ccenv</text>
+      <text x="106" y="148" font-size="14" fill="#e6e6e6">use</text>
     </g>
   </g>
   <g>
@@ -81,16 +81,16 @@
     <animate attributeName="opacity" values="0;1" keyTimes="0;0.42" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
     <text x="40" y="228" font-size="13" fill="#52e388">✓</text>
     <text x="60" y="228" font-size="13" fill="#b0b8c0">Switched to</text>
-    <text x="148" y="228" font-size="13" fill="#5fd9ff">xiaomi</text>
+    <text x="156" y="228" font-size="13" fill="#5fd9ff">"xiaomi"</text>
   </g>
 
   <!-- ============== SCENE 3: ccenv stats since 30d ============== -->
   <g>
     <animate attributeName="opacity" values="0;1" keyTimes="0;0.55" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
     <text x="38" y="260" font-size="14" fill="#7fff7f">~</text>
-    <text x="56" y="260" font-size="14" fill="#5fd9ff">ccenv stats --since 30d</text>
     <g clip-path="url(#t3)">
-      <text x="72" y="260" font-size="14" fill="#e6e6e6">ccenv stats --since 30d</text>
+      <text x="56" y="260" font-size="14" fill="#5fd9ff">ccenv</text>
+      <text x="106" y="260" font-size="14" fill="#e6e6e6">stats --since 30d</text>
     </g>
   </g>
 
