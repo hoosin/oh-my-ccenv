@@ -1,3 +1,6 @@
+
+
+ 
 <p align="center">
   <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/main/docs/assets/logo.svg" alt="ccenv logo" width="360" />
 </p>
@@ -71,8 +74,8 @@ ccenv            # Launch Claude Code with current profile
 | `ccenv stats` | Show local token usage (7d, 30d, etc.) |
 | `ccenv list` | List all available profiles |
 | `ccenv current` | Show active profile and env status |
-| `ccenv edit [name]` | Open profile in `$EDITOR` |
-| `ccenv remove [name]` | Delete a profile |
+| `ccenv edit <name>` | Open profile in `$EDITOR` |
+| `ccenv remove <name>` | Delete a profile |
 
 ## Under the Hood & Security
 
