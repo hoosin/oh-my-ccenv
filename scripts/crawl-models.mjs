@@ -1,5 +1,5 @@
 import { chromium } from 'playwright'
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -50,7 +50,7 @@ async function main() {
   }
 
   existing.updated_at = new Date().toISOString().slice(0, 10)
-  process.stdout.write(JSON.stringify(existing, null, 2) + '\n')
+  writeFileSync(MODELS_PATH, JSON.stringify(existing, null, 2) + '\n')
 }
 
 main().catch((err) => {

@@ -24,7 +24,7 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Crawl models
-        run: node scripts/crawl-models.mjs > data/models.json
+        run: node scripts/crawl-models.mjs
 
       - name: Commit if changed
         run: |
