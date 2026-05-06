@@ -2,10 +2,10 @@
   <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/main/docs/assets/logo.svg" alt="ccenv logo" width="360" />
 </p>
 
-# 🌊 ccenv
+# ccenv
 
 <p align="center">
-  <strong>专为 Claude Code 打造的轻量级环境管理器。</strong>
+  <strong>Claude Code 的轻量级配置管理器。</strong>
 </p>
 
 <p align="center">
@@ -21,86 +21,73 @@
 
 ---
 
-`ccenv` 是一个零开销的 CLI 工具，让你在多个 [Claude Code](https://github.com/anthropics/claude-code) 模型供应商（Provider）配置之间瞬间切换。灵感来自 `pyenv`，它能帮你轻松管理 Anthropic、火山引擎、阿里云百炼、DeepSeek 等不同环境的环境变量，无需 shell hooks 或后台进程。
+`ccenv` 是一个 CLI 工具，用于管理和切换多个 [Claude Code](https://github.com/anthropics/claude-code) 供应商配置（Anthropic、火山引擎、阿里云百炼、DeepSeek 等）。
 
-## 🌟 为什么选择 ccenv？
+它不依赖后台进程、shell alias 或 shim。
 
-- 🔄 **配置一键切换：** 只需一条命令，即可更改当前激活的 Claude 运行环境。
-- 📊 **本地用量统计：** 跨项目、跨配置追踪 Token 用量，数据完全留在本地。
-- 🔒 **安全设计：** API Key 始终留在你的 Shell 中 (`${ENV_VAR}`)，不会以明文形式持久化在文件中。
-- 🚀 **UNIX 哲学：** 只做一件事并将其做好。运行即销毁，不占用额外系统资源。
-
-## 📺 演示
+## 演示
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/refs/heads/main/docs/assets/demo.svg" alt="ccenv demo" width="720" />
 </p>
 
-## 🚀 快速上手
+## 核心特性
 
-### 安装
+- **快速切换：** 单条命令即可更改当前激活的 Claude 运行环境。
+- **密钥不落盘：** 支持 `${ENV_VAR}` 占位符，直接从 Shell 环境变量解析，不在本地明文存储 API Key。
+- **本地用量统计：** 直接解析 `~/.claude/projects/` 本地日志来统计 Token 消耗。数据不出域。
+- **零后台开销：** 读取配置并注入环境变量后，直接 `exec` 启动 `claude` 进程，运行即销毁。
 
+## 安装
 ```bash
 npm install -g oh-my-ccenv
 # 或者
 pnpm add -g oh-my-ccenv
 ```
 
-*需要 Node.js >= 18.17.0，且系统 `PATH` 中已安装 `claude`。*
+*要求 Node.js >= 18.17.0，且系统 `PATH` 中已安装 `claude`。*
 
-### 基础用法
+## 使用方法
 
-1.  **添加配置：**
-    ```bash
-    ccenv add work
-    ```
-    按照交互式提示选择 Provider（Anthropic, 火山引擎, DeepSeek 等）并输入 API Token。
+**1. 添加配置：**
+```bash
+ccenv add work
+```
+按提示选择 Provider 并设置 Token（推荐通过环境变量引用，例如 `${ANTHROPIC_API_KEY}`）。
 
-2.  **切换配置：**
-    ```bash
-    ccenv use work
-    ```
+**2. 切换与启动：**
+```bash
+ccenv use work   # 将 'work' 设为当前激活的配置
+ccenv            # 使用当前配置启动 Claude Code
+```
+*提示：你可以直接运行 `ccenv <profile_name>` 来跳过全局配置，直接以指定配置启动。*
 
-3.  **启动 Claude：**
-    ```bash
-    ccenv          # 使用当前配置启动
-    ccenv work     # 切换到 'work' 并启动
-    ```
-
-## 🛠️ 命令详解
+## 命令
 
 | 命令 | 描述 |
 | :--- | :--- |
-| `ccenv add [name]` | 交互式创建新配置 |
+| `ccenv add [name]` | 创建新配置 |
 | `ccenv use [name]` | 切换当前激活的配置 |
-| `ccenv stats` | 查看本地 Token 用量（支持 7d, 30d 等时间范围） |
+| `ccenv stats` | 查看本地 Token 用量（支持 7d, 30d 等） |
 | `ccenv list` | 列出所有已创建的配置 |
 | `ccenv current` | 显示当前配置名称及环境变量状态 |
 | `ccenv edit <name>` | 在编辑器（`$EDITOR`）中打开配置文件 |
 | `ccenv remove <name>` | 删除指定配置 |
 
-## ⚙️ 工作原理
+## 底层机制与安全
 
-`ccenv` 遵循“无魔法”原则：
-1. 从 `~/.config/ccenv/profiles/` 读取简单的 TOML 配置。
-2. 将 `${ENV_VAR}` 占位符解析为当前 Shell 环境中的实际值。
-3. 使用注入的环境变量 `exec` 启动 `claude` 二进制文件。
+`ccenv` 将配置文件以 TOML 格式存储在 `~/.config/ccenv/profiles/` 目录下。
+为了保障安全：
+- 配置文件默认以 `0600` 权限创建。
+- 强烈建议在 TOML 文件中使用环境变量引用来替代硬编码的 API Key。这样可以放心地将配置目录纳入 dotfiles 管理或版本控制。
 
-没有 shim，没有 shell alias，也没有持久化的后台进程。
-
-## 🛡️ 隐私与安全
-
-- **数据不出域：** 用量统计是从 Claude Code 的本地日志（`~/.claude/projects/`）中解析的，没有任何数据会离开你的机器。
-- **严格权限：** 所有配置文件均以 `0600` 权限创建。
-- **密钥安全：** 推荐在配置中使用环境变量引用（例如：`ANTHROPIC_AUTH_TOKEN = "${MY_SECRET}"`），这样你的 TOML 文件就可以放心地纳入版本管理或分享。
-
-## 🤝 参与贡献
-
-欢迎任何形式的贡献！无论是添加新的 Provider 模板，还是改进文档。
+## 开发
 
 1. `pnpm install`
 2. `pnpm dev` (监听模式)
 3. `pnpm test`
+
+欢迎提交 Issue 和 PR。
 
 ---
 

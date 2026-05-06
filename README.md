@@ -2,10 +2,10 @@
   <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/main/docs/assets/logo.svg" alt="ccenv logo" width="360" />
 </p>
 
-# 🌊 ccenv
+# ccenv
 
 <p align="center">
-  <strong>The lightweight profile manager for Claude Code.</strong>
+  <strong>A lightweight profile manager for Claude Code.</strong>
 </p>
 
 <p align="center">
@@ -21,25 +21,24 @@
 
 ---
 
-`ccenv` is a zero-overhead CLI tool that lets you switch between multiple [Claude Code](https://github.com/anthropics/claude-code) provider profiles instantly. Inspired by `pyenv`, it manages your environment variables for Anthropic, Volcengine, Bailian, DeepSeek, and more, without the need for shell hooks or background daemons.
+`ccenv` is a CLI tool for managing and switching between multiple [Claude Code](https://github.com/anthropics/claude-code) provider profiles (Anthropic, Volcengine, Bailian, DeepSeek, etc.). 
 
-## 🌟 Why ccenv?
+It works without background daemons, shell aliases, or shims.
 
-- 🔄 **Profile Switching:** Change your active Claude environment with a single command.
-- 📊 **Usage Analytics:** Local-first token tracking across all projects and profiles.
-- 🔒 **Secure by Design:** Your API keys stay in your shell (`${ENV_VAR}`), not in plaintext files.
-- 🚀 **UNIX Philosophy:** A single-purpose tool that does one thing well and exits.
-
-## 📺 Demo
+## Demo
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/refs/heads/main/docs/assets/demo.svg" alt="ccenv demo" width="720" />
 </p>
 
-## 🚀 Quick Start
+## Features
 
-### Installation
+- **Instant Switching:** Change active Claude environments with a single command.
+- **No Plaintext Keys:** Resolves `${ENV_VAR}` directly from your shell environment.
+- **Local Analytics:** Parses token usage directly from `~/.claude/projects/`. No data leaves your machine.
+- **Zero Background Overhead:** Reads config, sets environment variables, and `exec`s the `claude` binary.
 
+## Installation
 ```bash
 npm install -g oh-my-ccenv
 # or
@@ -48,59 +47,47 @@ pnpm add -g oh-my-ccenv
 
 *Requires Node.js >= 18.17.0 and `claude` binary on your `PATH`.*
 
-### Basic Usage
+## Usage
 
-1.  **Add a profile:**
-    ```bash
-    ccenv add work
-    ```
-    Follow the interactive prompt to select a provider (Anthropic, Volcengine, DeepSeek, etc.) and enter your API token.
+**1. Add a profile:**
+```bash
+ccenv add work
+```
+Follow the prompts to select your provider and set your token (using env vars like `${ANTHROPIC_API_KEY}` is recommended).
 
-2.  **Switch profile:**
-    ```bash
-    ccenv use work
-    ```
+**2. Switch & Launch:**
+```bash
+ccenv use work   # Set 'work' as active profile
+ccenv            # Launch Claude Code with current profile
+```
+*Tip: You can bypass the active profile by running `ccenv <profile_name>` directly.*
 
-3.  **Launch Claude:**
-    ```bash
-    ccenv          # Launch with current profile
-    ccenv work     # Switch to 'work' and launch
-    ```
-
-## 🛠️ Commands
+## Commands
 
 | Command | Description |
 | :--- | :--- |
-| `ccenv add [name]` | Create a new profile interactively |
+| `ccenv add [name]` | Create a new profile |
 | `ccenv use [name]` | Switch the active profile |
-| `ccenv stats` | Show local token usage (last 7d, 30d, etc.) |
+| `ccenv stats` | Show local token usage (7d, 30d, etc.) |
 | `ccenv list` | List all available profiles |
 | `ccenv current` | Show active profile and env status |
-| `ccenv edit <name>` | Open profile in your `$EDITOR` |
+| `ccenv edit <name>` | Open profile in `$EDITOR` |
 | `ccenv remove <name>` | Delete a profile |
 
-## ⚙️ How It Works
+## Under the Hood & Security
 
-`ccenv` follows a "no-magic" approach:
-1. It reads a simple TOML profile from `~/.config/ccenv/profiles/`.
-2. It resolves `${ENV_VAR}` placeholders against your current shell environment.
-3. It `exec`s the `claude` binary with the injected environment variables.
+`ccenv` stores configuration in simple TOML files under `~/.config/ccenv/profiles/`. 
+To ensure security:
+- Config files are created with `0600` permissions.
+- You can (and should) reference API keys via environment variables rather than hardcoding them in the TOML files, keeping them safe for version control or dotfiles management.
 
-No shims, no shell aliases, and no persistent processes.
-
-## 🛡️ Privacy & Security
-
-- **Local Only:** Usage statistics are parsed from Claude Code's local logs (`~/.claude/projects/`). No data ever leaves your machine.
-- **Permissioned:** All config files are created with `0600` permissions.
-- **Vault-friendly:** We recommend referencing your tokens via environment variables (e.g., `ANTHROPIC_AUTH_TOKEN = "${MY_SECRET}"`) so your TOML files remain safe for version control.
-
-## 🤝 Contributing
-
-Contributions are welcome! Whether it's adding a new provider template or improving the documentation, feel free to open a PR.
+## Development
 
 1. `pnpm install`
 2. `pnpm dev` (watch mode)
 3. `pnpm test`
+
+PRs and issues are welcome.
 
 ---
 
