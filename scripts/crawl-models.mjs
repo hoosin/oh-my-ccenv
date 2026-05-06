@@ -11,6 +11,7 @@ const PROVIDERS = [
     key: 'volcengine',
     url: 'https://www.volcengine.com/docs/82379/1928261?lang=zh',
     pattern: /(doubao|deepseek|glm|kimi|minimax|ark)-[a-zA-Z0-9._-]+/g,
+    exclude: ['ark-helper'],
   },
   {
     key: 'bailian',
@@ -19,7 +20,7 @@ const PROVIDERS = [
   },
 ]
 
-async function crawl(browser, { url, pattern }) {
+async function crawl(browser, { url, pattern, exclude = [] }) {
   const page = await browser.newPage()
   await page.goto(url, { waitUntil: 'networkidle', timeout: 30_000 })
   // 等页面 JS 渲染完内容
@@ -28,7 +29,7 @@ async function crawl(browser, { url, pattern }) {
   await page.close()
 
   const matches = text.match(pattern) ?? []
-  return [...new Set(matches)].sort()
+  return [...new Set(matches)].filter((m) => !exclude.includes(m)).sort()
 }
 
 async function main() {
@@ -36,8 +37,8 @@ async function main() {
 
   const browser = await chromium.launch({ headless: true })
   try {
-    for (const { key, url, pattern } of PROVIDERS) {
-      const models = await crawl(browser, { url, pattern })
+    for (const { key, url, pattern, exclude } of PROVIDERS) {
+      const models = await crawl(browser, { url, pattern, exclude })
       if (models.length > 0) {
         existing.providers[key].models = models
       } else {
