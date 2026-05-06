@@ -33,7 +33,7 @@
 ## 📺 Demo
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/main/docs/assets/demo.svg" alt="ccenv demo" width="720" />
+  <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/refs/heads/main/docs/assets/demo.svg" alt="ccenv demo" width="720" />
 </p>
 
 ## 🚀 Quick Start

@@ -30,26 +30,11 @@
 - 🔒 **安全设计：** API Key 始终留在你的 Shell 中 (`${ENV_VAR}`)，不会以明文形式持久化在文件中。
 - 🚀 **UNIX 哲学：** 只做一件事并将其做好。运行即销毁，不占用额外系统资源。
 
-## 📺 功能展示
+## 📺 演示
 
-### 轻松追踪 Token 用量：
-```console
-$ ccenv stats
-
-MODEL                      CALLS     INPUT    OUTPUT       %
-────────────────────────────────────────────────────────────
-claude-3-5-sonnet-latest      42    125.4K     18.2K   75.0%
-deepseek-coder                 8     22.1K      4.1K   15.5%
-custom-gateway                 5     12.0K      2.0K    9.5%
-────────────────────────────────────────────────────────────
-TOTAL                         55    159.5K     24.3K
-```
-
-### 切换并启动，一步到位：
-```console
-$ ccenv deepseek
-# 已切换至 [deepseek] 并启动 Claude Code...
-```
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hoosin/oh-my-ccenv/refs/heads/main/docs/assets/demo.svg" alt="ccenv demo" width="720" />
+</p>
 
 ## 🚀 快速上手
 
