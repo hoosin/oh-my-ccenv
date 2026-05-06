@@ -1,5 +1,6 @@
 name: Release
 
+# Manual release: bumps version, tags, publishes to npm.
 on:
   workflow_dispatch:
     inputs:
