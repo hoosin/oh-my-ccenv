@@ -2,17 +2,17 @@
   <defs>
     <clipPath id="t1">
       <rect width="0" height="40">
-        <animate attributeName="width" values="0;138" keyTimes="0;0.071" calcMode="linear" dur="14s" repeatCount="indefinite"/>
+        <animate attributeName="width" values="0;138" keyTimes="0;0.05" calcMode="linear" dur="14s" repeatCount="indefinite"/>
       </rect>
     </clipPath>
     <clipPath id="t2">
       <rect width="0" height="40">
-        <animate attributeName="width" values="0;0;232" keyTimes="0;0.286;0.371" calcMode="linear" dur="14s" repeatCount="indefinite"/>
+        <animate attributeName="width" values="0;0;110" keyTimes="0;0.25;0.30" calcMode="linear" dur="14s" repeatCount="indefinite"/>
       </rect>
     </clipPath>
     <clipPath id="t3">
       <rect width="0" height="40">
-        <animate attributeName="width" values="0;0;258" keyTimes="0;0.571;0.679" calcMode="linear" dur="14s" repeatCount="indefinite"/>
+        <animate attributeName="width" values="0;0;270" keyTimes="0;0.55;0.62" calcMode="linear" dur="14s" repeatCount="indefinite"/>
       </rect>
     </clipPath>
   </defs>
@@ -31,104 +31,126 @@
 
   <!-- ============== SCENE 1: ccenv list ============== -->
   <text x="38" y="78" font-size="14" fill="#7fff7f">~</text>
-  <text x="56" y="78" font-size="14" fill="#5fd9ff">ccenv</text>
+  <text x="56" y="78" font-size="14" fill="#5fd9ff">ccenv list</text>
   <g clip-path="url(#t1)">
     <text x="72" y="78" font-size="14" fill="#e6e6e6">ccenv list</text>
   </g>
 
   <g>
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.115" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.075" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
     <text x="40" y="100" font-size="13" fill="#ff9d52">*</text>
     <text x="60" y="100" font-size="13" fill="#ff9d52">claude</text>
-    <text x="106" y="100" font-size="13" fill="#6b8a76">— Anthropic</text>
+    <text x="115" y="100" font-size="13" fill="#6b8a76">— Official Anthropic Claude</text>
   </g>
   <g>
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.129" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="60" y="118" font-size="13" fill="#b8c5d4">volcengine</text>
-    <text x="138" y="118" font-size="13" fill="#6b8a76">— Volcengine</text>
-    <text x="232" y="118" font-size="13" fill="#ffe14e">[Coding Plan]</text>
-    <text x="332" y="118" font-size="13" fill="#6b8a76">(glm-5.1)</text>
-  </g>
-  <g>
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.143" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="60" y="136" font-size="13" fill="#b8c5d4">deepseek</text>
-    <text x="124" y="136" font-size="13" fill="#6b8a76">— DeepSeek</text>
-  </g>
-  <g>
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.157" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="60" y="154" font-size="13" fill="#b8c5d4">mimo</text>
-    <text x="98" y="154" font-size="13" fill="#6b8a76">— MiMo</text>
-    <text x="152" y="154" font-size="13" fill="#ffe14e">[Coding Plan]</text>
-    <text x="252" y="154" font-size="13" fill="#6b8a76">(mimo-v2.5-pro)</text>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.090" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="60" y="118" font-size="13" fill="#b8c5d4">xiaomi</text>
+    <text x="115" y="118" font-size="13" fill="#6b8a76">— MiMo (小米)</text>
+    <text x="215" y="118" font-size="13" fill="#ffe14e">[Coding Plan]</text>
+    <text x="320" y="118" font-size="13" fill="#6b8a76">(mimo-v2.5-pro)</text>
   </g>
 
-  <!-- ============== SCENE 2: ccenv use volcengine ============== -->
+  <!-- ============== SCENE 2: ccenv use (interactive) ============== -->
   <g>
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.286" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="38" y="190" font-size="14" fill="#7fff7f">~</text>
-    <text x="56" y="190" font-size="14" fill="#5fd9ff">ccenv</text>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.25" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="38" y="148" font-size="14" fill="#7fff7f">~</text>
+    <text x="56" y="148" font-size="14" fill="#5fd9ff">ccenv use</text>
     <g clip-path="url(#t2)">
-      <text x="72" y="190" font-size="14" fill="#e6e6e6">ccenv use volcengine</text>
+      <text x="72" y="148" font-size="14" fill="#e6e6e6">ccenv use</text>
     </g>
   </g>
   <g>
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.400" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="40" y="212" font-size="13" fill="#52e388">✓</text>
-    <text x="60" y="212" font-size="13" fill="#b0b8c0">Switched to</text>
-    <text x="148" y="212" font-size="13" fill="#5fd9ff">volcengine</text>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.32" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="170" font-size="13" fill="#5fd9ff">?</text>
+    <text x="60" y="170" font-size="13" fill="#e6e6e6">Select a profile to use:</text>
+  </g>
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.34" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="60" y="188" font-size="13" fill="#b8c5d4">claude</text>
+    <text x="115" y="188" font-size="13" fill="#6b8a76">— Official Anthropic Claude</text>
+  </g>
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.36" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="206" font-size="13" fill="#5fd9ff">❯</text>
+    <text x="60" y="206" font-size="13" fill="#ff9d52">xiaomi</text>
+    <text x="115" y="206" font-size="13" fill="#6b8a76">— MiMo (小米)</text>
+    <text x="215" y="206" font-size="13" fill="#ffe14e">[Coding Plan]</text>
+    <text x="320" y="206" font-size="13" fill="#6b8a76">(mimo-v2.5-pro)</text>
+  </g>
+  <g>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.42" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="228" font-size="13" fill="#52e388">✓</text>
+    <text x="60" y="228" font-size="13" fill="#b0b8c0">Switched to</text>
+    <text x="148" y="228" font-size="13" fill="#5fd9ff">xiaomi</text>
   </g>
 
-  <!-- ============== SCENE 3: ccenv stats ============== -->
+  <!-- ============== SCENE 3: ccenv stats since 30d ============== -->
   <g>
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.571" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="38" y="252" font-size="14" fill="#7fff7f">~</text>
-    <text x="56" y="252" font-size="14" fill="#5fd9ff">ccenv</text>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.55" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="38" y="260" font-size="14" fill="#7fff7f">~</text>
+    <text x="56" y="260" font-size="14" fill="#5fd9ff">ccenv stats --since 30d</text>
     <g clip-path="url(#t3)">
-      <text x="72" y="252" font-size="14" fill="#e6e6e6">ccenv stats --since 7d</text>
+      <text x="72" y="260" font-size="14" fill="#e6e6e6">ccenv stats --since 30d</text>
     </g>
   </g>
 
   <g font-size="12" fill="#6b8a76">
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.700" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="40" y="280">MODEL</text>
-    <text x="305" y="280" text-anchor="end">CALLS</text>
-    <text x="385" y="280" text-anchor="end">INPUT</text>
-    <text x="465" y="280" text-anchor="end">OUTPUT</text>
-    <text x="535" y="280" text-anchor="end">%</text>
-    <line x1="40" y1="290" x2="535" y2="290" stroke="#2d3138" stroke-width="1"/>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.65" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="288">MODEL</text>
+    <text x="305" y="288" text-anchor="end">CALLS</text>
+    <text x="385" y="288" text-anchor="end">INPUT</text>
+    <text x="465" y="288" text-anchor="end">OUTPUT</text>
+    <text x="535" y="288" text-anchor="end">%</text>
+    <line x1="40" y1="298" x2="535" y2="298" stroke="#2d3138" stroke-width="1"/>
   </g>
 
   <g font-size="12" fill="#b8c5d4">
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.714" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="40" y="312">claude-sonnet-4-6</text>
-    <text x="305" y="312" text-anchor="end" fill="#e6e6e6">42</text>
-    <text x="385" y="312" text-anchor="end" fill="#5fd9ff">125.4K</text>
-    <text x="465" y="312" text-anchor="end" fill="#52e388">18.2K</text>
-    <text x="535" y="312" text-anchor="end" fill="#ff9d52">75.0%</text>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.67" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="318">claude-sonnet-4-6</text>
+    <text x="305" y="318" text-anchor="end" fill="#e6e6e6">3.0K</text>
+    <text x="385" y="318" text-anchor="end" fill="#5fd9ff">47.0K</text>
+    <text x="465" y="318" text-anchor="end" fill="#52e388">2.3M</text>
+    <text x="535" y="318" text-anchor="end" fill="#ff9d52">36.5%</text>
   </g>
   <g font-size="12" fill="#b8c5d4">
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.729" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="40" y="330">glm-5.1</text>
-    <text x="305" y="330" text-anchor="end" fill="#e6e6e6">8</text>
-    <text x="385" y="330" text-anchor="end" fill="#5fd9ff">22.1K</text>
-    <text x="465" y="330" text-anchor="end" fill="#52e388">4.1K</text>
-    <text x="535" y="330" text-anchor="end" fill="#ff9d52">15.5%</text>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.685" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="336">claude-opus-4-7</text>
+    <text x="305" y="336" text-anchor="end" fill="#e6e6e6">2.0K</text>
+    <text x="385" y="336" text-anchor="end" fill="#5fd9ff">12.6K</text>
+    <text x="465" y="336" text-anchor="end" fill="#52e388">2.3M</text>
+    <text x="535" y="336" text-anchor="end" fill="#ff9d52">30.4%</text>
   </g>
   <g font-size="12" fill="#b8c5d4">
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.743" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <text x="40" y="348">deepseek-reasoner</text>
-    <text x="305" y="348" text-anchor="end" fill="#e6e6e6">5</text>
-    <text x="385" y="348" text-anchor="end" fill="#5fd9ff">12.0K</text>
-    <text x="465" y="348" text-anchor="end" fill="#52e388">2.0K</text>
-    <text x="535" y="348" text-anchor="end" fill="#ff9d52">9.5%</text>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.700" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="354">mimo-v2.5-pro</text>
+    <text x="305" y="354" text-anchor="end" fill="#e6e6e6">1.8K</text>
+    <text x="385" y="354" text-anchor="end" fill="#5fd9ff">2.2M</text>
+    <text x="465" y="354" text-anchor="end" fill="#52e388">342.7K</text>
+    <text x="535" y="354" text-anchor="end" fill="#ff9d52">15.5%</text>
+  </g>
+  <g font-size="12" fill="#b8c5d4">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.715" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="372">glm-4.7</text>
+    <text x="305" y="372" text-anchor="end" fill="#e6e6e6">1.2K</text>
+    <text x="385" y="372" text-anchor="end" fill="#5fd9ff">61.8M</text>
+    <text x="465" y="372" text-anchor="end" fill="#52e388">473.5K</text>
+    <text x="535" y="372" text-anchor="end" fill="#ff9d52">9.2%</text>
+  </g>
+  <g font-size="12" fill="#b8c5d4">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.730" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <text x="40" y="390">claude-opus-4-6</text>
+    <text x="305" y="390" text-anchor="end" fill="#e6e6e6">710</text>
+    <text x="385" y="390" text-anchor="end" fill="#5fd9ff">4.5K</text>
+    <text x="465" y="390" text-anchor="end" fill="#52e388">525.2K</text>
+    <text x="535" y="390" text-anchor="end" fill="#ff9d52">7.4%</text>
   </g>
 
   <g font-size="12">
-    <animate attributeName="opacity" values="0;1" keyTimes="0;0.764" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
-    <line x1="40" y1="358" x2="535" y2="358" stroke="#2d3138" stroke-width="1"/>
-    <text x="40" y="378" fill="#5fd9ff" font-weight="700">TOTAL</text>
-    <text x="305" y="378" text-anchor="end" fill="#e6e6e6">55</text>
-    <text x="385" y="378" text-anchor="end" fill="#5fd9ff">159.5K</text>
-    <text x="465" y="378" text-anchor="end" fill="#52e388">24.3K</text>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.755" calcMode="discrete" dur="14s" repeatCount="indefinite"/>
+    <line x1="40" y1="400" x2="535" y2="400" stroke="#2d3138" stroke-width="1"/>
+    <text x="40" y="420" fill="#5fd9ff" font-weight="700">TOTAL</text>
+    <text x="305" y="420" text-anchor="end" fill="#e6e6e6">9.1K</text>
+    <text x="385" y="420" text-anchor="end" fill="#5fd9ff">65.0M</text>
+    <text x="465" y="420" text-anchor="end" fill="#52e388">6.0M</text>
   </g>
 </svg>
