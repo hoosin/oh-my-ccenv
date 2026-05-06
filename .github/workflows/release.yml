@@ -50,7 +50,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Bump version
-        run: pnpm version ${{ inputs.bump }} -m "chore(release): %s"
+        run: |
+          pnpm version ${{ inputs.bump }} -m "chore(release): %s"
 
       - name: Publish
         run: pnpm publish --no-git-checks
