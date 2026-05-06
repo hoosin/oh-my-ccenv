@@ -11,7 +11,7 @@ const PROVIDERS = [
     key: 'volcengine',
     url: 'https://www.volcengine.com/docs/82379/1928261?lang=zh',
     pattern: /(doubao|deepseek|glm|kimi|minimax|ark)-[a-zA-Z0-9._-]+/g,
-    exclude: ['ark-helper'],
+    exclude: ['ark-helper', 'ark-code-latest', 'minimax-m2.7'],
   },
   {
     key: 'bailian',
