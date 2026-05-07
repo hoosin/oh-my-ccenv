@@ -15,7 +15,6 @@
   <a href="https://www.npmjs.com/package/oh-my-ccenv"><img src="https://img.shields.io/npm/v/oh-my-ccenv.svg" alt="npm" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/npm/l/oh-my-ccenv.svg" alt="License" /></a>
   <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/oh-my-ccenv.svg" alt="Node" /></a>
-  <a href="https://github.com/hoosin/oh-my-ccenv"><img src="https://img.shields.io/badge/view-code-green.svg" alt="View Code" /></a>
   <a href="https://github.com/hoosin/oh-my-ccenv">
    <img src="https://img.shields.io/github/stars/hoosin/oh-my-ccenv?style=social" alt="GitHub Stars" />
   </a>
