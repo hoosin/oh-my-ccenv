@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { profilePath } from '../config/paths.js';
+import { profilePath, isReserved, isValidProfileName, INVALID_NAME_HINT } from '../config/paths.js';
 import { writeCurrent, readCurrent } from '../config/current.js';
 import { loadProfile } from '../config/loadProfile.js';
 import { spawnClaude } from '../runtime/spawnClaude.js';
@@ -10,7 +10,11 @@ export async function launchCommand(name?: string): Promise<void> {
 
   if (name) {
     // ccenv <name>: switch + launch
-    if (name !== 'claude' && !existsSync(profilePath(name))) {
+    if (!isValidProfileName(name)) {
+      error(`Invalid profile name: "${name}". ${INVALID_NAME_HINT}`);
+      process.exit(1);
+    }
+    if (!isReserved(name) && !existsSync(profilePath(name))) {
       error(
         `Profile "${name}" not found. Run \`ccenv add ${name}\` to create it.`
       );
@@ -21,7 +25,7 @@ export async function launchCommand(name?: string): Promise<void> {
   } else {
     // ccenv (no args): launch with current profile
     const current = readCurrent() || 'claude';
-    if (current !== 'claude' && !existsSync(profilePath(current))) {
+    if (!isReserved(current) && !existsSync(profilePath(current))) {
       error(
         `Current profile "${current}" no longer exists. Run \`ccenv use\` to pick another.`
       );

@@ -44,10 +44,6 @@ export const presets: ProviderPreset[] = [
   },
 ];
 
-export function getPreset(id: string): ProviderPreset | undefined {
-  return presets.find((p) => p.id === id);
-}
-
 export function loadPresetDescription(id: string): string {
   const candidates = [
     join(__dirname, '..', '..', 'templates', `${id}.toml`),

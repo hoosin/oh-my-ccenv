@@ -65,6 +65,10 @@ ccenv            # Launch Claude Code with current profile
 ```
 *Tip: You can bypass the active profile by running `ccenv <profile_name>` directly.*
 
+**3. Built-in `claude` profile:**
+
+`claude` is a reserved name for stock Anthropic. Run `ccenv edit claude` to customize it (proxy, extra env vars, etc.).
+
 ## Commands
 
 | Command | Description |

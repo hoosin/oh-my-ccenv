@@ -2,8 +2,15 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { select, input, confirm } from '@inquirer/prompts';
 import { presets, loadPresetDescription } from '../config/presets.js';
 import { saveProfile } from '../config/saveProfile.js';
-import { profilePath, modelsCachePath } from '../config/paths.js';
-import { success, info, spinner } from '../utils/log.js';
+import {
+  profilePath,
+  modelsCachePath,
+  isReserved,
+  isValidProfileName,
+  INVALID_NAME_HINT,
+} from '../config/paths.js';
+import pc from 'picocolors';
+import { success, info, error, spinner } from '../utils/log.js';
 import { selectTheme, selectInstructions, withHelp } from '../utils/theme.js';
 
 const MODELS_URL =
@@ -19,7 +26,7 @@ async function fetchModels(providerId: string): Promise<string[]> {
       };
       const models = data.providers[providerId]?.models ?? [];
       // cache locally
-      writeFileSync(modelsCachePath(), JSON.stringify(data, null, 2));
+      writeFileSync(modelsCachePath(), JSON.stringify(data, null, 2), { mode: 0o600 });
       return models;
     }
   } catch (err) {
@@ -46,8 +53,27 @@ export async function addCommand(name?: string): Promise<void> {
     if (!name) {
       name = await input({
         message: withHelp('Enter profile name:'),
-        validate: (v) => (v.trim() ? true : 'Required'),
+        validate: (v) => {
+          const trimmed = v.trim();
+          if (!trimmed) return 'Required';
+          if (!isValidProfileName(trimmed)) return INVALID_NAME_HINT;
+          if (isReserved(trimmed)) {
+            return `"${trimmed}" is reserved (built-in stock Anthropic). Pick another name.`;
+          }
+          return true;
+        },
       });
+    } else {
+      if (!isValidProfileName(name)) {
+        error(`Invalid profile name: "${name}". ${INVALID_NAME_HINT}`);
+        process.exit(1);
+      }
+      if (isReserved(name)) {
+        error(
+          `"${name}" is a reserved name (built-in stock Anthropic). Pick another name.`
+        );
+        process.exit(1);
+      }
     }
 
     // check if profile already exists
@@ -143,7 +169,15 @@ export async function addCommand(name?: string): Promise<void> {
     });
 
     success(`Saved to ${profilePath(name)}`);
-    info(`Next: ccenv ${name}   or   ccenv use ${name}`);
+    const pad = (s: string) => s.padEnd(`ccenv use ${name}`.length);
+    info(
+      [
+        'Next:',
+        `    ${pad(`ccenv ${name}`)}  ${pc.dim('switch + launch')}`,
+        `    ${pad(`ccenv use ${name}`)}  ${pc.dim('switch only')}`,
+        `    ${pad('ccenv claude')}  ${pc.dim('back to stock Anthropic')}`,
+      ].join('\n')
+    );
   } catch (err: any) {
     if (err.name === 'ExitPromptError') {
       process.exit(0);

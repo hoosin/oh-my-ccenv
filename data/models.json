@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-30",
+  "updated_at": "2026-05-07",
   "providers": {
     "volcengine": {
       "type": "coding-plan",
@@ -32,7 +32,10 @@
     "deepseek": {
       "type": "standard",
       "doc_url": "https://api-docs.deepseek.com/",
-      "models": []
+      "models": [
+        "deepseek-chat",
+        "deepseek-reasoner"
+      ]
     },
     "bailing": {
       "type": "standard",
@@ -52,6 +55,15 @@
         "mimo-v2-pro",
         "mimo-v2-omni",
         "mimo-v2-tts"
+      ]
+    },
+    "anthropic": {
+      "type": "standard",
+      "doc_url": "https://docs.anthropic.com/en/docs/about-claude/models",
+      "models": [
+        "claude-opus-4-7",
+        "claude-sonnet-4-6",
+        "claude-haiku-4-5"
       ]
     }
   }

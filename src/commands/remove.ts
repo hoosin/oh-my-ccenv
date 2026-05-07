@@ -1,6 +1,6 @@
 import { unlinkSync, existsSync } from 'node:fs';
 import { confirm, select } from '@inquirer/prompts';
-import { profilePath } from '../config/paths.js';
+import { profilePath, isReserved, isValidProfileName, INVALID_NAME_HINT } from '../config/paths.js';
 import { listProfiles } from '../config/listProfiles.js';
 import { readCurrent, writeCurrent } from '../config/current.js';
 import { formatProfileChoice } from '../utils/formatProfile.js';
@@ -10,7 +10,9 @@ import { selectTheme, selectInstructions } from '../utils/theme.js';
 export async function removeCommand(name?: string): Promise<void> {
   try {
     if (!name) {
-      const profiles = listProfiles().filter((p) => existsSync(profilePath(p)));
+      const profiles = listProfiles().filter(
+        (p) => !isReserved(p) && existsSync(profilePath(p))
+      );
       if (profiles.length === 0) {
         info('No profiles to delete.');
         return;
@@ -19,10 +21,21 @@ export async function removeCommand(name?: string): Promise<void> {
       name = await select({
         message: 'Select a profile to delete:',
         choices: profiles.map((name) => formatProfileChoice(name)),
-        default: current || undefined,
+        default: current && !isReserved(current) ? current : undefined,
         theme: selectTheme,
         instructions: selectInstructions,
       });
+    } else {
+      if (!isValidProfileName(name)) {
+        error(`Invalid profile name: "${name}". ${INVALID_NAME_HINT}`);
+        process.exit(1);
+      }
+      if (isReserved(name)) {
+        error(
+          `"${name}" is a reserved name (built-in stock Anthropic) and cannot be removed. Use \`ccenv edit ${name}\` to customize it.`
+        );
+        process.exit(1);
+      }
     }
 
     const p = profilePath(name);

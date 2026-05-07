@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { select } from '@inquirer/prompts';
-import { profilePath } from '../config/paths.js';
+import { profilePath, isReserved, isValidProfileName, INVALID_NAME_HINT } from '../config/paths.js';
 import { listProfiles } from '../config/listProfiles.js';
 import { writeCurrent, readCurrent } from '../config/current.js';
 import { formatProfileChoice } from '../utils/formatProfile.js';
@@ -25,7 +25,12 @@ export async function useCommand(name?: string): Promise<void> {
       });
     }
 
-    if (name !== 'claude' && !existsSync(profilePath(name))) {
+    if (!isValidProfileName(name)) {
+      error(`Invalid profile name: "${name}". ${INVALID_NAME_HINT}`);
+      process.exit(1);
+    }
+
+    if (!isReserved(name) && !existsSync(profilePath(name))) {
       error(
         `Profile "${name}" not found. Run \`ccenv add ${name}\` to create it.`
       );

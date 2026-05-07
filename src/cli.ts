@@ -41,9 +41,10 @@ export function run() {
   program
     .command('current')
     .description('Show current profile name and effective env')
-    .action(async () => {
+    .option('--show-secrets', 'Reveal full token/key values (default: masked)')
+    .action(async (opts: { showSecrets?: boolean }) => {
       const { currentCommand } = await import('./commands/current.js');
-      await currentCommand();
+      await currentCommand(opts);
     });
 
   program
@@ -66,7 +67,7 @@ export function run() {
   program
     .command('stats')
     .description('Show token usage')
-    .option('--since <window>', 'Time window: 7d|30d|YYYY-MM-DD', '7d')
+    .option('--since <window>', 'Time window: Nh|Nd (e.g. 24h, 7d) or YYYY-MM-DD', '7d')
     .option('--project', 'Group by project instead of model')
     .option('--json', 'Machine-readable output')
     .action(async (opts: { since: string; project?: boolean; json?: boolean }) => {

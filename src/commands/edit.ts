@@ -3,7 +3,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { select } from '@inquirer/prompts';
-import { profilePath } from '../config/paths.js';
+import { profilePath, isValidProfileName, INVALID_NAME_HINT } from '../config/paths.js';
 import { listProfiles } from '../config/listProfiles.js';
 import { readCurrent } from '../config/current.js';
 import { formatProfileChoice } from '../utils/formatProfile.js';
@@ -31,6 +31,11 @@ export async function editCommand(name?: string, reset?: boolean): Promise<void>
       });
     }
 
+    if (!isValidProfileName(target)) {
+      error(`Invalid profile name: "${target}". ${INVALID_NAME_HINT}`);
+      process.exit(1);
+    }
+
     const p = profilePath(target);
     const templatePath = join(__dirname, '..', 'templates', `${target}.toml`);
     const hasTemplate = existsSync(templatePath);
@@ -41,11 +46,11 @@ export async function editCommand(name?: string, reset?: boolean): Promise<void>
         process.exit(1);
       }
       info(`Regenerating "${target}" from template...`);
-      writeFileSync(p, readFileSync(templatePath, 'utf-8'));
+      writeFileSync(p, readFileSync(templatePath, 'utf-8'), { mode: 0o600 });
     } else if (!existsSync(p)) {
       if (hasTemplate) {
         info(`Initializing "${target}" profile from template...`);
-        writeFileSync(p, readFileSync(templatePath, 'utf-8'));
+        writeFileSync(p, readFileSync(templatePath, 'utf-8'), { mode: 0o600 });
       } else {
         error(`Profile "${target}" not found.`);
         process.exit(1);

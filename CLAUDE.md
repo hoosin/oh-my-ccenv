@@ -38,7 +38,7 @@ ANTHROPIC_MODEL = "..."
 ## 启动时注入
 - `CCENV_PROFILE=<name>`（标记当前 profile，子进程可读）
 - profile 的 [env] 注入
-- 仅当 profile 含 `ANTHROPIC_AUTH_TOKEN` 且 shell 未导出 `ANTHROPIC_API_KEY` 时，再补一个 `ANTHROPIC_API_KEY=""`，防 shell export 盖掉第三方 token
+- 当 profile 含 `ANTHROPIC_AUTH_TOKEN` 且 profile 自身未声明 `ANTHROPIC_API_KEY` 时，强制把子进程的 `ANTHROPIC_API_KEY` 置空，防 shell 已导出的 `ANTHROPIC_API_KEY` 盖掉第三方 token
 
 ## 模板
 - 内置在 `templates/` 目录，postinstall 复制到 `~/.config/ccenv/profiles/`

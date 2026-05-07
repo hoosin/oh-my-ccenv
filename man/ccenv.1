@@ -58,7 +58,7 @@ Open this man page.
 .TP
 .BI "--since " window
 Time window:
-.BR 7d " (default), " 30d ", " 90d ", " 365d ", or " YYYY-MM-DD .
+.BR Nh " (e.g. " 24h "), " Nd " (e.g. " 7d ", default), or " YYYY-MM-DD .
 .TP
 .B --project
 Group by project instead of model.
@@ -88,6 +88,11 @@ ANTHROPIC_MODEL = "model-name"
 placeholders in
 .B ANTHROPIC_AUTH_TOKEN
 are resolved from the shell environment at launch time.
+.SH BUILT-IN PROFILE
+.B claude
+is a reserved profile name for stock Anthropic. Run
+.B ccenv edit claude
+to customize it (proxy, extra env vars, etc.).
 .SH BUILT-IN PROVIDERS
 .TS
 l l l.

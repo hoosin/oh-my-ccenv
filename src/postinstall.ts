@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, copyFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, copyFileSync, chmodSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -21,7 +21,9 @@ try {
     if (existsSync(templatesDir)) {
       for (const file of readdirSync(templatesDir)) {
         if (file.endsWith('.toml')) {
-          copyFileSync(join(templatesDir, file), join(profDir, file));
+          const dest = join(profDir, file);
+          copyFileSync(join(templatesDir, file), dest);
+          chmodSync(dest, 0o600);
         }
       }
     }

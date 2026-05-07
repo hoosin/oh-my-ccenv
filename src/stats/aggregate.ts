@@ -68,13 +68,9 @@ export function aggregate(
     calls: rows.reduce((s, r) => s + r.calls, 0),
     input: rows.reduce((s, r) => s + r.input, 0),
     output: rows.reduce((s, r) => s + r.output, 0),
-    cache_read: rows.reduce((s, r) => s + r.calls, 0), // Fix: this was a bug in prev code? No, let's fix it.
-    cache_write: 0, // placeholder
+    cache_read: rows.reduce((s, r) => s + r.cache_read, 0),
+    cache_write: rows.reduce((s, r) => s + r.cache_write, 0),
   };
-
-  // Re-calculate total properly
-  total.cache_read = rows.reduce((s, r) => s + r.cache_read, 0);
-  total.cache_write = rows.reduce((s, r) => s + r.cache_write, 0);
 
   const totalTokens = tokens(total);
   for (const row of rows) {

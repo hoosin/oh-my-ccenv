@@ -29,7 +29,7 @@ export function loadCache(): CacheData {
 }
 
 export function saveCache(cache: CacheData): void {
-  writeFileSync(statsCachePath(), JSON.stringify(cache));
+  writeFileSync(statsCachePath(), JSON.stringify(cache), { mode: 0o600 });
 }
 
 export function getCachedTurns(filePath: string, cache: CacheData): { cached: Turn[]; needsParse: boolean; offset: number } {

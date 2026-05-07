@@ -59,6 +59,10 @@ ccenv            # 使用当前配置启动 Claude Code
 ```
 *提示：你可以直接运行 `ccenv <profile_name>` 来跳过全局配置，直接以指定配置启动。*
 
+**3. 内置的 `claude` 配置：**
+
+`claude` 是保留名，代表 Anthropic 官方端点。需要加代理或自定义环境变量时，运行 `ccenv edit claude`。
+
 ## 命令
 
 | 命令 | 描述 |
