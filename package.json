@@ -24,8 +24,7 @@
     "build": "tsup",
     "prepublishOnly": "pnpm build",
     "test": "vitest run",
-    "crawl": "node scripts/crawl-models.mjs",
-    "postinstall": "node dist/postinstall.js"
+    "crawl": "node scripts/crawl-models.mjs"
   },
   "keywords": [
     "claude-code",

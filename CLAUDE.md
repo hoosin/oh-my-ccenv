@@ -43,8 +43,12 @@ ANTHROPIC_MODEL = "..."
 - 当 profile 含 `ANTHROPIC_AUTH_TOKEN` 且 profile 自身未声明 `ANTHROPIC_API_KEY` 时，强制把子进程的 `ANTHROPIC_API_KEY` 置空，防 shell 已导出的 `ANTHROPIC_API_KEY` 盖掉第三方 token
 
 ## 模板
-- 内置在 `templates/` 目录，postinstall 复制到 `~/.config/ccenv/profiles/`
-- 已有文件不覆盖
+- 内置在 `templates/` 目录，**只是 scaffold，不是真实环境**
+- 装包后**不会**被复制进用户配置目录；用户配置目录由首次写操作（`add` / `use` / `<name>`）按需创建
+- 使用入口：
+  - `ccenv add <name>` 选 provider 时，`presets.ts` 提供 base_url，`templates/<id>.toml` 提供 description
+  - `ccenv edit <preset>` 对未存在的 profile，从对应 `templates/<id>.toml` 拉一份生成后再开编辑器
+  - `ccenv edit --reset` 强制从 template 重新生成
 - 5 个 provider：volcengine / bailian / deepseek / bailing / mimo
 - 火山引擎和阿里云百炼是 Coding Plan 类型
 

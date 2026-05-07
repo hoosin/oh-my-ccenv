@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Templates are no longer copied into the user's config directory at install time. They are scaffolds, not live profiles: `templates/*.toml` ships inside the npm package and is read on demand by `ccenv add` (for provider descriptions) and `ccenv edit <preset>` / `ccenv edit --reset` (to materialize a profile when the user explicitly asks for it). A fresh install now shows only the built-in `claude` entry under `ccenv list` instead of five preset profiles the user never asked for.
 - `ccenv current` masks token-like fields (`*TOKEN*`, `*KEY*`, `*SECRET*`, `*PASSWORD*`) by default; pass `--show-secrets` to print full values.
 - `ccenv current` now exits with code 1 on errors (previously returned 0 even when no current profile was set or the profile was invalid).
 - `ccenv add` "Next" hint rewritten to make the difference between `switch + launch` and `switch only` explicit, and to surface the `ccenv claude` shortcut.
@@ -31,9 +32,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Launching `claude` on Windows. `spawn('claude.cmd', …)` throws `EINVAL` on Node ≥ 18.20 / 20.11 (CVE-2024-27980); `ccenv <name>` now spawns with `shell: true` on win32 so the `.cmd` shim resolves.
 - `ccenv man` no longer crashes on Windows where `man(1)` is absent. It now prints a pointer to the raw `ccenv.1` page and suggests `ccenv help` for inline help.
 
+### Removed
+
+- `postinstall` script. The package no longer runs any code at install time; `dist/postinstall.js` is gone, and `src/postinstall.ts` was deleted. Config directories are created lazily by the first command that writes (`ccenv add` / `use` / `<name>`).
+
 ### Security
 
-- Profile, template, and cache files are now consistently created with mode `0600`. Previously, profile files initialized via `ccenv edit --reset`, templates copied during `postinstall`, the stats cache, and the models cache all fell back to the umask-default `0644`, making tokens potentially readable by other local users.
+- Profile and cache files are now consistently created with mode `0600`. Previously, profile files initialized via `ccenv edit --reset`, the stats cache, and the models cache all fell back to the umask-default `0644`, making tokens potentially readable by other local users.
 - `ccenv current` no longer prints raw token values to the terminal by default, reducing accidental leakage during screen sharing or pasting output into bug reports.
 
 ## [0.1.2] - 2026-05-01
