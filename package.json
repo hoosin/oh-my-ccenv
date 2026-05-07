@@ -1,6 +1,6 @@
 {
   "name": "oh-my-ccenv",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Profile manager and usage analytics for Claude Code",
   "type": "module",
   "author": "hoosin <hoosin.git@gmail.com>",
