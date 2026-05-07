@@ -11,5 +11,12 @@ export async function manCommand(): Promise<void> {
     console.log('Man page not found.');
     return;
   }
+  if (process.platform === 'win32') {
+    console.log(
+      `man(1) is not available on Windows. Run \`ccenv help\` for command help, ` +
+        `or open the raw page at:\n  ${manPath}`
+    );
+    return;
+  }
   spawnSync('man', [manPath], { stdio: 'inherit' });
 }

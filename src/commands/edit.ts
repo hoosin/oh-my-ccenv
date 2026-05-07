@@ -57,8 +57,21 @@ export async function editCommand(name?: string, reset?: boolean): Promise<void>
       }
     }
 
-    const editor = process.env.EDITOR || process.env.VISUAL || 'vi';
-    spawnSync(editor, [p], { stdio: 'inherit' });
+    const editor =
+      process.env.EDITOR ||
+      process.env.VISUAL ||
+      (process.platform === 'win32' ? 'notepad' : 'vi');
+    const result = spawnSync(`${editor} "${p}"`, {
+      stdio: 'inherit',
+      shell: true,
+    });
+    if (result.error || result.status !== 0) {
+      error(
+        `Failed to launch editor "${editor}". Set the EDITOR environment variable ` +
+          `to your preferred editor (e.g. "code --wait", "notepad++", "vim").`
+      );
+      process.exit(1);
+    }
   } catch (err: any) {
     if (err.name === 'ExitPromptError') {
       process.exit(0);

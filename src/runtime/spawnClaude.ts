@@ -27,8 +27,12 @@ export async function spawnClaude(
     env.ANTHROPIC_API_KEY = '';
   }
 
+  // Windows: claude is typically a .cmd shim. Since Node 18.20 / 20.11
+  // (CVE-2024-27980), spawning .cmd/.bat without shell:true throws EINVAL.
+  const useShell = process.platform === 'win32';
+
   return new Promise((resolve, reject) => {
-    const child = spawn(claudeBin, args, { env, stdio: 'inherit' });
+    const child = spawn(claudeBin, args, { env, stdio: 'inherit', shell: useShell });
     child.on('exit', (code) => {
       if (code === 0) {
         resolve();

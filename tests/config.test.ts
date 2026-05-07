@@ -23,6 +23,19 @@ describe('config layer', () => {
     expect(profilesDir()).toBe(join(tempDir, 'ccenv', 'profiles'));
   });
 
+  it('paths: XDG wins over APPDATA on win32', async () => {
+    const { configDir } = await import('../src/config/paths.js');
+    const prevAppdata = process.env.APPDATA;
+    process.env.APPDATA = join(tempDir, 'AppDataRoaming');
+    try {
+      // XDG_CONFIG_HOME is already set by beforeEach; it must win regardless of platform
+      expect(configDir()).toBe(join(tempDir, 'ccenv'));
+    } finally {
+      if (prevAppdata === undefined) delete process.env.APPDATA;
+      else process.env.APPDATA = prevAppdata;
+    }
+  });
+
   it('current: read/write round-trip', async () => {
     const { readCurrent, writeCurrent } = await import('../src/config/current.js');
     expect(readCurrent()).toBeNull();

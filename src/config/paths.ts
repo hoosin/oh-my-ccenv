@@ -1,5 +1,6 @@
 import { join } from 'node:path';
 import { existsSync, mkdirSync } from 'node:fs';
+import { homedir } from 'node:os';
 
 export const RESERVED_NAMES = new Set(['claude']);
 
@@ -18,8 +19,12 @@ export const INVALID_NAME_HINT =
 
 export function configDir(): string {
   const xdg = process.env.XDG_CONFIG_HOME;
-  const base = xdg || join(process.env.HOME || '~', '.config');
-  return join(base, 'ccenv');
+  if (xdg) return join(xdg, 'ccenv');
+  if (process.platform === 'win32') {
+    const appdata = process.env.APPDATA;
+    if (appdata) return join(appdata, 'ccenv');
+  }
+  return join(homedir(), '.config', 'ccenv');
 }
 
 export function profilesDir(): string {

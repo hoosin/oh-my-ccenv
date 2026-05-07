@@ -17,11 +17,13 @@
 - `pnpm test` — 跑全部单测
 
 ## 配置结构
-- 配置目录：`~/.config/ccenv/`（XDG，fallback `~/.config/ccenv/`）
+- 配置目录：
+  - macOS/Linux：`$XDG_CONFIG_HOME/ccenv/`，fallback `~/.config/ccenv/`
+  - Windows：`%APPDATA%\ccenv\`（fallback 到 `~/.config/ccenv/`,仅当 APPDATA 不存在）
 - 每个 profile 一个文件：`profiles/<name>.toml`
 - profile 名 = 文件名，文件内不写 name 字段
 - current 文件：纯文本，一行 profile 名，读时 trim()
-- 所有文件权限 0600
+- POSIX 文件权限 0600（Windows 上 chmod 静默 no-op，不再承诺保护）
 - `auth_token` 支持 `${ENV_VAR}` 占位，启动时从 process.env 解析
 
 ## TOML 格式

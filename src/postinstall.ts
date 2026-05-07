@@ -1,13 +1,18 @@
 import { existsSync, mkdirSync, readdirSync, copyFileSync, chmodSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { homedir } from 'node:os';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function configDir(): string {
   const xdg = process.env.XDG_CONFIG_HOME;
-  const base = xdg || join(process.env.HOME || '~', '.config');
-  return join(base, 'ccenv');
+  if (xdg) return join(xdg, 'ccenv');
+  if (process.platform === 'win32') {
+    const appdata = process.env.APPDATA;
+    if (appdata) return join(appdata, 'ccenv');
+  }
+  return join(homedir(), '.config', 'ccenv');
 }
 
 try {

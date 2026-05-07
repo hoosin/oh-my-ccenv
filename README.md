@@ -83,9 +83,13 @@ ccenv            # Launch Claude Code with current profile
 
 ## Under the Hood & Security
 
-`ccenv` stores configuration in simple TOML files under `~/.config/ccenv/profiles/`. 
+`ccenv` stores configuration in simple TOML files. The location is:
+
+- **macOS / Linux:** `~/.config/ccenv/profiles/` (or `$XDG_CONFIG_HOME/ccenv/profiles/`)
+- **Windows:** `%APPDATA%\ccenv\profiles\` (typically `C:\Users\<you>\AppData\Roaming\ccenv\profiles\`)
+
 To ensure security:
-- Config files are created with `0600` permissions.
+- Config files are created with `0600` permissions on POSIX. (Windows ignores POSIX modes — rely on filesystem ACLs / your user profile being private.)
 - You can (and should) reference API keys via environment variables rather than hardcoding them in the TOML files, keeping them safe for version control or dotfiles management.
 
 ## Development

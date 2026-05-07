@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `ccenv remove` could silently delete the built-in `claude` profile once `ccenv edit claude` had materialized its template file, breaking subsequent stock-Anthropic launches. Reserved names are now blocked from removal in both the CLI-arg and picker code paths.
 - `ccenv add claude` is now rejected so it can no longer shadow the built-in entry.
+- `ccenv edit` on Windows previously fell back to `vi` (not present on Windows) and silently failed. The fallback is now `notepad` on Windows / `vi` elsewhere, the editor is invoked through the shell so `EDITOR` values like `code --wait` and `.cmd`/`.bat` shims resolve, and a non-zero exit prints a hint to set the `EDITOR` environment variable.
+- Windows config-directory resolution. `process.env.HOME` is unset on Windows, so the previous fallback produced a literal `~/.config/ccenv/…` path and broke every command. The resolver now uses `os.homedir()` and prefers `%APPDATA%\ccenv\` on Windows (still honoring `XDG_CONFIG_HOME` when set). Same fix applied to the `postinstall` script that seeds templates.
+- Launching `claude` on Windows. `spawn('claude.cmd', …)` throws `EINVAL` on Node ≥ 18.20 / 20.11 (CVE-2024-27980); `ccenv <name>` now spawns with `shell: true` on win32 so the `.cmd` shim resolves.
+- `ccenv man` no longer crashes on Windows where `man(1)` is absent. It now prints a pointer to the raw `ccenv.1` page and suggests `ccenv help` for inline help.
 
 ### Security
 

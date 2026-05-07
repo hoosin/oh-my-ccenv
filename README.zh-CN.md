@@ -77,9 +77,13 @@ ccenv            # 使用当前配置启动 Claude Code
 
 ## 底层机制与安全
 
-`ccenv` 将配置文件以 TOML 格式存储在 `~/.config/ccenv/profiles/` 目录下。
+`ccenv` 将配置文件以 TOML 格式存储在以下位置：
+
+- **macOS / Linux：** `~/.config/ccenv/profiles/`（或 `$XDG_CONFIG_HOME/ccenv/profiles/`）
+- **Windows：** `%APPDATA%\ccenv\profiles\`（通常是 `C:\Users\<你>\AppData\Roaming\ccenv\profiles\`）
+
 为了保障安全：
-- 配置文件默认以 `0600` 权限创建。
+- POSIX 系统下配置文件默认以 `0600` 权限创建（Windows 会静默忽略 POSIX 权限，请依赖文件系统 ACL 与用户目录私有性）。
 - 强烈建议在 TOML 文件中使用环境变量引用来替代硬编码的 API Key。这样可以放心地将配置目录纳入 dotfiles 管理或版本控制。
 
 ## 开发
