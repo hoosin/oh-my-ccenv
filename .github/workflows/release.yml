@@ -25,7 +25,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_PAT }}
-          pull: true
 
       - uses: pnpm/action-setup@v4
         with:
@@ -52,14 +51,29 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Bump version
-        run: pnpm version ${{ inputs.bump }}
+        run: |
+          pnpm version ${{ inputs.bump }}
+          echo "PKG_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
+          echo "PKG_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
-      - name: Publish to npm
+      - name: Verify npm auth and package state
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
-          pnpm publish --no-git-checks --provenance
+          echo "::group::npm identity"
+          npm whoami
+          echo "::endgroup::"
+          echo "::group::publishing $PKG_NAME@$PKG_VERSION"
+          echo "Existing versions on registry:"
+          npm view "$PKG_NAME" versions --json 2>/dev/null || echo "(package not yet published)"
+          echo "::endgroup::"
+
+      - name: Publish to npm
+        run: pnpm publish --no-git-checks --provenance
 
       - name: Push commit and tag
-        run: git push --follow-tags
+        run: |
+          git push --follow-tags
+          echo "Published $PKG_NAME@$PKG_VERSION"
+          echo "https://www.npmjs.com/package/$PKG_NAME/v/$PKG_VERSION"
