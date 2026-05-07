@@ -58,9 +58,12 @@ jobs:
 
       - name: Verify npm auth and package state
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+          echo "::group::token sanity"
+          echo "NPM_TOKEN length: ${#NODE_AUTH_TOKEN}"
+          echo "NPM_TOKEN prefix: ${NODE_AUTH_TOKEN:0:4}..."
+          echo "::endgroup::"
           echo "::group::npm identity"
           npm whoami
           echo "::endgroup::"
@@ -70,6 +73,8 @@ jobs:
           echo "::endgroup::"
 
       - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm publish --no-git-checks --provenance
 
       - name: Push commit and tag
