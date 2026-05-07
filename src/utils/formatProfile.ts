@@ -12,7 +12,8 @@ export function formatProfileChoice(name: string): { name: string; value: string
     const msg = err instanceof Error ? `: ${err.message}` : '';
     desc = pc.red(` (invalid${msg})`);
   }
-  return { name: `${name}${desc}${model}`, value: name };
+  const builtin = name === 'claude' ? pc.cyan(' [built-in]') : '';
+  return { name: `${name}${builtin}${desc}${model}`, value: name };
 }
 
 export function formatProfileList(name: string, isCurrent: boolean): string {
@@ -21,9 +22,10 @@ export function formatProfileList(name: string, isCurrent: boolean): string {
   let model = '';
   try {
     const profile = loadProfile(name);
+    const builtin = name === 'claude' ? pc.cyan(' [built-in]') : '';
     desc = profile.description ? pc.dim(` — ${profile.description}`) : '';
     model = profile.env.ANTHROPIC_MODEL ? pc.dim(` (${profile.env.ANTHROPIC_MODEL})`) : '';
-    return `${marker}${pc.bold(name)}${desc}${model}`;
+    return `${marker}${pc.bold(name)}${builtin}${desc}${model}`;
   } catch (err) {
     const msg = err instanceof Error ? `: ${err.message}` : '';
     return `${marker}${pc.bold(name)}${pc.red(` (invalid${msg})`)}`;

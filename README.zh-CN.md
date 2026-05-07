@@ -5,7 +5,7 @@
 # ccenv
 
 <p align="center">
-  <strong>Claude Code 的轻量级配置管理器。</strong>
+  <strong>像 pyenv 一样管理你的 Claude Code 配置。</strong>
 </p>
 
 <p align="center">
@@ -13,6 +13,7 @@
   <a href="./LICENSE"><img src="https://img.shields.io/npm/l/oh-my-ccenv.svg" alt="License" /></a>
   <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/oh-my-ccenv.svg" alt="Node" /></a>
   <a href="https://github.com/hoosin/oh-my-ccenv"><img src="https://img.shields.io/badge/view-code-green.svg" alt="View Code" /></a>
+
 </p>
 
 <p align="center">
@@ -21,9 +22,7 @@
 
 ---
 
-`ccenv` 是一个 CLI 工具，用于管理和切换多个 [Claude Code](https://github.com/anthropics/claude-code) 供应商配置（Anthropic、火山引擎、阿里云百炼、DeepSeek 等）。
-
-它不依赖后台进程、shell alias 或 shim。
+`ccenv` 用于管理和切换多个 [Claude Code](https://github.com/anthropics/claude-code) 供应商配置（Anthropic、火山引擎、阿里云百炼、DeepSeek 等），不依赖后台进程、shell alias 或 shim。
 
 ## 演示
 
@@ -94,13 +93,3 @@ ccenv            # 使用当前配置启动 Claude Code
 ### 开源协议
 
 MIT © [hoosin](https://github.com/hoosin)
-
-<p align="left">
- <a href="https://www.star-history.com/hoosin/oh-my-ccenv">
-  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=hoosin/oh-my-ccenv&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=hoosin/oh-my-ccenv" />
-   <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=hoosin/oh-my-ccenv" />
-  </picture>
- </a>
-</p>

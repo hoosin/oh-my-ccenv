@@ -8,7 +8,7 @@
 # ccenv
 
 <p align="center">
-  <strong>A lightweight profile manager for Claude Code.</strong>
+  <strong>Manage Claude Code profiles, like pyenv for Python.</strong>
 </p>
 
 <p align="center">
@@ -16,6 +16,9 @@
   <a href="./LICENSE"><img src="https://img.shields.io/npm/l/oh-my-ccenv.svg" alt="License" /></a>
   <a href="https://nodejs.org"><img src="https://img.shields.io/node/v/oh-my-ccenv.svg" alt="Node" /></a>
   <a href="https://github.com/hoosin/oh-my-ccenv"><img src="https://img.shields.io/badge/view-code-green.svg" alt="View Code" /></a>
+  <a href="https://github.com/hoosin/oh-my-ccenv">
+   <img src="https://img.shields.io/github/stars/hoosin/oh-my-ccenv?style=social" alt="GitHub Stars" />
+  </a>
 </p>
 
 <p align="center">
@@ -24,9 +27,7 @@
 
 ---
 
-`ccenv` is a CLI tool for managing and switching between multiple [Claude Code](https://github.com/anthropics/claude-code) provider profiles (Anthropic, Volcengine, Bailian, DeepSeek, etc.). 
-
-It works without background daemons, shell aliases, or shims.
+`ccenv` manages and switches between multiple [Claude Code](https://github.com/anthropics/claude-code) provider profiles (Anthropic, Volcengine, Bailian, DeepSeek, etc.) — without background daemons, shell aliases, or shims.
 
 ## Demo
 
@@ -97,13 +98,3 @@ PRs and issues are welcome.
 ### License
 
 MIT © [hoosin](https://github.com/hoosin)
-
-<p align="left">
- <a href="https://www.star-history.com/hoosin/oh-my-ccenv">
-  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=hoosin/oh-my-ccenv&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=hoosin/oh-my-ccenv" />
-   <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=hoosin/oh-my-ccenv" />
-  </picture>
- </a>
-</p>

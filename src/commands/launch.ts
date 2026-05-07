@@ -20,11 +20,7 @@ export async function launchCommand(name?: string): Promise<void> {
     profileName = name;
   } else {
     // ccenv (no args): launch with current profile
-    const current = readCurrent();
-    if (!current) {
-      error('No current profile. Run `ccenv use` to pick one.');
-      process.exit(1);
-    }
+    const current = readCurrent() || 'claude';
     if (current !== 'claude' && !existsSync(profilePath(current))) {
       error(
         `Current profile "${current}" no longer exists. Run \`ccenv use\` to pick another.`

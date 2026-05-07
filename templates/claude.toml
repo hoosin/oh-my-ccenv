@@ -1,0 +1,9 @@
+description = "Official Anthropic Claude"
+
+[env]
+# ANTHROPIC_BASE_URL = ""
+# ANTHROPIC_AUTH_TOKEN = "${ANTHROPIC_API_KEY}"
+# ANTHROPIC_MODEL = ""
+# http_proxy= ""
+# https_proxy=""
+# no_proxy="localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8"
