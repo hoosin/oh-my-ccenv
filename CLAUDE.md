@@ -16,6 +16,17 @@
 - `pnpm build` — 构建到 dist/
 - `pnpm test` — 跑全部单测
 
+## 分支与发版
+- 开发在 `dev`，通过 GitHub UI 开 PR 合到 `main`，merge 用 squash
+- 合 PR 时打 `release:patch` / `release:minor` / `release:major` 任一标签 → 触发自动发版；不打 = 不发版
+- 发版后 `release.yml` 会把 main 强推回 dev，本地 dev 需 `git pull --rebase`
+- bump 选档（不确定往大了选）：
+  - patch：bug fix / 内部重构 / 文档
+  - minor：新命令、新 flag、新 provider、TOML 加可选字段
+  - major：删/改命令、改 flag 默认值、TOML 改必填、配置目录变更、提 Node 最低版本
+- 不要本地 `pnpm version` 手动 bump；不要直接 push main
+- `update-models.yml` 推到 dev，不直接进 main
+
 ## 配置结构
 - 配置目录：
   - macOS/Linux：`$XDG_CONFIG_HOME/ccenv/`，fallback `~/.config/ccenv/`
@@ -49,11 +60,11 @@ ANTHROPIC_MODEL = "..."
   - `ccenv add <name>` 选 provider 时，`presets.ts` 提供 base_url，`templates/<id>.toml` 提供 description
   - `ccenv edit <preset>` 对未存在的 profile，从对应 `templates/<id>.toml` 拉一份生成后再开编辑器
   - `ccenv edit --reset` 强制从 template 重新生成
-- 5 个 provider：volcengine / bailian / deepseek / bailing / mimo
+- 6 个 provider：volcengine / bailian / deepseek / bailing / mimo / anthropic
 - 火山引擎和阿里云百炼是 Coding Plan 类型
 
 ## 模型列表
-- `data/models.json` 存各 provider 可用模型，**手动维护**（CI 爬取是路线图项，未实现）
+- `data/models.json` 存各 provider 可用模型，`update-models.yml` 周一自动爬取后推到 dev，等人工 PR
 - 客户端 `add` 时从 GitHub raw URL 拉取，本地缓存到 `~/.config/ccenv/models.cache.json`
 
 ## 约定
@@ -64,7 +75,6 @@ ANTHROPIC_MODEL = "..."
 - stats 不算钱，只统计 token 用量（calls / input / output / 占比）
 
 ## 禁区
-- 不要引入 ORM 或数据库
 - 不要加加密层（v0.1 明文存储，README 已说明）
 - 不要加 init wizard / doctor / 插件系统
 - 不要在 TOML 文件里重复 profile 名
@@ -73,5 +83,4 @@ ANTHROPIC_MODEL = "..."
 ## 踩过的坑
 - 火山引擎 Coding Plan 的 base_url 是 `/api/coding`，不是 `/api/v3`
 - 阿里云百炼 Coding Plan 的 base_url 是 `coding.dashscope.aliyuncs.com/apps/anthropic`，不是 `dashscope.aliyuncs.com/compatible-mode/v1`
-- MiMo 文档页是 JS 渲染，curl 拿不到内容
-- Anthropic 是默认 provider，不需要 profile，清空 env 就走官方
+- MiMo 文档页是 JS 渲染，curl 拿不到内容（爬虫用 playwright 应对）
