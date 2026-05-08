@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  pull_request:
+    types: [closed]
+    branches: [main]
   workflow_dispatch:
     inputs:
       bump:
@@ -19,11 +22,20 @@ permissions:
 
 jobs:
   release:
+    # workflow_dispatch 走手动 bump；PR 合并时必须带 release:* 标签才发版
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true && (
+        contains(github.event.pull_request.labels.*.name, 'release:patch') ||
+        contains(github.event.pull_request.labels.*.name, 'release:minor') ||
+        contains(github.event.pull_request.labels.*.name, 'release:major')
+      ))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
 
       - uses: pnpm/action-setup@v4
         with:
@@ -34,6 +46,28 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org
           cache: pnpm
+
+      - name: Determine bump type
+        id: bump
+        env:
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "bump=${{ inputs.bump }}" >> "$GITHUB_OUTPUT"
+            echo "Bump type (manual): ${{ inputs.bump }}"
+          else
+            if echo "$LABELS" | grep -q '"release:major"'; then
+              echo "bump=major" >> "$GITHUB_OUTPUT"
+            elif echo "$LABELS" | grep -q '"release:minor"'; then
+              echo "bump=minor" >> "$GITHUB_OUTPUT"
+            elif echo "$LABELS" | grep -q '"release:patch"'; then
+              echo "bump=patch" >> "$GITHUB_OUTPUT"
+            else
+              echo "No release:* label found on merged PR — should be guarded by job if:" >&2
+              exit 1
+            fi
+            echo "Bump type (from PR label): $(cat "$GITHUB_OUTPUT" | grep ^bump= | cut -d= -f2)"
+          fi
 
       - name: Install
         run: pnpm install --frozen-lockfile --ignore-scripts
@@ -51,7 +85,7 @@ jobs:
 
       - name: Bump version
         run: |
-          pnpm version ${{ inputs.bump }}
+          pnpm version ${{ steps.bump.outputs.bump }}
           echo "PKG_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
           echo "PKG_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
@@ -76,8 +110,15 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm publish --no-git-checks --provenance
 
-      - name: Push commit and tag
+      - name: Push commit and tag to main
         run: |
-          git push --follow-tags
+          git push --follow-tags origin main
           echo "Published $PKG_NAME@$PKG_VERSION"
           echo "https://www.npmjs.com/package/$PKG_NAME/v/$PKG_VERSION"
+
+      - name: Sync dev with main
+        # 把 main 强推到 dev，让下一轮 PR 不会把 bump 反向 diff 带回去。
+        # --force-with-lease 防止覆盖别人在 dev 上的并发推送（会让这步失败，需要手动处理）。
+        run: |
+          git fetch origin dev || true
+          git push --force-with-lease origin main:dev

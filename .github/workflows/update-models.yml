@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: dev
 
       - uses: actions/setup-node@v4
         with:
@@ -27,6 +29,7 @@ jobs:
         run: node scripts/crawl-models.mjs
 
       - name: Commit if changed
+        # 提交到 dev 分支，由人工开 PR 合到 main。不直接推 main。
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -36,5 +39,5 @@ jobs:
           else
             git add data/models.json
             git commit -m "chore: update model list [skip ci]"
-            git push
+            git push origin HEAD:dev
           fi
