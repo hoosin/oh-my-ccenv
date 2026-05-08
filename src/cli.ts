@@ -2,11 +2,14 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { Command } from 'commander';
+import { purgeTemplateProfilesOnce } from './config/migrate.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'));
 
 export function run() {
+  purgeTemplateProfilesOnce();
+
   const program = new Command();
 
   program

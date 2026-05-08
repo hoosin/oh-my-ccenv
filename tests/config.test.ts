@@ -83,6 +83,73 @@ describe('config layer', () => {
     expect(profile.env).toEqual({});
   });
 
+  it('migrate: deletes profile files byte-equal to bundled templates', async () => {
+    const { profilesDir, configDir } = await import('../src/config/paths.js');
+    const { purgeTemplateProfilesOnce } = await import('../src/config/migrate.js');
+    const { readFileSync, mkdirSync } = await import('node:fs');
+    const pDir = profilesDir();
+    mkdirSync(pDir, { recursive: true });
+
+    // Locate templates dir relative to repo (tests run from repo root).
+    const repoTemplates = join(process.cwd(), 'templates');
+    const tplDeepseek = readFileSync(join(repoTemplates, 'deepseek.toml'), 'utf-8');
+
+    // Pristine template copy → should be deleted.
+    writeFileSync(join(pDir, 'deepseek.toml'), tplDeepseek);
+    // Edited copy → should be preserved.
+    writeFileSync(join(pDir, 'bailian.toml'), 'description = "edited by user"\n');
+    // Unrelated user profile → untouched.
+    writeFileSync(join(pDir, 'mine.toml'), 'description = "mine"\n');
+
+    purgeTemplateProfilesOnce();
+
+    expect(existsSync(join(pDir, 'deepseek.toml'))).toBe(false);
+    expect(existsSync(join(pDir, 'bailian.toml'))).toBe(true);
+    expect(existsSync(join(pDir, 'mine.toml'))).toBe(true);
+    expect(existsSync(join(configDir(), '.migrated-template-purge'))).toBe(true);
+  });
+
+  it('migrate: idempotent — second run is a no-op even if templates reappear', async () => {
+    const { profilesDir } = await import('../src/config/paths.js');
+    const { purgeTemplateProfilesOnce } = await import('../src/config/migrate.js');
+    const { readFileSync, mkdirSync } = await import('node:fs');
+    const pDir = profilesDir();
+    mkdirSync(pDir, { recursive: true });
+
+    purgeTemplateProfilesOnce(); // writes marker against empty dir
+
+    const tpl = readFileSync(join(process.cwd(), 'templates', 'deepseek.toml'), 'utf-8');
+    writeFileSync(join(pDir, 'deepseek.toml'), tpl);
+    purgeTemplateProfilesOnce();
+
+    // Marker present → second call must NOT touch the file.
+    expect(existsSync(join(pDir, 'deepseek.toml'))).toBe(true);
+  });
+
+  it('migrate: skips file matching the current profile', async () => {
+    const { profilesDir } = await import('../src/config/paths.js');
+    const { writeCurrent } = await import('../src/config/current.js');
+    const { purgeTemplateProfilesOnce } = await import('../src/config/migrate.js');
+    const { readFileSync, mkdirSync } = await import('node:fs');
+    const pDir = profilesDir();
+    mkdirSync(pDir, { recursive: true });
+
+    const tpl = readFileSync(join(process.cwd(), 'templates', 'deepseek.toml'), 'utf-8');
+    writeFileSync(join(pDir, 'deepseek.toml'), tpl);
+    writeCurrent('deepseek');
+
+    purgeTemplateProfilesOnce();
+
+    expect(existsSync(join(pDir, 'deepseek.toml'))).toBe(true);
+  });
+
+  it('migrate: does not create configDir on a fresh install', async () => {
+    const { configDir } = await import('../src/config/paths.js');
+    const { purgeTemplateProfilesOnce } = await import('../src/config/migrate.js');
+    purgeTemplateProfilesOnce();
+    expect(existsSync(configDir())).toBe(false);
+  });
+
   it('presets: has 6 providers', async () => {
     const { presets } = await import('../src/config/presets.js');
     expect(presets).toHaveLength(6);

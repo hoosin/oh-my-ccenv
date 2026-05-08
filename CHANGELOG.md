@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-05-08
+
 ### Added
 
 - `--show-secrets` flag for `ccenv current` to reveal full token/key values on demand.
 - Built-in `anthropic` provider entry in `data/models.json` with current Claude model IDs (`claude-opus-4-7`, `claude-sonnet-4-6`, `claude-haiku-4-5`).
 - `Nh` (hours) time window support for `ccenv stats --since`, e.g. `--since 24h`.
 - README and man-page section documenting the reserved `claude` profile.
+- One-shot migration that purges template profile files seeded by the v0.1.5 `postinstall`. Runs at most once (guarded by `<configDir>/.migrated-template-purge`), only deletes files byte-equal to the bundled `templates/*.toml` (modulo line endings), preserves anything the user has edited, and skips the file matching the current profile. Cleans up the bogus 5-preset listing under `ccenv list` for users upgrading from 0.1.5.
 
 ### Changed
 
