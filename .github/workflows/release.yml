@@ -83,11 +83,27 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Bump version
+      - name: Bump version and update CHANGELOG
+        # 一次完成：bump package.json + 重命名 CHANGELOG 的 [Unreleased] 段为 [X.Y.Z] - <date>，
+        # 然后单 commit + tag。不依赖 `pnpm version` 自动 commit/tag，自己控顺序。
         run: |
-          pnpm version ${{ steps.bump.outputs.bump }}
-          echo "PKG_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
-          echo "PKG_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+          pnpm version ${{ steps.bump.outputs.bump }} --no-git-tag-version
+          PKG_NAME=$(node -p "require('./package.json').name")
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "PKG_NAME=$PKG_NAME" >> $GITHUB_ENV
+          echo "PKG_VERSION=$PKG_VERSION" >> $GITHUB_ENV
+
+          DATE=$(date -u +%Y-%m-%d)
+          if grep -q "^## \[$PKG_VERSION\]" CHANGELOG.md; then
+            echo "CHANGELOG already has [$PKG_VERSION] entry, skipping rename"
+          else
+            sed -i "s|^## \[Unreleased\]|## [Unreleased]\n\n## [$PKG_VERSION] - $DATE|" CHANGELOG.md
+          fi
+
+          git add package.json CHANGELOG.md
+          git commit -m "$PKG_VERSION"
+          # annotated tag —— `git push --follow-tags` 只推 annotated tag
+          git tag -a "v$PKG_VERSION" -m "v$PKG_VERSION"
 
       - name: Verify npm auth and package state
         env:
