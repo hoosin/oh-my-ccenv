@@ -1,31 +1,28 @@
 {
-  "updated_at": "2026-05-07",
+  "updated_at": "2026-05-11",
   "providers": {
     "volcengine": {
       "type": "coding-plan",
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
       "models": [
-        "doubao-seed-2.0-code",
-        "doubao-seed-2.0-pro",
-        "doubao-seed-2.0-lite",
-        "doubao-seed-code",
         "deepseek-v3.2",
-        "glm-5.1",
+        "doubao-seed-2.0-code",
+        "doubao-seed-2.0-lite",
+        "doubao-seed-2.0-pro",
+        "doubao-seed-code",
         "glm-4.7",
-        "kimi-k2.6",
+        "glm-5.1",
         "kimi-k2.5",
-        "minimax-latest",
-        "ark-code-latest"
+        "kimi-k2.6",
+        "minimax-latest"
       ]
     },
     "bailian": {
       "type": "coding-plan",
       "doc_url": "https://help.aliyun.com/zh/model-studio/coding-plan",
       "models": [
-        "qwen-code-coding-plan",
-        "claude-code-coding-plan",
-        "glm-5",
         "glm-4.7",
+        "glm-5",
         "kimi-k2.5"
       ]
     },
@@ -40,7 +37,9 @@
     "bailing": {
       "type": "standard",
       "doc_url": "https://openrouter.ai/inclusionai/ling-2.6-1t:free",
-      "models": ["inclusionai/ling-2.6-1t:free"]
+      "models": [
+        "inclusionai/ling-2.6-1t:free"
+      ]
     },
     "mimo": {
       "type": "standard",
