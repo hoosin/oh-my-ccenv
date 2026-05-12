@@ -2,11 +2,12 @@ name: Update models
 
 on:
   schedule:
-    - cron: '23 8 * * 1'  # 每周一 08:23 UTC
+    - cron: '0 0 * * *'  # 每天 00:00 UTC（北京时间 08:00）
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update:
@@ -28,16 +29,56 @@ jobs:
       - name: Crawl models
         run: node scripts/crawl-models.mjs
 
+      - name: Sanity check
+        # 防爬虫崩盘后开个删光所有模型的 PR 被误合：若任何之前有模型的 provider 这次
+        # 变成空（疑似 doc 站改版 + 正则全错），fail 整个 workflow，等人工介入。
+        # 白名单里的 provider 一直就没人工填模型，不算回归。
+        env:
+          ALLOW_EMPTY: openrouter,qiniu,siliconflow,tencent
+        run: |
+          node -e "
+            const fs = require('fs');
+            const allow = new Set(process.env.ALLOW_EMPTY.split(','));
+            const data = JSON.parse(fs.readFileSync('data/models.json', 'utf-8'));
+            const empty = Object.entries(data.providers)
+              .filter(([k, v]) => v.models.length === 0 && !allow.has(k))
+              .map(([k]) => k);
+            if (empty.length > 0) {
+              console.error('Crawler regression: empty model list for', empty.join(', '));
+              process.exit(1);
+            }
+          "
+
       - name: Commit if changed
-        # 提交到 dev 分支，由人工开 PR 合到 main。不直接推 main。
+        id: commit
+        # 提交到 dev 分支，自动开 PR 到 main，但**不**自动合并 —— 合并需要人眼审，
+        # 客户端从 main 分支的 raw URL 拉模型，main 上脏数据当场影响所有用户。
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           if git diff --quiet data/models.json; then
             echo "No changes to commit"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git add data/models.json
             git commit -m "chore: update model list [skip ci]"
             git push origin HEAD:dev
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open PR to main
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 已有同名 PR 就跳过（避免每周一开重复 PR）
+          if gh pr list --base main --head dev --state open --json number --jq 'length' | grep -q '^0$'; then
+            gh pr create \
+              --base main \
+              --head dev \
+              --title "chore: update model list" \
+              --body "Automated weekly crawl. Review the diff before merging — clients pull from main."
+          else
+            echo "PR from dev to main already open, skipping create"
           fi

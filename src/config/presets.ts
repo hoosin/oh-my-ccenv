@@ -1,11 +1,11 @@
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { parse } from 'smol-toml';
-import { isReserved } from './paths.js';
+import { isReserved, bundledTemplatesDir } from './paths.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
+// templates/ 是 provider 元数据的唯一真值源：id 来自文件名，base_url 来自
+// [env].ANTHROPIC_BASE_URL，description 来自顶层 description。新增 provider
+// 只需要在 templates/ 下加一个 toml，不要在这里维护硬编码列表。
 export interface ProviderPreset {
   id: string;
   base_url: string;
@@ -13,12 +13,7 @@ export interface ProviderPreset {
 }
 
 function loadPresets(): ProviderPreset[] {
-  const candidates = [
-    join(__dirname, '..', '..', 'templates'),
-    join(__dirname, '..', 'templates'),
-  ];
-
-  const dir = candidates.find((d) => existsSync(d));
+  const dir = bundledTemplatesDir();
   if (!dir) {
     process.stderr.write('⚠ ccenv: templates directory not found\n');
     return [];

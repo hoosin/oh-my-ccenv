@@ -7,6 +7,6 @@ export const profileSchema = z.object({
     ANTHROPIC_AUTH_TOKEN: z.string().min(1).optional(),
     ANTHROPIC_MODEL: z.string().min(1).optional(),
   }).passthrough(),
-});
+}).passthrough();
 
 export type Profile = z.infer<typeof profileSchema>;

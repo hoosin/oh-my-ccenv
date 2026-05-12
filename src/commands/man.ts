@@ -1,13 +1,9 @@
 import { spawnSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import { bundledManPath } from '../config/paths.js';
 
 export async function manCommand(): Promise<void> {
-  const manPath = join(__dirname, '..', 'man', 'ccenv.1');
-  if (!existsSync(manPath)) {
+  const manPath = bundledManPath();
+  if (!manPath) {
     console.log('Man page not found.');
     return;
   }
@@ -18,5 +14,11 @@ export async function manCommand(): Promise<void> {
     );
     return;
   }
-  spawnSync('man', [manPath], { stdio: 'inherit' });
+  const result = spawnSync('man', [manPath], { stdio: 'inherit' });
+  if (result.error || result.status !== 0) {
+    console.log(
+      `man(1) failed or is not installed. Open the raw page at:\n  ${manPath}\n` +
+        `Or run \`ccenv help\` for inline help.`
+    );
+  }
 }

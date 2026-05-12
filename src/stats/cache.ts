@@ -1,7 +1,6 @@
-import { readFileSync, writeFileSync, existsSync, statSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
-import { statsCachePath } from '../config/paths.js';
-import type { Turn } from './parseJsonl.js';
+import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs';
+import { statsCachePath, ensureConfigDir } from '../config/paths.js';
+import type { Turn } from './parse-jsonl.js';
 
 interface FileCache {
   mtime_ms: number;
@@ -16,59 +15,75 @@ interface CacheData {
 
 const SCHEMA_VERSION = 1;
 
-export function loadCache(): CacheData {
-  const p = statsCachePath();
-  if (!existsSync(p)) return { schema_version: SCHEMA_VERSION, files: {} };
-  try {
-    const data = JSON.parse(readFileSync(p, 'utf-8')) as CacheData;
-    if (data.schema_version !== SCHEMA_VERSION) return { schema_version: SCHEMA_VERSION, files: {} };
-    return data;
-  } catch (err) {
-    return { schema_version: SCHEMA_VERSION, files: {} };
-  }
-}
+type Parser = (filePath: string, offset: number) => Promise<Turn[]>;
 
-export function saveCache(cache: CacheData): void {
-  writeFileSync(statsCachePath(), JSON.stringify(cache), { mode: 0o600 });
-}
+export class StatsCache {
+  private constructor(private data: CacheData) {}
 
-export function getCachedTurns(filePath: string, cache: CacheData): { cached: Turn[]; needsParse: boolean; offset: number } {
-  const entry = cache.files[filePath];
-  if (!entry) return { cached: [], needsParse: true, offset: 0 };
-
-  const stat = statSync(filePath);
-  if (stat.mtimeMs === entry.mtime_ms && stat.size === entry.size) {
-    return { cached: entry.turns, needsParse: false, offset: 0 };
-  }
-
-  if (stat.mtimeMs >= entry.mtime_ms && stat.size > entry.size) {
-    // append-parse from last offset
-    return { cached: entry.turns, needsParse: true, offset: entry.size };
-  }
-
-  // file was truncated or rewritten
-  return { cached: [], needsParse: true, offset: 0 };
-}
-
-export function updateFileCache(filePath: string, turns: Turn[], cache: CacheData): void {
-  const stat = statSync(filePath);
-  cache.files[filePath] = {
-    mtime_ms: stat.mtimeMs,
-    size: stat.size,
-    turns,
-  };
-}
-
-export function listJsonlFiles(projectsDir: string): string[] {
-  if (!existsSync(projectsDir)) return [];
-  const files: string[] = [];
-  function walk(dir: string): void {
-    for (const entry of readdirSync(dir, { withFileTypes: true })) {
-      const p = join(dir, entry.name);
-      if (entry.isDirectory()) walk(p);
-      else if (entry.isFile() && entry.name.endsWith('.jsonl')) files.push(p);
+  static load(): StatsCache {
+    const p = statsCachePath();
+    if (!existsSync(p)) return new StatsCache(StatsCache.empty());
+    try {
+      const data = JSON.parse(readFileSync(p, 'utf-8')) as CacheData;
+      if (
+        data?.schema_version !== SCHEMA_VERSION ||
+        typeof data.files !== 'object' ||
+        data.files === null
+      ) {
+        return new StatsCache(StatsCache.empty());
+      }
+      return new StatsCache(data);
+    } catch {
+      return new StatsCache(StatsCache.empty());
     }
   }
-  walk(projectsDir);
-  return files;
+
+  private static empty(): CacheData {
+    return { schema_version: SCHEMA_VERSION, files: {} };
+  }
+
+  /**
+   * Return all known turns for `filePath`. Uses cached entries when the file
+   * is unchanged, parses from a byte offset when the file has grown (append),
+   * and reparses fully when the file was truncated or shrank.
+   *
+   * The append-parse path assumes Claude Code only appends to jsonl files
+   * (never rewrites in place with a larger payload). If that assumption ever
+   * breaks, stale data leaks through the first `entry.size` bytes.
+   */
+  async getOrParse(filePath: string, parser: Parser): Promise<Turn[]> {
+    const entry = this.data.files[filePath];
+
+    let stat;
+    try {
+      stat = statSync(filePath);
+    } catch {
+      // File vanished between scan and parse — fall back to cached if any.
+      return entry?.turns ?? [];
+    }
+
+    if (entry && stat.mtimeMs === entry.mtime_ms && stat.size === entry.size) {
+      return entry.turns;
+    }
+
+    if (entry && stat.mtimeMs >= entry.mtime_ms && stat.size > entry.size) {
+      const parsed = await parser(filePath, entry.size);
+      const merged = [...entry.turns, ...parsed];
+      this.update(filePath, merged, stat.mtimeMs, stat.size);
+      return merged;
+    }
+
+    const turns = await parser(filePath, 0);
+    this.update(filePath, turns, stat.mtimeMs, stat.size);
+    return turns;
+  }
+
+  private update(filePath: string, turns: Turn[], mtimeMs: number, size: number): void {
+    this.data.files[filePath] = { mtime_ms: mtimeMs, size, turns };
+  }
+
+  save(): void {
+    ensureConfigDir();
+    writeFileSync(statsCachePath(), JSON.stringify(this.data), { mode: 0o600 });
+  }
 }

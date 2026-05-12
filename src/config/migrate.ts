@@ -5,24 +5,14 @@ import {
   unlinkSync,
   writeFileSync,
 } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { configDir, profilesDir } from './paths.js';
+import { join } from 'node:path';
+import {
+  configDir,
+  profilesDir,
+  bundledTemplatesDir,
+  migrationMarkerPath,
+} from './paths.js';
 import { readCurrent } from './current.js';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const MARKER = '.migrated-template-purge';
-
-function templatesRoot(): string | null {
-  const candidates = [
-    join(__dirname, '..', '..', 'templates'),
-    join(__dirname, '..', 'templates'),
-  ];
-  for (const p of candidates) {
-    if (existsSync(p)) return p;
-  }
-  return null;
-}
 
 function normalize(buf: Buffer): string {
   return buf.toString('utf-8').replace(/\r\n/g, '\n');
@@ -34,15 +24,24 @@ function normalize(buf: Buffer): string {
  * deletes files that are byte-equal (modulo line endings) to the bundled
  * template — anything the user has edited is preserved. Skips the file
  * matching the current profile out of paranoia. Idempotent via marker file.
+ *
+ * Returns the list of profile names that were cleaned up. Callers decide
+ * whether to surface that to the user (keeps this config-layer pure).
+ *
+ * TODO(v0.2): delete this function and its call in cli.ts — by then anyone
+ * still on v0.1.5 has either upgraded through a version that ran this purge,
+ * or has long since cleaned up manually.
  */
-export function purgeTemplateProfilesOnce(): void {
+export function purgeTemplateProfilesOnce(): string[] {
+  const cleaned: string[] = [];
+
   const cfg = configDir();
-  if (!existsSync(cfg)) return;
-  const marker = join(cfg, MARKER);
-  if (existsSync(marker)) return;
+  if (!existsSync(cfg)) return cleaned;
+  const marker = migrationMarkerPath();
+  if (existsSync(marker)) return cleaned;
 
   const pDir = profilesDir();
-  const tDir = templatesRoot();
+  const tDir = bundledTemplatesDir();
 
   if (existsSync(pDir) && tDir) {
     let current: string | null = null;
@@ -62,7 +61,10 @@ export function purgeTemplateProfilesOnce(): void {
         try {
           const a = normalize(readFileSync(join(tDir, file)));
           const b = normalize(readFileSync(dest));
-          if (a === b) unlinkSync(dest);
+          if (a === b) {
+            unlinkSync(dest);
+            cleaned.push(name);
+          }
         } catch {
           /* per-file failure = skip */
         }
@@ -77,4 +79,6 @@ export function purgeTemplateProfilesOnce(): void {
   } catch {
     /* if we can't write the marker, we'll just retry next run */
   }
+
+  return cleaned;
 }

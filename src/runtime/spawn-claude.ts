@@ -1,12 +1,12 @@
 import { spawn } from 'node:child_process';
-import { interpolateEnv } from '../config/interpolate.js';
-import { findClaude } from './findClaude.js';
+import { interpolateEnv } from '../utils/interpolate.js';
+import { findClaude } from './find-claude.js';
 
 export async function spawnClaude(
   profileName: string,
   profileEnv: Record<string, string>,
   args: string[]
-): Promise<void> {
+): Promise<number> {
   const claudeBin = findClaude();
   if (!claudeBin) {
     throw new Error(
@@ -22,8 +22,15 @@ export async function spawnClaude(
     ...interpolated,
   };
 
-  // If the profile defines ANTHROPIC_AUTH_TOKEN, ensure it's not shadowed by an existing ANTHROPIC_API_KEY in the shell
-  if (interpolated.ANTHROPIC_AUTH_TOKEN && !interpolated.ANTHROPIC_API_KEY) {
+  // If the profile declares ANTHROPIC_AUTH_TOKEN but not ANTHROPIC_API_KEY,
+  // force-clear API_KEY in the child env so the shell's exported personal
+  // key can't leak to a third-party base_url. Check raw profile keys (not
+  // interpolated values) — a `${UNDEFINED_VAR}` placeholder resolves to ''
+  // (falsy), but the user's intent was still "use third-party auth".
+  if (
+    'ANTHROPIC_AUTH_TOKEN' in profileEnv &&
+    !('ANTHROPIC_API_KEY' in profileEnv)
+  ) {
     env.ANTHROPIC_API_KEY = '';
   }
 
@@ -31,15 +38,9 @@ export async function spawnClaude(
   // (CVE-2024-27980), spawning .cmd/.bat without shell:true throws EINVAL.
   const useShell = process.platform === 'win32';
 
-  return new Promise((resolve, reject) => {
+  return new Promise<number>((resolve, reject) => {
     const child = spawn(claudeBin, args, { env, stdio: 'inherit', shell: useShell });
-    child.on('exit', (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        process.exit(code ?? 1);
-      }
-    });
+    child.on('exit', (code) => resolve(code ?? 1));
     child.on('error', reject);
   });
 }
