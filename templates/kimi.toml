@@ -1,0 +1,6 @@
+description = "Moonshot (月之暗面 Kimi)"
+
+[env]
+ANTHROPIC_BASE_URL = "https://api.moonshot.cn/anthropic"
+ANTHROPIC_AUTH_TOKEN = "${MOONSHOT_API_KEY}"
+ANTHROPIC_MODEL = ""

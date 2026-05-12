@@ -1,50 +1,45 @@
 {
-  "updated_at": "2026-05-11",
+  "updated_at": "2026-05-12",
   "providers": {
     "volcengine": {
-      "type": "coding-plan",
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
       "models": [
-        "deepseek-v3.2",
         "doubao-seed-2.0-code",
-        "doubao-seed-2.0-lite",
         "doubao-seed-2.0-pro",
+        "doubao-seed-2.0-lite",
         "doubao-seed-code",
-        "glm-4.7",
+        "deepseek-v3.2",
         "glm-5.1",
-        "kimi-k2.5",
+        "glm-4.7",
         "kimi-k2.6",
-        "minimax-latest"
+        "kimi-k2.5",
+        "minimax-latest",
+        "ark-code-latest"
       ]
     },
     "bailian": {
-      "type": "coding-plan",
       "doc_url": "https://help.aliyun.com/zh/model-studio/coding-plan",
       "models": [
-        "glm-4.7",
+        "qwen-code-coding-plan",
+        "claude-code-coding-plan",
         "glm-5",
+        "glm-4.7",
         "kimi-k2.5"
       ]
     },
     "deepseek": {
-      "type": "standard",
-      "doc_url": "https://api-docs.deepseek.com/",
+      "doc_url": "https://api-docs.deepseek.com/zh-cn/",
       "models": [
         "deepseek-chat",
         "deepseek-reasoner"
       ]
     },
-    "bailing": {
-      "type": "standard",
-      "doc_url": "https://openrouter.ai/inclusionai/ling-2.6-1t:free",
-      "models": [
-        "inclusionai/ling-2.6-1t:free"
-      ]
+    "openrouter": {
+      "doc_url": "https://openrouter.ai/models",
+      "models": []
     },
     "mimo": {
-      "type": "standard",
       "doc_url": "https://platform.xiaomimimo.com/docs/zh-CN/tokenplan/subscription",
-      "base_url": "https://token-plan-cn.xiaomimimo.com/anthropic",
       "models": [
         "mimo-v2.5-pro",
         "mimo-v2.5",
@@ -56,13 +51,70 @@
         "mimo-v2-tts"
       ]
     },
-    "anthropic": {
-      "type": "standard",
-      "doc_url": "https://docs.anthropic.com/en/docs/about-claude/models",
+    "zhipu": {
+      "doc_url": "https://open.bigmodel.cn/dev/api#anthropic",
       "models": [
-        "claude-opus-4-7",
-        "claude-sonnet-4-6",
-        "claude-haiku-4-5"
+        "glm-4-plus",
+        "glm-4-air",
+        "glm-4-airx",
+        "glm-4-flash",
+        "glm-4-long",
+        "glm-z1-air",
+        "glm-z1-airx",
+        "glm-z1-flash"
+      ]
+    },
+    "kimi": {
+      "doc_url": "https://platform.moonshot.cn/docs",
+      "models": [
+        "moonshot-v1-8k",
+        "moonshot-v1-32k",
+        "moonshot-v1-128k",
+        "kimi-k2.5",
+        "kimi-k2.6"
+      ]
+    },
+    "minimax": {
+      "doc_url": "https://platform.minimaxi.com/document",
+      "models": [
+        "abab6.5s-chat",
+        "abab6.5g-chat",
+        "abab6.5t-chat",
+        "abab5.5-chat",
+        "abab5.5s-chat",
+        "minimax-text-01"
+      ]
+    },
+    "tencent": {
+      "doc_url": "https://cloud.tencent.com/document/product/1759",
+      "models": [
+        "deepseek-chat",
+        "deepseek-reasoner"
+      ]
+    },
+    "xfyun": {
+      "doc_url": "https://www.xfyun.cn/doc/spark",
+      "models": [
+        "spark-4.0-ultra",
+        "spark-4.0",
+        "spark-3.5",
+        "spark-3.0"
+      ]
+    },
+    "qiniu": {
+      "doc_url": "https://docs.qiniu.com/qnaigc",
+      "models": [
+        "deepseek-r1",
+        "deepseek-v3"
+      ]
+    },
+    "siliconflow": {
+      "doc_url": "https://docs.siliconflow.cn/models",
+      "models": [
+        "deepseek-ai/DeepSeek-V3",
+        "deepseek-ai/DeepSeek-R1",
+        "Qwen/Qwen2.5-7B-Instruct",
+        "THUDM/glm-4-9b-chat"
       ]
     }
   }

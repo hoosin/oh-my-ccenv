@@ -1,63 +1,57 @@
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'smol-toml';
+import { isReserved } from './paths.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export interface ProviderPreset {
   id: string;
   base_url: string;
-  type: 'coding-plan' | 'standard';
+  description: string;
 }
 
-export const presets: ProviderPreset[] = [
-  {
-    id: 'volcengine',
-    base_url: 'https://ark.cn-beijing.volces.com/api/coding',
-    type: 'coding-plan',
-  },
-  {
-    id: 'bailian',
-    base_url: 'https://coding.dashscope.aliyuncs.com/apps/anthropic',
-    type: 'coding-plan',
-  },
-  {
-    id: 'deepseek',
-    base_url: 'https://api.deepseek.com',
-    type: 'standard',
-  },
-  {
-    id: 'bailing',
-    base_url: 'https://openrouter.ai/api',
-    type: 'standard',
-  },
-  {
-    id: 'mimo',
-    base_url: 'https://token-plan-cn.xiaomimimo.com/anthropic',
-    type: 'standard',
-  },
-  {
-    id: 'anthropic',
-    base_url: 'https://api.anthropic.com',
-    type: 'standard',
-  },
-];
-
-export function loadPresetDescription(id: string): string {
+function loadPresets(): ProviderPreset[] {
   const candidates = [
-    join(__dirname, '..', '..', 'templates', `${id}.toml`),
-    join(__dirname, '..', 'templates', `${id}.toml`),
+    join(__dirname, '..', '..', 'templates'),
+    join(__dirname, '..', 'templates'),
   ];
-  for (const p of candidates) {
-    if (existsSync(p)) {
-      try {
-        const toml = parse(readFileSync(p, 'utf-8')) as { description?: string };
-        if (toml.description) return toml.description;
-      } catch (err) {
-        // ignore parse error and try next or fallback
-      }
+
+  const dir = candidates.find((d) => existsSync(d));
+  if (!dir) {
+    process.stderr.write('⚠ ccenv: templates directory not found\n');
+    return [];
+  }
+
+  const files = readdirSync(dir)
+    .filter((f) => f.endsWith('.toml') && !isReserved(f.replace('.toml', '')))
+    .sort();
+
+  const presets: ProviderPreset[] = [];
+  for (const f of files) {
+    const id = f.replace('.toml', '');
+    try {
+      const content = readFileSync(join(dir, f), 'utf-8');
+      const toml = parse(content) as {
+        description?: string;
+        env?: Record<string, string>;
+      };
+      presets.push({
+        id,
+        base_url: toml.env?.ANTHROPIC_BASE_URL ?? '',
+        description: toml.description ?? id,
+      });
+    } catch (err) {
+      process.stderr.write(`⚠ ccenv: skipping broken template ${f}: ${err}\n`);
     }
   }
-  return id;
+
+  if (presets.length === 0) {
+    process.stderr.write('⚠ ccenv: no valid provider templates loaded\n');
+  }
+
+  return presets;
 }
+
+export const presets: ProviderPreset[] = loadPresets();

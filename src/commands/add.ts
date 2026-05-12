@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { select, input, confirm } from '@inquirer/prompts';
-import { presets, loadPresetDescription } from '../config/presets.js';
+import { presets, type ProviderPreset } from '../config/presets.js';
 import { saveProfile } from '../config/saveProfile.js';
 import {
   profilePath,
@@ -93,7 +93,7 @@ export async function addCommand(name?: string): Promise<void> {
       message: 'Select a provider:',
       choices: [
         ...presets.map((p) => ({
-          name: loadPresetDescription(p.id),
+          name: p.description,
           value: p.id,
         })),
         { name: '(enter manually)', value: '__custom__' },
@@ -104,6 +104,7 @@ export async function addCommand(name?: string): Promise<void> {
 
     let base_url: string;
     let defaultModel: string | undefined;
+    let preset: ProviderPreset | undefined;
 
     if (providerId === '__custom__') {
       base_url = await input({
@@ -111,7 +112,7 @@ export async function addCommand(name?: string): Promise<void> {
         validate: (v) => (v.trim() ? true : 'Required'),
       });
     } else {
-      const preset = presets.find((p) => p.id === providerId)!;
+      preset = presets.find((p) => p.id === providerId)!;
       base_url = preset.base_url;
 
       // fetch models for this provider
@@ -151,8 +152,7 @@ export async function addCommand(name?: string): Promise<void> {
     });
 
     // step 3: optional description
-    const defaultDesc =
-      providerId !== '__custom__' ? loadPresetDescription(providerId) : '';
+    const defaultDesc = preset?.description ?? '';
     const description = await input({
       message: withHelp('Description (optional):'),
       default: defaultDesc,

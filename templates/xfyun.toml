@@ -1,0 +1,6 @@
+description = "iFLYTEK Spark (讯飞星火)"
+
+[env]
+ANTHROPIC_BASE_URL = "https://maas-coding-api.cn-huabei-1.xf-yun.com/anthropic"
+ANTHROPIC_AUTH_TOKEN = "${XINGHUO_API_KEY}"
+ANTHROPIC_MODEL = ""

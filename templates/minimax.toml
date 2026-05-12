@@ -1,0 +1,6 @@
+description = "MiniMax"
+
+[env]
+ANTHROPIC_BASE_URL = "https://api.minimaxi.com/anthropic"
+ANTHROPIC_AUTH_TOKEN = "${MINIMAX_API_KEY}"
+ANTHROPIC_MODEL = ""

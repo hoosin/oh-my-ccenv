@@ -42,6 +42,14 @@ export function run() {
     });
 
   program
+    .command('providers')
+    .description('List supported providers')
+    .action(async () => {
+      const { providersCommand } = await import('./commands/providers.js');
+      await providersCommand();
+    });
+
+  program
     .command('current')
     .description('Show current profile name and effective env')
     .option('--show-secrets', 'Reveal full token/key values (default: masked)')

@@ -57,10 +57,10 @@ ANTHROPIC_MODEL = "..."
 - 内置在 `templates/` 目录，**只是 scaffold，不是真实环境**
 - 装包后**不会**被复制进用户配置目录；用户配置目录由首次写操作（`add` / `use` / `<name>`）按需创建
 - 使用入口：
-  - `ccenv add <name>` 选 provider 时，`presets.ts` 提供 base_url，`templates/<id>.toml` 提供 description
+  - `ccenv add <name>` 选 provider 时，base_url 和 description 从 `templates/<id>.toml` 动态加载
   - `ccenv edit <preset>` 对未存在的 profile，从对应 `templates/<id>.toml` 拉一份生成后再开编辑器
   - `ccenv edit --reset` 强制从 template 重新生成
-- 6 个 provider：volcengine / bailian / deepseek / bailing / mimo / anthropic
+- `ccenv providers` 查看当前支持的 provider
 - 火山引擎和阿里云百炼是 Coding Plan 类型
 
 ## 模型列表
@@ -69,6 +69,7 @@ ANTHROPIC_MODEL = "..."
 
 ## 约定
 - 文件名和变量名用英文，文档和注释用中文
+- 代码风格遵循 `.editorconfig`：UTF-8、LF 行尾、2 空格缩进、文件末尾换行；TypeScript 用单引号
 - `ccenv add <name>` 交互式：先选 provider → 再选 model → 最后填 token
 - profile 名只允许 `[a-zA-Z0-9_-]+`，拒绝路径穿越
 - stats 解析 `~/.claude/projects/**/*.jsonl`，只看 assistant turn

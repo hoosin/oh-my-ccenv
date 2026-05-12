@@ -1,0 +1,6 @@
+description = "SiliconFlow (硅基流动)"
+
+[env]
+ANTHROPIC_BASE_URL = "https://api.siliconflow.cn"
+ANTHROPIC_AUTH_TOKEN = "${SILICONFLOW_API_KEY}"
+ANTHROPIC_MODEL = ""

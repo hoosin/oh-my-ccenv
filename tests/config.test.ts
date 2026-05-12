@@ -150,11 +150,14 @@ describe('config layer', () => {
     expect(existsSync(configDir())).toBe(false);
   });
 
-  it('presets: has 6 providers', async () => {
+  it('presets: loads from templates', async () => {
     const { presets } = await import('../src/config/presets.js');
-    expect(presets).toHaveLength(6);
-    expect(presets.map((p) => p.id)).toEqual([
-      'volcengine', 'bailian', 'deepseek', 'bailing', 'mimo', 'anthropic',
-    ]);
+    expect(presets.length).toBeGreaterThan(0);
+    for (const p of presets) {
+      expect(p.id).toBeTruthy();
+      expect(p.base_url).toBeTruthy();
+      expect(p.description).toBeTruthy();
+    }
+    expect(presets.find((p) => p.id === 'volcengine')).toBeDefined();
   });
 });
