@@ -9,14 +9,45 @@ const MODELS_PATH = resolve(__dirname, '..', 'data', 'models.json')
 const PROVIDERS = [
   {
     key: 'volcengine',
-    url: 'https://www.volcengine.com/docs/82379/1928261?lang=zh',
+    url: 'https://www.volcengine.com/docs/82379/1928261',
     pattern: /(doubao|deepseek|glm|kimi|minimax|ark)-[a-zA-Z0-9._-]+/g,
     exclude: ['ark-helper', 'ark-code-latest', 'minimax-m2.7'],
   },
   {
     key: 'bailian',
     url: 'https://help.aliyun.com/zh/model-studio/coding-plan',
-    pattern: /(qwen|claude|deepseek|glm|kimi|minimax|doubao)-[a-zA-Z0-9._-]+/g,
+    pattern: /(qwen-[a-zA-Z0-9._-]+|claude-[a-zA-Z0-9._-]+|glm-[0-9.]+|kimi-[a-zA-Z0-9._-]+)/g,
+  },
+  {
+    key: 'deepseek',
+    url: 'https://api-docs.deepseek.com/zh-cn/',
+    pattern: /deepseek-[a-zA-Z0-9._-]+/g,
+  },
+  {
+    key: 'mimo',
+    url: 'https://platform.xiaomimimo.com/docs/zh-CN/tokenplan/subscription',
+    pattern: /mimo-v[0-9.]+-[a-zA-Z0-9._-]+/g,
+  },
+  {
+    key: 'zhipu',
+    url: 'https://open.bigmodel.cn/dev/api#anthropic',
+    pattern: /glm-[0-9]+[a-zA-Z0-9._-]*/g,
+    exclude: ['glm-asr', 'glm-image', 'glm-ocr', 'glm-phone', 'glm-ppt', 'glm-realtime', 'glm-tts', 'glm-in-excel', 'glm-new'],
+  },
+  {
+    key: 'kimi',
+    url: 'https://platform.moonshot.cn/docs',
+    pattern: /(moonshot-v1-[0-9]+k|kimi-k[0-9.]+)/g,
+  },
+  {
+    key: 'minimax',
+    url: 'https://platform.minimaxi.com/document',
+    pattern: /(abab[0-9.]+[sgt]?-chat|minimax-text-[0-9]+)/g,
+  },
+  {
+    key: 'xfyun',
+    url: 'https://www.xfyun.cn/doc/spark',
+    pattern: /spark-[0-9.]+-?[a-zA-Z0-9]*/g,
   },
 ]
 

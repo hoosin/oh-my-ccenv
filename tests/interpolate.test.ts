@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { interpolate, interpolateEnv } from '../src/config/interpolate.js';
+import { interpolate, interpolateEnv } from '../src/utils/interpolate.js';
 
 describe('interpolate', () => {
   const orig = process.env.TEST_KEY;
@@ -30,6 +30,15 @@ describe('interpolate', () => {
   it('leaves non-matching patterns alone', () => {
     expect(interpolate('no-placeholder')).toBe('no-placeholder');
     expect(interpolate('$NOT_A_PLACEHOLDER')).toBe('$NOT_A_PLACEHOLDER');
+  });
+
+  it('supports lowercase env var names', () => {
+    process.env.my_token = 'xyz';
+    try {
+      expect(interpolate('${my_token}')).toBe('xyz');
+    } finally {
+      delete process.env.my_token;
+    }
   });
 });
 

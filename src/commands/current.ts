@@ -1,7 +1,7 @@
 import pc from 'picocolors';
 import { readCurrent } from '../config/current.js';
-import { loadProfile } from '../config/loadProfile.js';
-import { interpolateEnv } from '../config/interpolate.js';
+import { loadProfile } from '../config/load-profile.js';
+import { interpolateEnv } from '../utils/interpolate.js';
 import { error } from '../utils/log.js';
 
 const SECRET_KEY_RE = /(TOKEN|KEY|SECRET|PASSWORD)/i;
@@ -27,7 +27,7 @@ export async function currentCommand(opts?: { showSecrets?: boolean }): Promise<
         !opts?.showSecrets && SECRET_KEY_RE.test(k) && v ? maskSecret(v) : v;
       console.log(`  ${pc.cyan(k)}=${display}`);
     }
-    if (!opts?.showSecrets && Object.keys(env).some((k) => SECRET_KEY_RE.test(k))) {
+    if (!opts?.showSecrets && Object.entries(env).some(([k, v]) => SECRET_KEY_RE.test(k) && v)) {
       console.log(pc.dim('  (use --show-secrets to reveal full values)'));
     }
   } catch {

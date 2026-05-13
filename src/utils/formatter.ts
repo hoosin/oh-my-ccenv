@@ -8,12 +8,23 @@ export function formatTokens(n: number): string {
   return String(n);
 }
 
+// CJK Unified, Hiragana/Katakana, Hangul, Fullwidth forms — terminals render
+// these as 2 columns. Not exhaustive (no emoji ZWJ, no combining marks), but
+// covers the cases that actually break alignment in `ccenv stats`.
+const WIDE_CHAR_RE =
+  /[ᄀ-ᅟ⺀-〾ぁ-㏿㐀-䶿一-鿿ꀀ-꓏가-힣豈-﫿︰-﹏＀-｠￠-￦]/;
+
 /**
- * Strips ANSI escape codes from a string to calculate its visible length.
+ * Strips ANSI escape codes and counts terminal columns (CJK chars count as 2).
  */
 function getVisibleLength(s: string): number {
   // eslint-disable-next-line no-control-regex
-  return s.replace(/\u001b\[[0-9;]*m/g, '').length;
+  const stripped = s.replace(/\[[0-9;]*m/g, '');
+  let width = 0;
+  for (const ch of stripped) {
+    width += WIDE_CHAR_RE.test(ch) ? 2 : 1;
+  }
+  return width;
 }
 
 /**

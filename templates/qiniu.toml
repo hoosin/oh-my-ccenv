@@ -1,0 +1,6 @@
+description = "Qiniu Cloud (七牛云)"
+
+[env]
+ANTHROPIC_BASE_URL = "https://api.qnaigc.com"
+ANTHROPIC_AUTH_TOKEN = "${QINIU_API_KEY}"
+ANTHROPIC_MODEL = ""

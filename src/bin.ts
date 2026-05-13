@@ -1,16 +1,19 @@
-import { run } from './cli.js';
 import pc from 'picocolors';
 
-process.on('uncaughtException', (error) => {
-  if (error instanceof Error && error.name === 'ExitPromptError') {
+function handleFatal(err: unknown): never {
+  if (err instanceof Error && err.name === 'ExitPromptError') {
     process.exit(0);
   }
-  if (error instanceof Error) {
-    console.error(pc.red(error.message));
-  } else {
-    console.error(pc.red(String(error)));
-  }
+  const msg = err instanceof Error ? err.message : String(err);
+  console.error(pc.red(msg));
   process.exit(1);
-});
+}
 
+// Register before importing cli.js so that any module-load failure downstream
+// (e.g. corrupted package.json, broken bundled template) goes through the
+// formatter instead of an uncaught crash.
+process.on('uncaughtException', handleFatal);
+process.on('unhandledRejection', handleFatal);
+
+const { run } = await import('./cli.js');
 run();

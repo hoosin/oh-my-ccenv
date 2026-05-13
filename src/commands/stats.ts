@@ -1,15 +1,10 @@
 import { join } from 'node:path';
 import { homedir } from 'node:os';
-import { parseJsonl } from '../stats/parseJsonl.js';
+import { parseJsonl } from '../stats/parse-jsonl.js';
 import { aggregate } from '../stats/aggregate.js';
-import {
-  loadCache,
-  saveCache,
-  getCachedTurns,
-  updateFileCache,
-  listJsonlFiles,
-} from '../stats/cache.js';
-import type { Turn } from '../stats/parseJsonl.js';
+import { StatsCache } from '../stats/cache.js';
+import { listJsonlFiles } from '../stats/scan.js';
+import type { Turn } from '../stats/parse-jsonl.js';
 import { formatTokens, pad, padLeft } from '../utils/formatter.js';
 import { error as logError } from '../utils/log.js';
 
@@ -44,23 +39,12 @@ export async function statsCommand(opts: {
     process.exit(1);
   }
 
-  const cache = loadCache();
-
-  // collect all turns
+  const cache = StatsCache.load();
   const allTurns: Turn[] = [];
   for (const file of files) {
-    const { cached, needsParse, offset } = getCachedTurns(file, cache);
-    if (needsParse) {
-      const parsed = await parseJsonl(file, offset);
-      const merged = [...cached, ...parsed];
-      updateFileCache(file, merged, cache);
-      allTurns.push(...merged);
-    } else {
-      allTurns.push(...cached);
-    }
+    allTurns.push(...(await cache.getOrParse(file, parseJsonl)));
   }
-
-  saveCache(cache);
+  cache.save();
 
   // filter by time window
   const filtered = allTurns.filter((t) => t.ts >= sinceMs);
@@ -90,7 +74,18 @@ export async function statsCommand(opts: {
     return;
   }
 
-  const colW = { key: 24, calls: 8, input: 10, output: 10, percent: 8 };
+  const maxKeyLen = Math.max(
+    by.length,
+    ...result.rows.map((r) => r.key.length),
+    'TOTAL'.length
+  );
+  const colW = {
+    key: Math.max(24, maxKeyLen + 2),
+    calls: 8,
+    input: 10,
+    output: 10,
+    percent: 8,
+  };
   const totalW = colW.key + colW.calls + colW.input + colW.output + colW.percent;
 
   console.log(

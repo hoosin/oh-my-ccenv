@@ -77,6 +77,7 @@ ccenv            # Launch Claude Code with current profile
 | `ccenv use [name]` | Switch the active profile |
 | `ccenv stats` | Show local token usage (7d, 30d, etc.) |
 | `ccenv list` | List all available profiles |
+| `ccenv providers` | List supported providers |
 | `ccenv current` | Show active profile and env status |
 | `ccenv edit <name>` | Open profile in `$EDITOR` |
 | `ccenv remove <name>` | Delete a profile |

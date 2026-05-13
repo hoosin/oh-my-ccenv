@@ -1,4 +1,4 @@
-const ENV_RE = /\$\{([A-Z_][A-Z0-9_]*)\}/g;
+const ENV_RE = /\$\{([A-Za-z_][A-Za-z0-9_]*)\}/g;
 
 export function interpolate(value: string): string {
   return value.replace(ENV_RE, (_, name) => process.env[name] ?? '');

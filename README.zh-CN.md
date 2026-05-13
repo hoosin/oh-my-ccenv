@@ -71,6 +71,7 @@ ccenv            # 使用当前配置启动 Claude Code
 | `ccenv use [name]` | 切换当前激活的配置 |
 | `ccenv stats` | 查看本地 Token 用量（支持 7d, 30d 等） |
 | `ccenv list` | 列出所有已创建的配置 |
+| `ccenv providers` | 列出支持的供应商 |
 | `ccenv current` | 显示当前配置名称及环境变量状态 |
 | `ccenv edit [name]` | 在编辑器（`$EDITOR`）中打开配置文件 |
 | `ccenv remove [name]` | 删除指定配置 |

@@ -1,4 +1,4 @@
-import type { Turn } from './parseJsonl.js';
+import type { Turn } from './parse-jsonl.js';
 
 export interface AggregateRow {
   key: string;
@@ -33,7 +33,7 @@ export function aggregate(
   for (const turn of turns) {
     let key: string;
     if (by === 'project') {
-      key = turn.cwd ? turn.cwd.split('/').pop() ?? turn.cwd : 'unknown';
+      key = turn.cwd || 'unknown';
     } else {
       // Clean up model names (strip date suffixes like -20240620 or -20251001)
       key = turn.model.replace(/-?\d{8}$/, '');

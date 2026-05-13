@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { aggregate } from '../src/stats/aggregate.js';
-import type { Turn } from '../src/stats/parseJsonl.js';
+import type { Turn } from '../src/stats/parse-jsonl.js';
 
 describe('Aggregation', () => {
   const mockTurns: Turn[] = [
@@ -48,7 +48,7 @@ describe('Aggregation', () => {
   it('should aggregate by project', () => {
     const result = aggregate(mockTurns, 'project');
     expect(result.rows).toHaveLength(2);
-    const projectA = result.rows.find((r) => r.key === 'project-a');
+    const projectA = result.rows.find((r) => r.key === '/path/to/project-a');
     expect(projectA?.calls).toBe(2);
   });
 

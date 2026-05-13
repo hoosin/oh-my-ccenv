@@ -26,9 +26,12 @@ export async function parseJsonl(filePath: string, offset = 0): Promise<Turn[]> 
         if (msg.type !== 'assistant') return;
         if (!msg.message?.model || !msg.message?.usage) return;
 
+        const ts = new Date(msg.timestamp).getTime();
+        if (isNaN(ts)) return;
+
         const usage = msg.message.usage;
         turns.push({
-          ts: new Date(msg.timestamp).getTime(),
+          ts,
           model: msg.message.model,
           input: usage.input_tokens ?? 0,
           output: usage.output_tokens ?? 0,

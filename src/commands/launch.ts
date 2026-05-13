@@ -1,15 +1,14 @@
 import { existsSync } from 'node:fs';
 import { profilePath, isReserved, isValidProfileName, INVALID_NAME_HINT } from '../config/paths.js';
 import { writeCurrent, readCurrent } from '../config/current.js';
-import { loadProfile } from '../config/loadProfile.js';
-import { spawnClaude } from '../runtime/spawnClaude.js';
+import { loadProfile } from '../config/load-profile.js';
+import { spawnClaude } from '../runtime/spawn-claude.js';
 import { error } from '../utils/log.js';
 
-export async function launchCommand(name?: string): Promise<void> {
+export async function launchCommand(name: string | undefined, args: string[]): Promise<void> {
   let profileName: string;
 
   if (name) {
-    // ccenv <name>: switch + launch
     if (!isValidProfileName(name)) {
       error(`Invalid profile name: "${name}". ${INVALID_NAME_HINT}`);
       process.exit(1);
@@ -23,7 +22,6 @@ export async function launchCommand(name?: string): Promise<void> {
     writeCurrent(name);
     profileName = name;
   } else {
-    // ccenv (no args): launch with current profile
     const current = readCurrent() || 'claude';
     if (!isReserved(current) && !existsSync(profilePath(current))) {
       error(
@@ -35,12 +33,14 @@ export async function launchCommand(name?: string): Promise<void> {
   }
 
   const profile = loadProfile(profileName);
-
-  // Strip the profile name from arguments if it was used to select the profile
-  let args = process.argv.slice(2);
-  if (name && args[0] === name) {
-    args = args.slice(1);
-  }
-
-  await spawnClaude(profileName, profile.env as Record<string, string>, args);
+  // zod's passthrough types unknown keys as `unknown`. Filter to string-valued
+  // entries before spawning — guarantees the shape spawnClaude expects without
+  // a lying cast.
+  const env: Record<string, string> = Object.fromEntries(
+    Object.entries(profile.env).filter(
+      (entry): entry is [string, string] => typeof entry[1] === 'string'
+    )
+  );
+  const code = await spawnClaude(profileName, env, args);
+  if (code !== 0) process.exit(code);
 }

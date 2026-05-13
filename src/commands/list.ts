@@ -1,6 +1,6 @@
-import { listProfiles } from '../config/listProfiles.js';
+import { listProfiles } from '../config/list-profiles.js';
 import { readCurrent } from '../config/current.js';
-import { formatProfileList } from '../utils/formatProfile.js';
+import { formatProfileList } from '../utils/format-profile.js';
 
 export async function listCommand(): Promise<void> {
   const profiles = listProfiles();

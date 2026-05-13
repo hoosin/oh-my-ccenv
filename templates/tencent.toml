@@ -1,0 +1,6 @@
+description = "Tencent Cloud (腾讯云)"
+
+[env]
+ANTHROPIC_BASE_URL = "https://api.lkeap.cloud.tencent.com/api/anthropic"
+ANTHROPIC_AUTH_TOKEN = "${TENCENT_API_KEY}"
+ANTHROPIC_MODEL = ""

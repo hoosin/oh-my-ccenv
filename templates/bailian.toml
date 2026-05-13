@@ -3,4 +3,4 @@ description = "Alibaba Bailian (阿里云百炼) [Coding Plan]"
 [env]
 ANTHROPIC_BASE_URL = "https://coding.dashscope.aliyuncs.com/apps/anthropic"
 ANTHROPIC_AUTH_TOKEN = "${DASHSCOPE_API_KEY}"
-ANTHROPIC_MODEL = "qwen-code-coding-plan"
+ANTHROPIC_MODEL = ""

@@ -3,12 +3,16 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { Command } from 'commander';
 import { purgeTemplateProfilesOnce } from './config/migrate.js';
+import { info } from './utils/log.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'));
 
 export function run() {
-  purgeTemplateProfilesOnce();
+  const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'));
+
+  for (const cleaned of purgeTemplateProfilesOnce()) {
+    info(`Cleaned up unedited template profile: ${cleaned}`);
+  }
 
   const program = new Command();
 
@@ -39,6 +43,14 @@ export function run() {
     .action(async () => {
       const { listCommand } = await import('./commands/list.js');
       await listCommand();
+    });
+
+  program
+    .command('providers')
+    .description('List supported providers')
+    .action(async () => {
+      const { providersCommand } = await import('./commands/providers.js');
+      await providersCommand();
     });
 
   program
@@ -96,8 +108,13 @@ export function run() {
   program
     .argument('[name]', 'Profile name (switch + launch)')
     .action(async (name?: string) => {
+      // Pass through everything after the profile name to claude. Done by
+      // re-reading argv because commander would otherwise reject unknown
+      // flags (claude has its own --flag set we don't want to mirror).
+      let args = process.argv.slice(2);
+      if (name && args[0] === name) args = args.slice(1);
       const { launchCommand } = await import('./commands/launch.js');
-      await launchCommand(name);
+      await launchCommand(name, args);
     });
 
   program.parse();
