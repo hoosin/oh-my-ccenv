@@ -1,29 +1,24 @@
 {
-  "updated_at": "2026-05-12",
+  "updated_at": "2026-05-14",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
       "models": [
-        "doubao-seed-2.0-code",
-        "doubao-seed-2.0-pro",
-        "doubao-seed-2.0-lite",
-        "doubao-seed-code",
         "deepseek-v3.2",
+        "doubao-seed-2.0-code",
+        "doubao-seed-2.0-lite",
+        "doubao-seed-2.0-pro",
+        "doubao-seed-code",
         "glm-5.1",
-        "glm-4.7",
         "kimi-k2.6",
-        "kimi-k2.5",
-        "minimax-latest",
-        "ark-code-latest"
+        "minimax-latest"
       ]
     },
     "bailian": {
       "doc_url": "https://help.aliyun.com/zh/model-studio/coding-plan",
       "models": [
-        "qwen-code-coding-plan",
-        "claude-code-coding-plan",
-        "glm-5",
         "glm-4.7",
+        "glm-5",
         "kimi-k2.5"
       ]
     },
@@ -31,7 +26,10 @@
       "doc_url": "https://api-docs.deepseek.com/zh-cn/",
       "models": [
         "deepseek-chat",
-        "deepseek-reasoner"
+        "deepseek-reasoner",
+        "deepseek-v4-flash",
+        "deepseek-v4-flashdeepseek-v4-prodeepseek-chat",
+        "deepseek-v4-pro"
       ]
     },
     "openrouter": {
@@ -54,24 +52,31 @@
     "zhipu": {
       "doc_url": "https://open.bigmodel.cn/dev/api#anthropic",
       "models": [
-        "glm-4-plus",
-        "glm-4-air",
-        "glm-4-airx",
-        "glm-4-flash",
-        "glm-4-long",
-        "glm-z1-air",
-        "glm-z1-airx",
-        "glm-z1-flash"
+        "glm-4",
+        "glm-4-flash-250414",
+        "glm-4-voice",
+        "glm-4.1v-thinking",
+        "glm-4.1v-thinking-flash",
+        "glm-4.5",
+        "glm-4.6",
+        "glm-4.6v",
+        "glm-4.6v-flash",
+        "glm-4.7",
+        "glm-4.7-flash",
+        "glm-4v-flash",
+        "glm-5",
+        "glm-5-turbo",
+        "glm-5.1",
+        "glm-5v-turbo"
       ]
     },
     "kimi": {
       "doc_url": "https://platform.moonshot.cn/docs",
       "models": [
-        "moonshot-v1-8k",
-        "moonshot-v1-32k",
-        "moonshot-v1-128k",
+        "kimi-k2",
         "kimi-k2.5",
-        "kimi-k2.6"
+        "kimi-k2.6",
+        "moonshot-v1-128k"
       ]
     },
     "minimax": {
