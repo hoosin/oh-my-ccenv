@@ -1,10 +1,12 @@
 {
-  "updated_at": "2026-05-18",
+  "updated_at": "2026-05-19",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
       "models": [
         "deepseek-v3.2",
+        "deepseek-v4-flash",
+        "deepseek-v4-pro",
         "doubao-seed-2.0-code",
         "doubao-seed-2.0-lite",
         "doubao-seed-2.0-pro",
