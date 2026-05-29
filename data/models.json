@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-27",
+  "updated_at": "2026-05-29",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -21,6 +21,7 @@
       "models": [
         "glm-4.7",
         "glm-5",
+        "glm-5.0",
         "kimi-k2.5"
       ]
     },
