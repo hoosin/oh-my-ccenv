@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-12",
+  "updated_at": "2026-06-13",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -41,14 +41,14 @@
     "mimo": {
       "doc_url": "https://platform.xiaomimimo.com/docs/zh-CN/tokenplan/subscription",
       "models": [
-        "mimo-v2.5-pro",
-        "mimo-v2.5",
-        "mimo-v2.5-tts-voiceclone",
-        "mimo-v2.5-tts-voicedesign",
-        "mimo-v2.5-tts",
-        "mimo-v2-pro",
         "mimo-v2-omni",
-        "mimo-v2-tts"
+        "mimo-v2-pro",
+        "mimo-v2-tts",
+        "mimo-v2.5-asr",
+        "mimo-v2.5-pro",
+        "mimo-v2.5-tts",
+        "mimo-v2.5-tts-voiceclone",
+        "mimo-v2.5-tts-voicedesign"
       ]
     },
     "zhipu": {
@@ -78,7 +78,7 @@
         "kimi-k2",
         "kimi-k2.5",
         "kimi-k2.6",
-        "moonshot-v1-128k"
+        "kimi-k2.7"
       ]
     },
     "minimax": {
