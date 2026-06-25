@@ -1,9 +1,10 @@
 {
-  "updated_at": "2026-06-24",
+  "updated_at": "2026-06-25",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
       "models": [
+        "ark-cli",
         "deepseek-v4-flash",
         "deepseek-v4-pro",
         "doubao-seed-2.0-code",
