@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-16",
+  "updated_at": "2026-07-17",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -80,8 +80,10 @@
       "doc_url": "https://platform.moonshot.cn/docs",
       "models": [
         "kimi-k2",
+        "kimi-k2.5",
         "kimi-k2.6",
-        "kimi-k2.7"
+        "kimi-k2.7",
+        "kimi-k3"
       ]
     },
     "minimax": {
