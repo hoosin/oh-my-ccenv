@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-23",
+  "updated_at": "2026-07-24",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -7,9 +7,8 @@
         "ark-cli",
         "deepseek-v4-flash",
         "deepseek-v4-pro",
-        "doubao-seed-2.0-code",
         "doubao-seed-2.0-lite",
-        "doubao-seed-2.0-pro",
+        "doubao-seed-2.1-turbo",
         "glm-5.2",
         "glm-latest",
         "kimi-k2.6",
