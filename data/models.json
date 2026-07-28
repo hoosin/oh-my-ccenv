@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-27",
+  "updated_at": "2026-07-28",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -28,10 +28,7 @@
     "deepseek": {
       "doc_url": "https://api-docs.deepseek.com/zh-cn/",
       "models": [
-        "deepseek-chat",
-        "deepseek-reasoner",
-        "deepseek-v4-flash",
-        "deepseek-v4-flashdeepseek-v4-prodeepseek-chat",
+        "deepseek-v4-flashdeepseek-v4-pro",
         "deepseek-v4-pro"
       ]
     },
