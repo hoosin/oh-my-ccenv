@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-21",
+  "updated_at": "2026-08-23",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -9,6 +9,7 @@
         "deepseek-v4-pro",
         "doubao-seed-2.0-lite",
         "doubao-seed-2.1-turbo",
+        "doubao-seed-evolving",
         "glm-5.3",
         "glm-latest",
         "kimi-k2.7-code",
@@ -29,7 +30,8 @@
       "doc_url": "https://api-docs.deepseek.com/zh-cn/",
       "models": [
         "deepseek-v4-flash",
-        "deepseek-v4-flashdeepseek-v4-pro",
+        "deepseek-v4-flash-vision-exp",
+        "deepseek-v4-flashdeepseek-v4-prodeepseek-v4-flash-vision-exp",
         "deepseek-v4-pro"
       ]
     },
