@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-28",
+  "updated_at": "2026-08-29",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -11,6 +11,7 @@
         "doubao-seed-2.1-turbo",
         "doubao-seed-evolving",
         "glm-5.3",
+        "glm-5.3-flash",
         "glm-latest",
         "kimi-k2.7-code",
         "minimax-m3"
