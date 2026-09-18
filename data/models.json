@@ -1,15 +1,40 @@
 {
-  "updated_at": "2026-09-17",
+  "updated_at": "2026-09-18",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
       "models": [
+        "ark-after-sales-support-scope",
+        "ark-agent-plan-model-api",
+        "ark-aihub",
+        "ark-bill-split",
         "ark-cli",
+        "ark-coding-plan-model-api",
+        "ark-confidential-computing-whitepaper",
+        "ark-experience-center-terms-and-disclaimer",
+        "ark-faq",
+        "ark-model-filing-disclosure",
+        "ark-model-service-security-whitepaper",
+        "ark-official-result-api",
+        "ark-official-result-query-api",
+        "ark-platform-terms",
+        "ark-prototype-app-internal-use-license-agreement",
+        "ark-runtime-sdk",
+        "ark-runtime-sdk-upgrade-announcement",
+        "ark-to-ai-generated-content",
+        "deepseek-harness",
         "deepseek-v4-flash",
         "deepseek-v4-pro",
+        "doubao-assistant",
+        "doubao-assistant-pricing",
+        "doubao-assistant-terms-and-data-authorization-agreement",
+        "doubao-model-service-agreement",
         "doubao-seed-2.0-lite",
         "doubao-seed-2.1-turbo",
         "doubao-seed-evolving",
+        "doubao-trademark-usage-specification",
+        "doubao-video-generation-model-rules",
+        "doubao-video-generation-model-rules-and-data-authorization-agreement",
         "glm-5.3",
         "glm-5.3-flash",
         "glm-latest",
@@ -23,9 +48,7 @@
       "models": [
         "glm-4.7",
         "glm-5",
-        "kimi-k2.5",
-        "qwen-audio-3.0-realtime-plus",
-        "qwen-audio-3.0-tts-flash"
+        "kimi-k2.5"
       ]
     },
     "deepseek": {
