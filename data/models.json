@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18",
+  "updated_at": "2026-09-19",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -13,6 +13,7 @@
         "ark-confidential-computing-whitepaper",
         "ark-experience-center-terms-and-disclaimer",
         "ark-faq",
+        "ark-guide",
         "ark-model-filing-disclosure",
         "ark-model-service-security-whitepaper",
         "ark-official-result-api",
@@ -20,9 +21,10 @@
         "ark-platform-terms",
         "ark-prototype-app-internal-use-license-agreement",
         "ark-runtime-sdk",
-        "ark-runtime-sdk-upgrade-announcement",
+        "ark-runtime-sdk-migration",
         "ark-to-ai-generated-content",
         "deepseek-harness",
+        "deepseek-v4-1-flash",
         "deepseek-v4-flash",
         "deepseek-v4-pro",
         "doubao-assistant",
@@ -39,6 +41,7 @@
         "glm-5.3-flash",
         "glm-latest",
         "kimi-k2.7-code",
+        "kimi-k2.8-preview",
         "kimi-k3",
         "minimax-m3"
       ]
