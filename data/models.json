@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-21",
+  "updated_at": "2026-09-22",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -43,14 +43,13 @@
     "mimo": {
       "doc_url": "https://platform.xiaomimimo.com/docs/zh-CN/tokenplan/subscription",
       "models": [
-        "mimo-v2-omni",
-        "mimo-v2-pro",
-        "mimo-v2-tts",
         "mimo-v2.5-asr",
         "mimo-v2.5-pro",
         "mimo-v2.5-tts",
         "mimo-v2.5-tts-voiceclone",
-        "mimo-v2.5-tts-voicedesign"
+        "mimo-v2.5-tts-voicedesign",
+        "mimo-v2.6-flash",
+        "mimo-v2.6-pro"
       ]
     },
     "zhipu": {
