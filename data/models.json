@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-08",
+  "updated_at": "2026-11-09",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -47,6 +47,7 @@
         "glm-5.3",
         "glm-5.3-flash",
         "glm-latest",
+        "kimi-code",
         "kimi-k2.8-preview",
         "kimi-k3",
         "kimi-k3.1-pro"
