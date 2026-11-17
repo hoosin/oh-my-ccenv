@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16",
+  "updated_at": "2026-11-17",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -13,6 +13,7 @@
         "ark-cli-managed-agents",
         "ark-coding-plan-model-api",
         "ark-confidential-computing-whitepaper",
+        "ark-docs-with-llms-txt",
         "ark-document-skills",
         "ark-experience-center-terms-and-disclaimer",
         "ark-faq",
