@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-19",
+  "updated_at": "2026-11-21",
   "providers": {
     "volcengine": {
       "doc_url": "https://www.volcengine.com/docs/82379/1928261",
@@ -29,29 +29,15 @@
         "ark-to-ai-generated-content",
         "deepseek-harness",
         "deepseek-v4-1-flash",
-        "deepseek-v4-flash",
-        "deepseek-v4-pro",
-        "deepseek-v4.1-flash",
-        "deepseek-v4.1-flash-economy",
         "doubao-assistant",
         "doubao-assistant-pricing",
         "doubao-assistant-terms-and-data-authorization-agreement",
         "doubao-model-service-agreement",
-        "doubao-seed-2.0-mini",
-        "doubao-seed-2.1-lite",
-        "doubao-seed-2.1-pro",
-        "doubao-seed-evolving",
         "doubao-trademark-usage-specification",
         "doubao-video-generation-model-rules",
         "doubao-video-generation-model-rules-and-data-authorization-agreement",
         "doubao-work",
-        "glm-5.3",
-        "glm-5.3-flash",
-        "glm-latest",
-        "kimi-code",
-        "kimi-k2.8-preview",
-        "kimi-k3",
-        "kimi-k3.1-pro"
+        "kimi-code"
       ]
     },
     "bailian": {
@@ -78,12 +64,12 @@
       "doc_url": "https://platform.xiaomimimo.com/docs/zh-CN/tokenplan/subscription",
       "models": [
         "mimo-v2.5-asr",
-        "mimo-v2.5-pro",
         "mimo-v2.5-tts",
         "mimo-v2.5-tts-voiceclone",
         "mimo-v2.5-tts-voicedesign",
         "mimo-v2.6-flash",
-        "mimo-v2.6-pro"
+        "mimo-v2.6-pro",
+        "mimo-v2.6-pro-ultraspeed"
       ]
     },
     "zhipu": {
